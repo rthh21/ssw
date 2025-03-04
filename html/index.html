@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ro" >
+ <head>
+    <title>Prima pagina</title>
+    <meta charset="UTF-8">  <!-- codificarea în memorie a caracterelor-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- va fi explicat când ajungem la CSS -->
+    <meta name="keywords" content="nike, adidas, yeezy, new balance">  <!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
+    <meta name="description" content="Sneaker store: Nike, Yeezy, Adidas">  <!-- descrierea paginii, adesea apare sub link când sunt afișate rezultatele căutării -->
+    <meta name="author" content="rthh">  <!-- autorul/autoarea paginii-->
+    <!-- <link rel="icon" type="image/png" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/favicon.svg" />
+    <link rel="shortcut icon" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/apple-touch-icon.png" />
+    <link rel="manifest" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/site.webmanifest" /> -->
+ </head>
+ 
+ 
+ <body>
+    <header>
+        <h1 id="MagAdidasi">Magazin de adidasi</h1>
+        <nav>
+            <ol>
+                <li><a href="#MagAdidasi">Home</a></li>
+                <li><a href="#Adidasi">Adidasi</a></li>
+                <li><a href="#ArticoleBraduri">Articole despre brandurile noastre</a>
+                    <ul>
+                        <li><a href="#Nike">Nike</a></li>
+                        <li><a href="#Adidas">Adidas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#q&a">Intrebari frecvente</a></li>
+                
+                <li><a href="#Contact">Contact</a></li>
+            </ol>
+        </nav>
+    </header>
+    
+    <main>
+        <!-- Adidasi -->
+        <section id="Adidasi">
+            <h2>Adidasi</h2>
+            <p>Modele disponibile:</p>
+            <ul>
+                <li>Nike</li>
+                <li>Yeezy</li>
+                <li>Jordan</li>
+                <li>Adidas</li>
+            </ul>
+        </section>
+        
+        
+        <!-- Articole -->
+        <section id="ArticoleBraduri">
+            <h2>Articole</h2>
+            <article id="Nike">
+                <h3>Articol despre Nike</h3>
+                <h4>Nike este un brand mare</h4>
+                <p>Nike redefinește performanța și stilul! De la adidași Nike pentru alergare, la sneakers Nike casual, fiecare pereche de pantofi sport Nike îți oferă confort și design modern. Descoperă colecțiile Nike Air, Nike Zoom și Nike React, perfecte pentru orice activitate. Alege Nike pentru antrenamente, Nike pentru lifestyle sau Nike pentru baschet și simte diferența! Cu Nike, ești mereu cu un pas înainte!</p>
+                <aside>
+                    <p><a href="https://www.nike.com/ro/">Site Nike!</a></p>
+                </aside>
+                <figure>
+                    <picture>
+                        <!-- Varianta mare pentru ecrane mari -->
+                        <source srcset="../assets/Nike/nike-large.jpg" media="(min-width: 1024px)">
+                        
+                        <!-- Varianta medie pentru tablete -->
+                        <source srcset="../assets/Nike/nike-medium.jpg" media="(min-width: 600px)">
+                        
+                        <!-- Varianta mică pentru mobil (fallback) -->
+                        <img src="../assets/Nike/nike-small.jpg" alt="Pantofi sport Nike" width="600" height="600">
+                    </picture>
+                    <figcaption>Nike Air Force 1 - Fotografie de Saba</figcaption>
+                </figure>
+            </article>
+            
+            <article id="Adidas">
+                <h3>Articol despre <b>Adidas</b></h3>
+                <p><b>Adidas</b> înseamnă <b>calitate</b>, <b>stil</b> și <b>tehnologie</b>! Indiferent dacă alegi <b>Adidas</b> pentru sport sau <b>Adidas</b> pentru streetwear, brandul <b>Adidas</b> îți oferă cele mai bune opțiuni.  
+                Modelele <b>Adidas Superstar</b>, <b>Adidas Ultraboost</b>, <b>Adidas Gazelle</b> și <b>Adidas Stan Smith</b> sunt alegerea ideală pentru un look fresh.  
+                Nu uita de <b>Adidas Yeezy</b>, colecția exclusivistă creată pentru un stil inovator și confort absolut.  
+                Alege <b>Adidas</b> pentru antrenamente, <b>Adidas Originals</b> pentru un stil clasic, <b>Adidas Yeezy</b> pentru un design modern și <b>Adidas Performance</b> pentru rezultate maxime.  
+                <a href="../assets/Adidas/yeezy350.png" download>Modelul Yeezy 350!</a>
+                <strong>Adidas este alegerea campionilor! </strong>  
+                După cum spunea un designer celebru: <q>Adidas este mai mult decât un brand, este o cultură.</q>  
+                </p>
+                
+                <div class="container-iframe">
+                    <div class="taburi-iframe">
+                        <a href="https://www.youtube.com/watch?v=w7_Mzyfvr-0" target="ifr-video">Design Language with James Harden</a>
+                        <a href="https://www.youtube.com/watch?v=4pkcT_Szo-M" target="ifr-video" >Educating Through Football</a>
+                        <a href="https://www.youtube.com/watch?v=6j2_YKkXRjg" target="ifr-video" >The Desert Runner</a>
+                    </div>
+
+
+                    <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/_VPEdNFttPU"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+            </article>
+        </section>
+        
+        <!-- Intrebari frecvente -->
+        <div id="q&a"> 
+            <article>
+            <h2>Întrebări frecvente:</h2>
+                <ul>
+                    <li><strong>Cum aleg mărimea potrivită pentru adidașii mei?</strong>
+                    <p>Pentru a alege mărimea corectă, consultă tabelul de mărimi disponibil pe pagina produsului. Îți recomandăm să măsori lungimea piciorului și să compari cu ghidul brandului (<b>Nike</b>, <b>Adidas</b>, <b>New Balance</b> etc.). Dacă ești între mărimi, alege una mai mare pentru confort sporit.</p></li>
+                    
+                    <li><strong>În cât timp ajunge comanda și cât costă livrarea?</strong>
+                    <p>Timpul de livrare variază între <b>24-72 de ore</b>, în funcție de destinație. Costul livrării este <b>gratuit pentru comenzi peste 300 RON</b>, iar pentru comenzi sub această sumă, taxa de transport este de <b>15 RON</b>.</p></li>
+                    
+                    <li><strong>Pot returna sau schimba adidașii dacă nu mi se potrivesc?</strong>
+                    <p>Da! Ai <b>14 zile</b> pentru a returna sau schimba produsul, cu condiția ca acesta să fie <b>nepurtat și în ambalajul original</b>. Procesul este simplu: completezi formularul de retur de pe site și trimitem curierul la tine.</p></li>
+                    
+                    <li><strong>Cum pot verifica dacă un produs este original?</strong>
+                    <p>Toți adidașii noștri sunt <b>100% originali</b>, achiziționați direct de la brandurile oficiale sau distribuitori autorizați. Fiecare pereche vine cu eticheta și ambalajul original al producătorului.</p></li>
+                    
+                    <li><strong>Ce metode de plată acceptați?</strong>
+                    <p>Acceptăm <b>plata online cu cardul</b>, <b>ramburs la livrare</b>, <b>transfer bancar</b> și <b>Paypal</b>. Pentru plățile cu cardul, procesăm tranzacțiile în siguranță printr-un partener certificat.</p></li>
+                </ul>
+            </article>
+        </div>
+    </main>
+    
+    
+    <footer>
+        <!-- Contact -->
+        <h2><strong>Contact:</strong></h2>
+        <address id="Contact">
+            <p>Trimite-ne un mesaj pe <a href="https://wa.me/40701234567" target="_blank">WhatsApp</a>!</p>
+            <p>Telefon: <a href="tel:+400123456789">+40 012 345 6789</a></p>
+            <p>Email: <a href="mailto:andreythstan25@gmail.ro">andreythstan25@gmail.ro</a></p>
+            <p>Locatie: <a href="https://www.google.com/maps?q=Strada+Academiei+14,+București+010014,+România" target="_blank">Strada Academiei 14, București 010014, România</a></p>
+            
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.884114398543!2d26.097011777142452!3d44.435539301480325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFaculty%20of%20Mathematics%20and%20Computer%20Science!5e0!3m2!1sen!2sro!4v1741117614801!5m2!1sen!2sro" width="450" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            
+        </address>
+    
+        <!-- Inapoi sus! -->
+        <a href="#MagAdidasi">Inapoi sus!</a>
+        
+        <!-- Copyright -->
+        <small>&copy; <time datetime="2025-03-04">4 Martie 2025</time> Stan Marius-Andrei, Toate drepturile de autor rezervate</small>        
+    </footer>
+ </body>
