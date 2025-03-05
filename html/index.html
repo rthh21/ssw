@@ -4,14 +4,15 @@
     <title>Prima pagina</title>
     <meta charset="UTF-8">  <!-- codificarea în memorie a caracterelor-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- va fi explicat când ajungem la CSS -->
-    <meta name="keywords" content="nike, adidas, yeezy, new balance">  <!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
+    <meta name="keywords" content="nike, adidas, yeezy">  <!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
     <meta name="description" content="Sneaker store: Nike, Yeezy, Adidas">  <!-- descrierea paginii, adesea apare sub link când sunt afișate rezultatele căutării -->
     <meta name="author" content="rthh">  <!-- autorul/autoarea paginii-->
-    <!-- <link rel="icon" type="image/png" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/favicon.svg" />
-    <link rel="shortcut icon" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/apple-touch-icon.png" />
-    <link rel="manifest" href="/C:\Users\matei\OneDrive\Bureau\WEB\resurse\imagini/site.webmanifest" /> -->
+    <link rel="icon" type="image/png" href="../assets/ico/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../assets/ico/favicon.svg" />
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/ico/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="SneakerStore" />
+    <link rel="manifest" href="../assets/ico/site.webmanifest" />
  </head>
  
  
@@ -19,8 +20,10 @@
     <header>
         <h1 id="MagAdidasi">Magazin de adidasi</h1>
         <nav>
-            <ol>
+            <ul>
                 <li><a href="#MagAdidasi">Home</a></li>
+                <li><a href="#stiri">Stiri</a></li>
+                <li><a href="#Oferte">Oferte</a></li>
                 <li><a href="#Adidasi">Adidasi</a></li>
                 <li><a href="#ArticoleBraduri">Articole despre brandurile noastre</a>
                     <ul>
@@ -31,12 +34,32 @@
                 <li><a href="#q&a">Intrebari frecvente</a></li>
                 
                 <li><a href="#Contact">Contact</a></li>
-            </ol>
+            </ul>
         </nav>
     </header>
     
     <main>
-        <!-- Adidasi -->
+        <!-- #Stiri -->
+        <section id="stiri">
+            <h2><u>Stiri</u></h2>
+            <h4>Recent de la nike:</h4>
+            <embed src="../assets/Nike/Stiri/nike-growth-story.pdf" type="application/pdf" width="1000" height="500">
+        </section>    
+    
+        <!-- #Oferte Speciale -->
+        <section id="Oferte">
+            <h2><i>Oferte!</i></h2>
+            <p><b>Oferta pana pe 25 Martie:</b> <u>La produsele Adidas beneficiati de:</u> 
+                <math>
+                    <mi>1</mi>
+                    <mo>+</mo>
+                    <mi>1</mi>
+                </math>
+                din partea noastra!
+            </p>
+        </section>
+    
+        <!-- #Adidasi -->
         <section id="Adidasi">
             <h2>Adidasi</h2>
             <p>Modele disponibile:</p>
@@ -48,29 +71,23 @@
             </ul>
         </section>
         
-        
-        <!-- Articole -->
+        <!-- #Articole -->
         <section id="ArticoleBraduri">
             <h2>Articole</h2>
             <article id="Nike">
-                <h3>Articol despre Nike</h3>
-                <h4>Nike este un brand mare</h4>
-                <p>Nike redefinește performanța și stilul! De la adidași Nike pentru alergare, la sneakers Nike casual, fiecare pereche de pantofi sport Nike îți oferă confort și design modern. Descoperă colecțiile Nike Air, Nike Zoom și Nike React, perfecte pentru orice activitate. Alege Nike pentru antrenamente, Nike pentru lifestyle sau Nike pentru baschet și simte diferența! Cu Nike, ești mereu cu un pas înainte!</p>
+                <h3>Articol despre <b>Nike</b></h3>
+                <h4><b>Nike</b> este un brand mare</h4>
+                <p><b>Nike</b> redefinește performanța și stilul! De la adidași <b>Nike</b> pentru alergare, la sneakers <b>Nike</b> casual, fiecare pereche de pantofi sport <b>Nike</b> îți oferă confort și design modern. Descoperă colecțiile <b>Nike</b> Air, <b>Nike</b> Zoom și <b>Nike</b> React, perfecte pentru orice activitate. Alege <b>Nike</b> pentru antrenamente, <b>Nike</b> pentru lifestyle sau <b>Nike</b> pentru baschet și simte diferența! Cu <b>Nike</b>, ești mereu cu un pas înainte!</p>
                 <aside>
                     <p><a href="https://www.nike.com/ro/">Site Nike!</a></p>
                 </aside>
                 <figure>
                     <picture>
-                        <!-- Varianta mare pentru ecrane mari -->
-                        <source srcset="../assets/Nike/nike-large.jpg" media="(min-width: 1024px)">
-                        
-                        <!-- Varianta medie pentru tablete -->
-                        <source srcset="../assets/Nike/nike-medium.jpg" media="(min-width: 600px)">
-                        
-                        <!-- Varianta mică pentru mobil (fallback) -->
-                        <img src="../assets/Nike/nike-small.jpg" alt="Pantofi sport Nike" width="600" height="600">
+                        <source srcset="../assets/Nike/img/nike-large.jpg" media="(min-width: 1025px)">
+                        <source srcset="../assets/Nike/img/nike-medium.jpg" media="(min-width: 601px)">
+                        <img src="../assets/Nike/img/nike-small.jpg" alt="Pantofi sport Nike" width="400" height="532">
                     </picture>
-                    <figcaption>Nike Air Force 1 - Fotografie de Saba</figcaption>
+                    <figcaption>Nike Air Force 1 - De Saba</figcaption>
                 </figure>
             </article>
             
@@ -100,48 +117,51 @@
             </article>
         </section>
         
-        <!-- Intrebari frecvente -->
+        <!-- #Intrebari frecvente -->
         <div id="q&a"> 
             <article>
             <h2>Întrebări frecvente:</h2>
-                <ul>
-                    <li><strong>Cum aleg mărimea potrivită pentru adidașii mei?</strong>
-                    <p>Pentru a alege mărimea corectă, consultă tabelul de mărimi disponibil pe pagina produsului. Îți recomandăm să măsori lungimea piciorului și să compari cu ghidul brandului (<b>Nike</b>, <b>Adidas</b>, <b>New Balance</b> etc.). Dacă ești între mărimi, alege una mai mare pentru confort sporit.</p></li>
-                    
-                    <li><strong>În cât timp ajunge comanda și cât costă livrarea?</strong>
-                    <p>Timpul de livrare variază între <b>24-72 de ore</b>, în funcție de destinație. Costul livrării este <b>gratuit pentru comenzi peste 300 RON</b>, iar pentru comenzi sub această sumă, taxa de transport este de <b>15 RON</b>.</p></li>
-                    
-                    <li><strong>Pot returna sau schimba adidașii dacă nu mi se potrivesc?</strong>
-                    <p>Da! Ai <b>14 zile</b> pentru a returna sau schimba produsul, cu condiția ca acesta să fie <b>nepurtat și în ambalajul original</b>. Procesul este simplu: completezi formularul de retur de pe site și trimitem curierul la tine.</p></li>
-                    
-                    <li><strong>Cum pot verifica dacă un produs este original?</strong>
-                    <p>Toți adidașii noștri sunt <b>100% originali</b>, achiziționați direct de la brandurile oficiale sau distribuitori autorizați. Fiecare pereche vine cu eticheta și ambalajul original al producătorului.</p></li>
-                    
-                    <li><strong>Ce metode de plată acceptați?</strong>
-                    <p>Acceptăm <b>plata online cu cardul</b>, <b>ramburs la livrare</b>, <b>transfer bancar</b> și <b>Paypal</b>. Pentru plățile cu cardul, procesăm tranzacțiile în siguranță printr-un partener certificat.</p></li>
-                </ul>
+            <details>
+                <summary><strong>Cum aleg mărimea potrivită pentru adidașii mei?</strong></summary>
+                <p>Pentru a alege mărimea corectă, consultă tabelul de mărimi disponibil pe pagina produsului. Îți recomandăm să măsori lungimea piciorului și să compari cu ghidul brandului (<b>Nike</b>, <b>Adidas</b>, <b>New Balance</b> etc.). Dacă ești între mărimi, alege una mai mare pentru confort sporit.</p>
+            </details>
+            <details>
+                <summary><strong>În cât timp ajunge comanda și cât costă livrarea?</strong></summary>
+                <p>Timpul de livrare variază între <b>24-72 de ore</b>, în funcție de destinație. Costul livrării este <b>gratuit pentru comenzi peste 300 RON</b>, iar pentru comenzi sub această sumă, taxa de transport este de <b>15 RON</b>.</p>
+            </details>
+            <details>
+                <summary><strong>Pot returna sau schimba adidașii dacă nu mi se potrivesc?</strong></summary>
+                <p>Da! Ai <b>14 zile</b> pentru a returna sau schimba produsul, cu condiția ca acesta să fie <b>nepurtat și în ambalajul original</b>. Procesul este simplu: completezi formularul de retur de pe site și trimitem curierul la tine.</p>
+            </details>
+            <details>
+                <summary><strong>Cum pot verifica dacă un produs este original?</strong></summary>
+                <p>Toți adidașii noștri sunt <b>100% originali</b>, achiziționați direct de la brandurile oficiale sau distribuitori autorizați. Fiecare pereche vine cu eticheta și ambalajul original al producătorului.</p>
+            </details>
+            <details>
+                <summary><strong>Ce metode de plată acceptați?</strong></summary>
+                <p>Acceptăm <b>plata online cu cardul</b>, <b>ramburs la livrare</b>, <b>transfer bancar</b> și <b>Paypal</b>. Pentru plățile cu cardul, procesăm tranzacțiile în siguranță printr-un partener certificat.</p>
+            </details>
             </article>
         </div>
     </main>
     
     
     <footer>
-        <!-- Contact -->
+        <!-- #Contact -->
         <h2><strong>Contact:</strong></h2>
         <address id="Contact">
-            <p>Trimite-ne un mesaj pe <a href="https://wa.me/40701234567" target="_blank">WhatsApp</a>!</p>
-            <p>Telefon: <a href="tel:+400123456789">+40 012 345 6789</a></p>
-            <p>Email: <a href="mailto:andreythstan25@gmail.ro">andreythstan25@gmail.ro</a></p>
+            <p>Trimite-ne un mesaj pe <a href="https://wa.me/40732625132" target="_blank">WhatsApp</a>!</p>
+            <p>Telefon: <a href="tel:+400123456789">+40 73 262 5132</a></p>
+            <p>Email: <a href="mailto:andreythstan25@gmail.com">andreythstan25@gmail.com</a></p>
             <p>Locatie: <a href="https://www.google.com/maps?q=Strada+Academiei+14,+București+010014,+România" target="_blank">Strada Academiei 14, București 010014, România</a></p>
             
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.884114398543!2d26.097011777142452!3d44.435539301480325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFaculty%20of%20Mathematics%20and%20Computer%20Science!5e0!3m2!1sen!2sro!4v1741117614801!5m2!1sen!2sro" width="450" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            
         </address>
     
-        <!-- Inapoi sus! -->
+        <!-- #Inapoi sus! -->
         <a href="#MagAdidasi">Inapoi sus!</a>
-        
-        <!-- Copyright -->
+        <p>--------------------------</p>
+        <!-- #Copyright -->
         <small>&copy; <time datetime="2025-03-04">4 Martie 2025</time> Stan Marius-Andrei, Toate drepturile de autor rezervate</small>        
     </footer>
  </body>
