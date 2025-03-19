@@ -1,0 +1,21 @@
+:root {
+    --primary-color: #ff8324; /* Albastru principal */
+    --secondary-color: #2A9D8F; /* O nuanță mai deschisă de albastru */
+    --accent-color: #2f1905; /* Galben auriu pentru contrast */
+    --background-color: #0d0e0e; /* Gri foarte deschis pentru fundal */
+    --text-color: #ffffff; /* Gri închis pentru text */
+}
+
+footer {
+    background-color: var(--primary-color);
+    margin-top: auto;    
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: auto;
+    height: 65px; 
+    box-sizing: border-box;
+}

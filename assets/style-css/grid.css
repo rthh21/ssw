@@ -1,0 +1,107 @@
+.container {
+    display: grid;
+    padding: min(50px, 7%);
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-top: 10vh;
+    gap: 15px;
+    
+    grid-template-columns: repeat(4,minmax(150px,1fr));
+    grid-template-rows: repeat(5,minmax(500px,1fr));
+    grid-template-areas:
+        "zona1 zona1 zona1 zona1"
+        "zona2 zona2 zona8 zona8"
+        "zona3 zona6 zona8 zona8"
+        "zona5 zona6 zona8 zona8"
+        "zona5 zona4 zona4 zona7";
+    
+    justify-content: center;
+}
+
+.zona1 { 
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;*/
+    /* justify-content:start;  */
+    grid-area: zona1;
+    overflow: hidden;
+}
+
+.PromoBig{
+    display: inline-block;
+    margin: 1px;
+    width: max(70%,80%); 
+}
+
+.zona2 { grid-area: zona2; }
+.zona3 { grid-area: zona3; }
+.zona4 { grid-area: zona4; }
+.zona5 { grid-area: zona5; }
+.zona6 { grid-area: zona6; }
+.zona7 { grid-area: zona7; }
+.zona8 { grid-area: zona8; }
+
+.container > div{
+    padding: 3%;
+    /* border: 2px solid ; */
+    /* border-radius: 13px; */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: var(--secondary-color); */
+}
+
+@media (max-width: 800px) {
+    html {
+        font-size: 17px;
+    }
+    .container{
+        display: grid;
+        border: 1px solid rgb(255, 0, 238);
+        
+        gap: 15px;
+        grid-template-areas: 
+            "zona1"
+            "zona2"
+            "zona3"
+            "zona4"
+            "zona5"
+            "zona6"
+            "zona7"
+            "zona8"
+        ;
+        
+        gap: 15px;
+        .zona1, .zona2, .zona3, .zona4, .zona5, .zona6, .zona7, .zona, .zona8 { grid-area: auto; }
+        grid-template-columns: 1fr;
+    }
+    /* TODO grila medie !!!!!!!!!!!!!*/
+}
+
+@media (max-width: 400px) {
+    html {
+        font-size: 15px;
+    }
+    .container{
+        display: grid;
+        border: 1px solid rgb(255, 0, 238);
+        
+        grid-template-areas: 
+            "zona1"
+            "zona2"
+            "zona3"
+            "zona4"
+            "zona5"
+            "zona6"
+            "zona7"
+            "zona8"
+        ;
+        
+        gap: 15px;
+        .zona1, .zona2, .zona3, .zona4, .zona5, .zona6, .zona7, .zona, .zona8 { grid-area: auto; }
+        grid-template-columns: 1fr;
+    }
+}
+
