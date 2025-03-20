@@ -1,15 +1,15 @@
-* {
+*, *::after, *::before {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 :root {
-    --primary-color: #ff8324; /* Albastru principal */
-    --secondary-color: #2A9D8F; /* O nuanță mai deschisă de albastru */
-    --accent-color: #2f1905; /* Galben auriu pentru contrast */
-    --background-color: #0d0e0e; /* Gri foarte deschis pentru fundal */
-    --text-color: #ffffff; /* Gri închis pentru text */
+    --primary-color: #ff8324 !important; 
+    --secondary-color: #2A9D8F !important; 
+    --accent-color: #fd8646 !important; 
+    --background-color: #0b0b0b !important; 
+    --text-color: #e7f6f6 !important;
 }
 /* test colors */
 
@@ -21,18 +21,19 @@ html {
 }
 
 body {
+    margin: 0;
     background-color: var(--background-color);
     min-height: 100vh;
     
     display: flex;
     flex-direction: column;
 }
+  
 
 #link-top{
     position:fixed;
     padding: 0.5rem;
     bottom:1.5em;
-    opacity:0.5;
     right:2em;
     width:3rem;
     box-sizing: border-box;
@@ -42,6 +43,8 @@ body {
     border-radius: 20px;
     /* box-shadow: 5px 5px 10px #ffffff, -5px -5px 10px #ffffff; */
     background: white;
+    opacity: 0.7;
+    z-index: 1;
     
     display: flex;
     flex-direction: column;
@@ -50,8 +53,9 @@ body {
   }
   
   #link-top:hover{
-    opacity:0.85;
+    opacity:1;
   }
+  
   
   #triunghi {
     position: absolute;
@@ -61,6 +65,7 @@ body {
     border-top: 6px solid black;
     border-left: 6px solid black;
     transform: rotate(45deg);
+    z-index: 1;
 }
 
   
