@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Emblema+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
 :root {
-  --primary-color: #ff8324 !important; 
+  --primary-color: #ffbf9c !important; 
   --secondary-color: #2A9D8F !important; 
-  --accent-color: #fd8646 !important; 
+  --accent-color: #ff8324 !important; 
   --background-color: #0b0b0b !important; 
   --text-color: #e7f6f6 !important;
     
@@ -22,32 +20,38 @@ li,a,button{
 header {
     position: fixed;
     /* backgrouXd-color: red; */
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 3%;
+    left: 5%;
+    width: 90%;
     min-height: 90px;
     height: 11vh;
-    padding-top: 10px;
+    padding-top: 15px;
     padding-left: 3%;
     padding-right: 3%;
-    background-color: var(--background-color);
-    /* background-color: red; */
+    border-radius: 15px;
+    background-color: var(--primary-color);
     display: grid;
-    grid-template-areas: "logo menu contact";
+    grid-template-areas: "logo menu contact user";
     align-items: center;
+    border-top: 5px solid var(--accent-color);
+    border-bottom: 5.5em solid var(--primary-color);    
+  }
+  
+  .fa-solid{
+    grid-area: user;
+    color: var(--background-color);
   }
   
   .logo{
     grid-area: "logo";
+    filter: invert();
     padding-bottom: 10px;
     cursor: pointer;
     display: block;
-    /* width: 10%;*/
-    max-width: 15vh; /* Ensures it doesn't shrink too much */
-    /* min-width: 160px; Ensures it remains visible */
-    min-width: 10vh; /* Ensures it remains visible */
-    width: auto;
-    height: auto;
+    max-width: 15vh;
+    min-width: 150px;
+    max-height: 15vh;;
+    min-height: 100px;
   }
   
   .hamburger > input{
@@ -70,6 +74,8 @@ header {
   }
   
   .nav_links li a{
+    color: var(--background-color);
+    font-weight: 900;
     transition: all 0.2s ease 0s;
   }
   
@@ -77,12 +83,10 @@ header {
     color: var(--accent-color);
   }
   
-  
-  
   button{
     grid-area: "contact";
     padding: 9px 25px 11px;
-    background-color: var(--secondary-color);
+    background-color: var(--background-color);
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -91,8 +95,10 @@ header {
   
   button:hover{
     background-color: var(--accent-color);
+    color:var(--background-color);
     transition: all 0.25s ease 0s;
   }
+  
   
 @media (max-width:800px){
     header{
@@ -100,6 +106,8 @@ header {
         grid-template-areas: "logo menu";
         align-items: center;
         justify-content: space-between;
+        border-top: 5px solid var(--accent-color);
+        border-bottom: 6rem solid var(--primary-color);    
     }
     
     .nav_links{
@@ -136,7 +144,7 @@ header {
     }
     
     .hamburger:hover > input{
-      background-color: var(--accent-color);
+      background-color: var(--primary-color);
       opacity: 0.5;
     }
     
@@ -157,7 +165,7 @@ header {
       width: 100px;
       height: 10px;
       border-radius: 15px;
-      background-color: var(--primary-color);
+      background-color: var(--background-color);
     }
    
     button{

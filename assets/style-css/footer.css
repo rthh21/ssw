@@ -8,6 +8,8 @@
 
 footer {
     background-color: var(--primary-color);
+    color: var(--background-color);
+    font-weight: bold;
     margin-top: auto;    
 
     display: flex;
@@ -18,4 +20,14 @@ footer {
     width: auto;
     height: 65px; 
     box-sizing: border-box;
+    border-top: 5px solid var(--accent-color);
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.fa-message{
+    position: absolute;
+    right:3.5%;
+    color: var(--background-color);
 }

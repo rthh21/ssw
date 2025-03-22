@@ -1,3 +1,11 @@
+:root {
+    --primary-color: #ffbf9c !important; 
+    --secondary-color: #2A9D8F !important; 
+    --accent-color: #ff8324 !important; 
+    --background-color: #0b0b0b !important; 
+    --text-color: #e7f6f6 !important;
+}
+
 .container {
     display: grid;
     padding: min(50px, 7%);
@@ -23,13 +31,52 @@
     overflow: hidden;
 }
 
+.zona2 {
+    overflow-x: auto;
+    max-width: 90vw;
+    border: 5px inset var(--secondary-color);
+    border-radius: 5px;
+    padding: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid rgb(255, 255, 255);
+    padding: 10px;
+    text-align: left;
+}
+thead {
+    background-color: var(--background-color);
+}
+tfoot {
+    background-color: var(--background-color);
+    font-weight: bold;
+}
+tbody tr:nth-child(even) {
+    border-bottom: 5px solid var(--accent-color);
+}
+tbody tr:nth-child(odd) {
+    border-bottom: 5px solid var(--secondary-color);
+}
+tbody tr:hover {
+    outline: 5px solid wheat;
+    transition: outline 0.5s;
+}
+
+caption {
+    caption-side: bottom;
+    font-style: italic;
+    margin-top: 10px;
+}
+
 .PromoBig{
     display: inline-block;
     margin: 1px;
     width: max(70%,80%); 
 }
 
-.zona2 { grid-area: zona2; }
 .zona3 { grid-area: zona3; }
 .zona4 { grid-area: zona4; }
 .zona5 { grid-area: zona5; }
@@ -82,6 +129,8 @@
     }
     .container{
         display: grid;
+        gap: 13px;
+        
         border: 1px solid rgb(255, 0, 238);
         
         grid-template-areas: 
