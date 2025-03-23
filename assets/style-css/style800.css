@@ -1,0 +1,110 @@
+@media (max-width:800px){
+    
+    html {
+        font-size: 17px;
+    }
+    
+    body{
+        margin-left: var(--margin-sides-medium);
+        margin-right: var(--margin-sides-medium);
+    }
+    
+    main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5%;
+    }
+    
+    .container {
+        display: grid;
+        border: 1px solid rgb(255, 0, 238);
+        gap: 1%;
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+        grid-template-rows: repeat(6, minmax(100px, 1fr));
+        grid-template-areas: 
+            "zona1 zona1"
+            "zona3 zona2"
+            "zona3 zona4"
+            "zona5 zona6"
+            "zona7 zona6"
+            "zona8 zona6";
+    }
+    
+    .zona1 { grid-area: zona1; }
+    .zona2 { grid-area: zona2; }
+    .zona3 { grid-area: zona3; }
+    .zona4 { grid-area: zona4; }
+    .zona5 { grid-area: zona5; }
+    .zona6 { grid-area: zona6; }
+    .zona7 { grid-area: zona7; }
+    .zona8 { grid-area: zona8; }
+    
+    .nav_links{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: -100vh;
+      right: 0;
+      background-color: var(--background-color);
+      z-index: 100;
+      list-style: none;
+    }
+    
+    .nav_links li{
+      position: relative;
+      top: -3%;
+      padding-top: 100px;
+    }
+    
+    .nav_links li a{
+      color: var(--text-color);
+      font-size: 30px;
+    }
+    
+    .nav_links li a:hover{
+      font-size: 45px; 
+      color: var(--primary-color);
+    }
+    
+    .hamburger input:checked ~ nav .nav_links{
+      top: 0;
+    }
+    
+    .hamburger:hover > input{
+      background-color: var(--primary-color);
+      opacity: 0.5;
+    }
+    
+    .hamburger{
+        grid-area: "menu";
+        cursor: pointer;
+    }    
+    
+    .hamburger > input{
+      display: block;
+      appearance: none;
+      padding: none;
+      margin: none;
+      outline: none;
+      pointer-events: none;
+      
+      content: "";
+      width: 100px;
+      height: 10px;
+      border-radius: 15px;
+      background-color: var(--background-color);
+    }
+   
+    button{
+        display: none;
+    }
+    
+    .container-iframe{
+        overflow-x: auto;
+    }
+}

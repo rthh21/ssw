@@ -23,7 +23,7 @@ footer {
     border-top: 5px solid var(--accent-color);
     border-radius: 10px;
     border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;   
 }
 
 .fa-message{

@@ -11,8 +11,8 @@
     padding: min(50px, 7%);
     padding-right: 0px;
     padding-left: 0px;
-    margin-top: 10vh;
-    gap: 15px;
+    margin-top: 2vh;
+    gap: 0.5%;
     
     grid-template-columns: repeat(4,minmax(150px,1fr));
     grid-template-rows: repeat(5,minmax(500px,1fr));
@@ -26,26 +26,40 @@
     justify-content: center;
 }
 
+.container > div{
+    padding: 3%;
+    border: 2px solid ;
+    border-radius: 13px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: var(--secondary-color); */
+}
+
 .zona1 { 
     grid-area: zona1;
     overflow: hidden;
 }
 
 .zona2 {
+    grid-area: zona2;
     overflow-x: auto;
-    max-width: 90vw;
     border: 5px inset var(--secondary-color);
     border-radius: 5px;
     padding: 10px;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
+    box-sizing: border-box;
 }
 th, td {
     border: 1px solid rgb(255, 255, 255);
     padding: 10px;
-    text-align: left;
+    text-align: center;
 }
 thead {
     background-color: var(--background-color);
@@ -83,70 +97,3 @@ caption {
 .zona6 { grid-area: zona6; }
 .zona7 { grid-area: zona7; }
 .zona8 { grid-area: zona8; }
-
-.container > div{
-    padding: 3%;
-    /* border: 2px solid ; */
-    /* border-radius: 13px; */
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* background-color: var(--secondary-color); */
-}
-
-@media (max-width: 800px) {
-    html {
-        font-size: 17px;
-    }
-    .container{
-        display: grid;
-        border: 1px solid rgb(255, 0, 238);
-        
-        gap: 15px;
-        grid-template-areas: 
-            "zona1"
-            "zona2"
-            "zona3"
-            "zona4"
-            "zona5"
-            "zona6"
-            "zona7"
-            "zona8"
-        ;
-        
-        gap: 15px;
-        .zona1, .zona2, .zona3, .zona4, .zona5, .zona6, .zona7, .zona, .zona8 { grid-area: auto; }
-        grid-template-columns: 1fr;
-    }
-    /* TODO grila medie !!!!!!!!!!!!!*/
-}
-
-@media (max-width: 400px) {
-    html {
-        font-size: 15px;
-    }
-    .container{
-        display: grid;
-        gap: 13px;
-        
-        border: 1px solid rgb(255, 0, 238);
-        
-        grid-template-areas: 
-            "zona1"
-            "zona2"
-            "zona3"
-            "zona4"
-            "zona5"
-            "zona6"
-            "zona7"
-            "zona8"
-        ;
-        
-        gap: 15px;
-        .zona1, .zona2, .zona3, .zona4, .zona5, .zona6, .zona7, .zona, .zona8 { grid-area: auto; }
-        grid-template-columns: 1fr;
-    }
-}
-
