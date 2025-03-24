@@ -22,10 +22,10 @@ header {
     top: 1rem;
 
     background: var(--primary-color);
-    border-radius: 3rem;
     
-    border: 0.5rem solid var(--secondary-color);
+    border: 0.4rem solid var(--secondary-color);
     box-shadow: 0rem 0rem 3rem 1rem var(--secondary-color);
+    border-radius: 2.5rem;
     
     margin-top: 1rem;
     padding-top: 1rem;
@@ -37,7 +37,7 @@ header {
     flex-direction: row;
     justify-content:center;
     align-items: center;
-    gap: 2%;
+    gap: 3%;
   }
   
   .logo{
@@ -49,6 +49,12 @@ header {
     display: block;
     max-width: 10rem;
     min-width: 7rem;
+    
+    transition: all 0.2s ease 0s;
+  }
+  
+  .logo:hover{
+    scale: 110%;
   }
   
   .hamburger > input{
@@ -79,7 +85,6 @@ header {
   
   .nav_links li a:hover{
     font-size: 35px;
-    font-weight: 1200;
     color: var(--secondary-color);
     transition: all 0.2s ease 0s;
   }
@@ -98,6 +103,7 @@ header {
   
   button:hover{
     background-color: var(--secondary-color);
+    scale: 110%;
     color:var(--background-color);
     transition: all 0.25s ease 0s;
   }
