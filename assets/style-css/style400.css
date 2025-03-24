@@ -10,7 +10,7 @@
     
     header{
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-around;
     }
     
     header > .fa-solid{
@@ -45,4 +45,9 @@
     .zona6 { grid-area: zona6; }
     .zona7 { grid-area: zona7; }
     .zona8 { grid-area: zona8; }
+
+    .nav_links li a:hover{
+        font-size: 30px; 
+        color: var(--primary-color);
+    }
 }

@@ -76,7 +76,7 @@ main{
 
 #triunghi {
     /* display: none; */
-    font-size: 85px;
+    font-size: 400%;
     padding-bottom: 23%;
     padding-right: 23%;
     padding-left: 23%;
@@ -120,7 +120,6 @@ main{
     margin-bottom: 5em;
     margin-top: 5em;
     
-    
     display: flex;
     gap: 0%;
     align-items: start;
@@ -129,7 +128,9 @@ main{
 
 .container-iframe > iframe{
     position: relative;
-    left: 20%;
+    width: 30vw;
+    height: 30vh;
+    left: 10%;
     z-index: 2;
     border: 0.5rem solid var(--primary-color);
 }
@@ -142,6 +143,7 @@ main{
 }
 
 .taburi-iframe a {
+    font-size: 1.3vh;
     display: block;
     width: 50vh;
     padding: 1vh;

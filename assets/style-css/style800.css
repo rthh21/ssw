@@ -9,6 +9,11 @@
         margin-right: var(--margin-sides-medium);
     }
     
+    header{
+      justify-content: center;
+      gap: 7%;
+    }
+    
     .container {
         display: grid;
         gap: 1%;
