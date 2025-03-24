@@ -48,7 +48,6 @@ main{
     align-items: center;
 }
 
-
 #link-top {
     position: fixed;
     z-index: 10;
@@ -118,21 +117,22 @@ main{
     transition: 0.7s;
 }
 
-.container-iframe{
-    margin-bottom: 5em;
-    margin-top: 5em;
-    
+.container-iframe {
+    margin: 5em 0;
     display: flex;
-    align-items: start;
-    justify-content: flex-end;
+    justify-content: center; /* Centers the iframe */
+    align-items: center;
+    width: 100%;
 }
 
-.container-iframe > iframe{
+.container-iframe > iframe {
     position: relative;
-    width: 50vw;
-    max-width: 100vh;
-    height: 30vh;
-    left: 10%;
+    
+    min-width: 20rem; 
+    max-width: 100vh; 
+    
+    max-height: 50vh;
+    
     z-index: 2;
     border: 0.5rem solid var(--primary-color);
 }
@@ -146,7 +146,9 @@ main{
 
 .taburi-iframe a {
     display: block;
-    font-size: 60%;
+    position: relative;
+    right: 5%;
+    font-size: 80%;
     width: 50vh;
     height: 10vh;
     padding: 1vh;
@@ -163,7 +165,6 @@ main{
 }
 
 .taburi-iframe a:hover {
-    color: var(--background-color);
     background-color: var(--primary-color);
     transform: translateX(3vh);
     transition: 0.3s ease-in-out;

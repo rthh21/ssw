@@ -46,6 +46,10 @@
     overflow: hidden;
 }
 
+.zona1 > img{
+    min-width: 50vh;
+}
+
 .zona2 {
     grid-area: zona2;
     overflow-x: auto;

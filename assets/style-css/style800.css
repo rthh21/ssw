@@ -114,6 +114,11 @@
     }
   
     .container-iframe {
+      min-width: 60vw;
       scale: 70%;
+    }
+    
+    .taburi-iframe a {
+      right: 0%;  
     }
 }

@@ -68,6 +68,10 @@
     }
     
     .container-iframe {
-        scale: 50%;
-      }
+        scale: 40%;
+    }
+      
+    .taburi-iframe a {
+        right: 10%;  
+    }
 }
