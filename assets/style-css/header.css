@@ -1,9 +1,9 @@
 :root {
   --primary-color: #ffbf9c !important; 
-  --secondary-color: #2A9D8F !important; 
-  --accent-color: #ff8324 !important; 
-  --background-color: #0b0b0b !important; 
-  --text-color: #e7f6f6 !important;
+  --secondary-color: #ff7878 !important; 
+  --accent-color: #ff6060 !important; 
+  --background-color: #ffd1bc !important;  
+  --text-color: #292929 !important;
     
     --bar-width: 60px;
     --bar-height: 8px;
@@ -18,12 +18,16 @@ li,a,button{
 }
 
 header {    
-    background: var(--accent-color);
+    position: sticky;
+    top: 1rem;
+
+    background: var(--primary-color);
     border-radius: 3rem;
     
-    border: 0.5rem solid var(--primary-color);
+    border: 0.5rem solid var(--secondary-color);
+    box-shadow: 0rem 0rem 3rem 1rem var(--secondary-color);
     
-    margin-top: 3rem;
+    margin-top: 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
     padding-left: 5%;
@@ -36,23 +40,15 @@ header {
     gap: 2%;
   }
   
-  .fa-solid{
-    grid-area: user;
-    scale: 150%;
-    color: var(--background-color);
-  }
-  
   .logo{
     grid-area: logo;
     filter: invert();
-    margin-right: -2rem;
-    padding-bottom: 10px;
+    margin-right: -1.5rem;
+
     cursor: pointer;
     display: block;
-    max-width: 15vh;
-    min-width: 0.5vh;
-    max-height: 15vh;
-    min-height: 0.5vh;
+    max-width: 10rem;
+    min-width: 7rem;
   }
   
   .hamburger > input{
@@ -76,14 +72,15 @@ header {
   }
   
   .nav_links li a{
-    color: var(--background-color);
+    color: var(--text-color);
     font-weight: 900;
     transition: all 0.2s ease 0s;
   }
   
   .nav_links li a:hover{
-    font-size: 25px;
-    color: var(--primary-color);
+    font-size: 35px;
+    font-weight: 1200;
+    color: var(--secondary-color);
     transition: all 0.2s ease 0s;
   }
   
@@ -91,15 +88,30 @@ header {
     grid-area: contact;
     padding: 1em 2em 1em;
     margin: none;
-    background-color: var(--background-color);
+    color: var(--background-color);
+    background-color: var(--text-color);
     border: none;
-    border-radius: 50px;
+    border-radius: 50rem;
     cursor: pointer;
     transition: all 0.3s ease 0s;
   }
   
   button:hover{
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     color:var(--background-color);
     transition: all 0.25s ease 0s;
+  }
+  
+  .fa-solid{
+    grid-area: user;
+    
+    cursor: pointer;
+    scale: 150%;
+    color: var(--text-color);
+    transition: all 0.25s ease 0s;
+  }
+  
+  .fa-solid:hover{
+    scale: 170%;
+    color: var(--secondary-color);
   }

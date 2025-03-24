@@ -1,3 +1,11 @@
+:root {
+    --primary-color: #ffbf9c !important; 
+    --secondary-color: #ff7878 !important; 
+    --accent-color: #ff6060 !important; 
+    --background-color: #ffd1bc !important;  
+    --text-color: #292929 !important;
+}
+
 @media (max-width: 400px){
     html {
         font-size: 15px;
@@ -19,12 +27,11 @@
     
     .container {
         display: grid;
-        border: 5px solid rgb(255, 0, 238);
-        gap: 1%;
-        height: 100rem;
+        height: auto;
+        gap: 0.5rem;
         /* Adjust grid-template-columns and grid-template-areas */
+        grid-template-rows: minmax(0.5fr,1fr);
         grid-template-columns: auto;
-        grid-template-rows: auto;
         grid-template-areas: 
             "zona1"
             "zona2"
@@ -46,8 +53,21 @@
     .zona7 { grid-area: zona7; }
     .zona8 { grid-area: zona8; }
 
+    .nav_links li a{
+        transition:none;
+    }
+    
+    .hamburger > input{
+        transition: none;
+    }
+    
     .nav_links li a:hover{
         font-size: 30px; 
         color: var(--primary-color);
+        transition: none;
     }
+    
+    .container-iframe {
+        scale: 50%;
+      }
 }

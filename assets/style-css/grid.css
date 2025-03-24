@@ -1,19 +1,20 @@
 :root {
     --primary-color: #ffbf9c !important; 
-    --secondary-color: #2A9D8F !important; 
-    --accent-color: #ff8324 !important; 
-    --background-color: #0b0b0b !important; 
-    --text-color: #e7f6f6 !important;
+    --secondary-color: #ff7878 !important; 
+    --accent-color: #ff6060 !important; 
+    --background-color: #ffd1bc !important;  
+    --text-color: #292929 !important;
 }
 
 .container {
     display: grid;
     margin-top: 3vh;
-    margin-bottom: 3vh;
-    gap: 0.5%;
-    
-    grid-template-columns: repeat(4,minmax(5vh,1fr));
-    grid-template-rows: repeat(5,minmax(10vh,1fr));
+    height: auto; /* Adjust height to fit content */
+    gap: 1.5rem; /* Use consistent spacing unit */
+
+    /* Make sure grid rows/columns are flexible */
+    grid-template-columns: repeat(4, minmax(5em, 1fr));
+    grid-template-rows: auto auto auto auto auto; /* Responsive row heights */
     grid-template-areas:
         "zona1 zona1 zona1 zona1"
         "zona2 zona2 zona8 zona8"
@@ -22,21 +23,26 @@
         "zona5 zona4 zona4 zona7";
     
     justify-content: center;
+    overflow: hidden; /* Prevents container from growing beyond viewport */
 }
 
-.container > div{
-    padding: 3%;
-    border-radius: 5%;
+.container > div {
+    min-height: 5vh; /* Prevents elements from expanding uncontrollably */
+    padding: var(--padding);
+    
+    border-radius: 2em;
+    background-color: var(--primary-color);
     
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: var(--secondary-color); */
+    border: 5px solid var(--primary-color);
 }
 
 .zona1 { 
     grid-area: zona1;
+    background-color: var(--accent-color) !important;
     overflow: hidden;
 }
 
@@ -47,24 +53,25 @@
 }
 
 table {
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
     border-collapse: collapse;
     box-sizing: border-box;
 }
 th, td {
-    border: 1px solid white;
-    padding: 0.1rem;
+    border: 1px solid var(--secondary-color);
+    padding: 0.5rem;
     text-align: center;
 }
 thead {
     background-color: var(--background-color);
 }
 tfoot {
-    background-color: var(--background-color);
+    background-color: var(--primary-color);
     font-weight: bold;
 }
 tbody tr:nth-child(even) {
-    border-bottom: 5px solid var(--accent-color);
+    border-bottom: 5px solid var(--background-color);
 }
 tbody tr:nth-child(odd) {
     border-bottom: 5px solid var(--secondary-color);

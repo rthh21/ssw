@@ -1,33 +1,38 @@
 :root {
-    --primary-color: #ff8324; /* Albastru principal */
-    --secondary-color: #2A9D8F; /* O nuanță mai deschisă de albastru */
-    --accent-color: #2f1905; /* Galben auriu pentru contrast */
-    --background-color: #0d0e0e; /* Gri foarte deschis pentru fundal */
-    --text-color: #ffffff; /* Gri închis pentru text */
+    --primary-color: #ffbf9c !important; 
+    --secondary-color: #ff7878 !important; 
+    --accent-color: #ff6060 !important; 
+    --background-color: #ffd1bc !important;  
+    --text-color: #292929 !important;
 }
 
 footer {
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: var(--background-color);
     font-weight: bold;
     margin-top: auto;    
-
+    padding-top: 1em;    
+    padding-bottom: 1em;    
+    
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-
+    /* flex-wrap: wrap; */
+    gap: 1rem;
+    
     width: auto;
-    height: 3rem; 
+    height: 3rem;
     box-sizing: border-box;
-    border-top: 0.2rem solid var(--accent-color);
+    border: 0.2rem solid var(--primary-color);
+    box-shadow: 0rem 0rem 2rem 0.8rem var(--secondary-color);
+    border-bottom: none;
     border-radius: 0.8rem;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;   
 }
 
 .fa-message{
-    position: absolute;
-    right:3.5%;
+    scale: 90%;
     color: var(--background-color);
 }
