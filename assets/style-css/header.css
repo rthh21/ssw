@@ -48,9 +48,9 @@ header {
     cursor: pointer;
     display: block;
     max-width: 15vh;
-    min-width: 150px;
-    max-height: 15vh;;
-    min-height: 100px;
+    min-width: 0.5vh;
+    max-height: 15vh;
+    min-height: 0.5vh;
   }
   
   .hamburger > input{
@@ -64,12 +64,13 @@ header {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+  
     list-style: none;
   }
   
   .nav_links li{
     display: inline-block;
-    padding: 15px 50px 15px;
+    padding: 0.5rem 1rem 0.5rem;
   }
   
   .nav_links li a{
@@ -84,7 +85,7 @@ header {
   
   button{
     grid-area: contact;
-    padding: 9px 25px 11px;
+    padding: 1em 1em 1em;
     background-color: var(--background-color);
     border: none;
     border-radius: 50px;

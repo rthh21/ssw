@@ -8,13 +8,6 @@
         margin-right: var(--margin-sides-small);
     }
     
-    main{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5%;
-    }
-    
     header{
         flex-wrap: wrap;
         justify-content: center;

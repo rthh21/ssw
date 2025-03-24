@@ -9,19 +9,11 @@
         margin-right: var(--margin-sides-medium);
     }
     
-    main{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5%;
-    }
-    
     .container {
         display: grid;
-        border: 1px solid rgb(255, 0, 238);
         gap: 1%;
-        grid-template-columns: repeat(2, minmax(100px, 1fr));
-        grid-template-rows: repeat(6, minmax(100px, 1fr));
+        grid-template-columns: repeat(2, minmax(1vh, 1fr));
+        grid-template-rows: repeat(6, minmax(5vh, 1fr));
         grid-template-areas: 
             "zona1 zona1"
             "zona3 zona2"
@@ -29,6 +21,10 @@
             "zona5 zona6"
             "zona7 zona6"
             "zona8 zona6";
+    }
+    
+    .container > div{
+      border: 1px solid rgb(255, 0, 238);
     }
     
     .zona1 { grid-area: zona1; }

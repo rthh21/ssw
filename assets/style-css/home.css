@@ -23,6 +23,8 @@ html {
     color: var(--text-color);
     text-align: center;
     font-size: 20px;
+    
+    transition: font-size 0.3s ease-in-out;
 }
 
 body {
@@ -35,6 +37,14 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 
 #link-top {
     position: fixed;
@@ -107,24 +117,26 @@ body {
 }
 
 .container-iframe{
-    display: block;
-    
     margin-bottom: 5em;
     margin-top: 5em;
+    
+    
     display: flex;
-    gap: 0px;
-    align-items: flex-start;
-    justify-content: center;
+    gap: 0%;
+    align-items: start;
+    justify-content: flex-end;
 }
 
 .container-iframe > iframe{
     position: relative;
-    left: 7%;
+    left: 20%;
     z-index: 2;
-    border: 5px solid var(--primary-color);
+    border: 0.5rem solid var(--primary-color);
 }
 
-.taburi-iframe {
+.taburi-iframe {   
+    position: relative;
+    right: 8%;
     display: flex;
     flex-direction: column;
 }

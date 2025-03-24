@@ -18,10 +18,10 @@ footer {
     align-items: center;
 
     width: auto;
-    height: 65px; 
+    height: 3rem; 
     box-sizing: border-box;
-    border-top: 5px solid var(--accent-color);
-    border-radius: 10px;
+    border-top: 0.2rem solid var(--accent-color);
+    border-radius: 0.8rem;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;   
 }
