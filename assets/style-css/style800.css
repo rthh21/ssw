@@ -7,7 +7,6 @@
 }
 
 @media (max-width:800px){
-    
     html {
         font-size: 17px;
     }
@@ -71,7 +70,7 @@
     .nav_links li{
       position: relative;
       top: -3%;
-      padding-top: 100px;
+      padding-top: 2rem;
     }
     
     .nav_links li a{
@@ -122,7 +121,7 @@
   
     .container-iframe {
       min-width: 60vw;
-      scale: 70%;
+      scale: 75%;
     }
     
     .taburi-iframe a {

@@ -9,7 +9,7 @@
 .container {
     display: grid;
     margin-top: 3vh;
-    width: 65vw;
+    /* width: 65vw; */
     height: auto; /* Adjust height to fit content */
     gap: 1.5rem; /* Use consistent spacing unit */
 
@@ -43,11 +43,12 @@
 
 .zona1 { 
     grid-area: zona1;
-    background-color: var(--accent-color) !important;
+    background-color: var(--text-color) !important;
     overflow: hidden;
 }
 
 .zona1 > img{
+    padding-top: 3%;
     min-width: 50vh;
 }
 

@@ -49,6 +49,7 @@
     }
     
     .zona1 { grid-area: zona1; overflow-x: auto; }
+    .zona1>img{width: 10%; height: auto;}
     .zona2 { grid-area: zona2; }
     .zona3 { grid-area: zona3; }
     .zona4 { grid-area: zona4; }
@@ -76,6 +77,7 @@
     
 
     .nav_links li a{
+        font-size: 20px;
         transition:none;
     }
     
@@ -90,7 +92,7 @@
     }
     
     .container-iframe {
-        scale: 40%;
+        scale: 60%;
     }
       
     .taburi-iframe a {

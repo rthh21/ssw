@@ -128,9 +128,9 @@ main{
 .container-iframe > iframe {
     position: relative;
     
-    min-width: 20rem; 
+    min-width: 10rem; 
     max-width: 100vh; 
-    
+    min-height: 10rem;
     max-height: 50vh;
     
     z-index: 2;
