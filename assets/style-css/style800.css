@@ -44,7 +44,14 @@
     .zona5 { grid-area: zona5; }
     .zona6 { grid-area: zona6; }
     .zona7 { grid-area: zona7; }
-    .zona8 { grid-area: zona8; }
+    .zona8 { 
+      grid-area: zona8;
+      p{  
+        font-family: "Bebas Neue", "Montserrat", sans-serif;
+        font-size: 2rem;
+        font-weight: bolder;
+      }
+    }
     
     .nav_links{
       display: flex;
@@ -74,7 +81,7 @@
     
     .nav_links li a:hover{
       font-size: 45px; 
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
     
     .hamburger input:checked ~ nav .nav_links{

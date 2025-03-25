@@ -9,6 +9,7 @@
 .container {
     display: grid;
     margin-top: 3vh;
+    width: 65vw;
     height: auto; /* Adjust height to fit content */
     gap: 1.5rem; /* Use consistent spacing unit */
 
@@ -102,4 +103,45 @@ caption {
 .zona5 { grid-area: zona5; }
 .zona6 { grid-area: zona6; }
 .zona7 { grid-area: zona7; }
-.zona8 { grid-area: zona8; }
+
+.zona8{
+    grid-area: zona8;
+    gap: 5rem;
+    
+    background-color: #292929 !important;
+    
+    p{  
+        color: var(--primary-color);
+        padding-top: 1rem;
+        font-family: "Bebas Neue", "Montserrat", sans-serif;
+        font-size: 3vw;
+        font-weight: bolder;
+    }
+    
+    img{ 
+        position: relative;
+        width: 90%;
+        height: auto;    
+        cursor: pointer;
+        
+        filter: drop-shadow(0em 0em 1em white);
+        animation: floating 5s ease-in-out infinite;
+        transition: 0.3s;
+    }
+    
+    img:hover {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes floating{
+    0%{
+        transform: translateY(0rem);    
+    }
+    50%{
+        transform: translateY(-2rem);
+    }
+    100%{
+        transform: translateY(0rem);    
+    }
+}

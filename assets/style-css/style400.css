@@ -44,14 +44,36 @@
         ;
     }
     
-    .zona1 { grid-area: zona1; }
+    .container > div{
+        border-radius: 1em;
+    }
+    
+    .zona1 { grid-area: zona1; overflow-x: auto; }
     .zona2 { grid-area: zona2; }
     .zona3 { grid-area: zona3; }
     .zona4 { grid-area: zona4; }
     .zona5 { grid-area: zona5; }
     .zona6 { grid-area: zona6; }
     .zona7 { grid-area: zona7; }
-    .zona8 { grid-area: zona8; }
+    
+    .zona8{
+        grid-area: zona8;
+        
+        img{ 
+            position: relative;
+            width: 70%;
+            height: auto;    
+            cursor: pointer;
+            
+            animation: none !important;
+            transition: none !important;
+        }
+        
+        img:hover{
+            scale: 125%;
+        }
+    }
+    
 
     .nav_links li a{
         transition:none;
