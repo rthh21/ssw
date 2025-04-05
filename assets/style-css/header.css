@@ -1,123 +1,172 @@
-:root {
-  --primary-color: #ffbf9c !important; 
-  --secondary-color: #ff7878 !important; 
-  --accent-color: #ff6060 !important; 
-  --background-color: #ffd1bc !important;  
-  --text-color: #292929 !important;
-    
-    --bar-width: 60px;
-    --bar-height: 8px;
+body li, body a, body button {
+  font-family: "Montserrat", Tahoma;
+  font-weight: 600;
+  font-size: 20px;
+  color: #292929 !important;
+  text-decoration: none;
+}
+body header {
+  position: sticky;
+  top: 1rem;
+  background: #ffbf9c !important;
+  border: 0.4rem solid #ff7878 !important;
+  box-shadow: 0rem 0rem 3rem 1rem #ff7878 !important;
+  border-radius: 2.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 5%;
+  padding-right: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 3%;
+  z-index: 999999;
+}
+body header .logo {
+  filter: invert(1);
+  margin-right: -1.5rem;
+  cursor: pointer;
+  display: block;
+  max-width: 10rem;
+  min-width: 7rem;
+  transition: all 0.2s ease 0s;
+}
+body header .logo:hover {
+  scale: 110%;
+}
+body header .hamburger > input {
+  display: none;
+}
+body header .nav_links {
+  grid-area: menu;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+}
+body header .nav_links .dropdown {
+  position: relative;
+}
+body header .nav_links .dropdown .dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffbf9c !important;
+  border: 0.3rem solid #ff7878 !important;
+  z-index: 200;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transform: scale(0);
+  transform-origin: top;
+}
+body header .nav_links .dropdown .dropdown-content li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+body header .nav_links .dropdown:hover .dropdown-content {
+  transform: scale(1);
+  transition: transform 0.3s ease-in-out;
+}
+body header .nav_links li {
+  display: inline-block;
+  padding: 0.5rem 1rem 0.5rem;
+  position: relative;
+}
+body header .nav_links li a {
+  color: #292929 !important;
+  font-weight: 600;
+  transition: all 0.2s ease 0s;
+}
+body header .nav_links li a .drop-model {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #ffbf9c !important;
+  border: 0.25rem solid #ff7878 !important;
+  border-radius: 1rem;
+  width: 200px;
+  padding: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+body header .nav_links li a .drop-model ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+body header .nav_links li a .drop-model ul li {
+  display: block;
+  padding: 0.5rem 0;
+  margin: 0;
+}
+body header .nav_links li a .drop-model ul li a {
+  display: block;
+  font-size: 16px;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+body header .nav_links li a .drop-model ul li a:hover {
+  background: #ff7878 !important;
+  color: #ffd1bc !important;
+  font-size: 18px;
+}
+body header .nav_links li a:hover {
+  color: #ff7878 !important;
+  transition: all 0.35s ease 0s;
+}
+body header .nav_links li a:hover .drop-model {
+  display: block;
+  animation: dropdown-appear 0.3s ease-in-out forwards;
+}
+body header button {
+  grid-area: contact;
+  padding: 1em 2em 1em;
+  color: #ffd1bc !important;
+  background-color: #292929 !important;
+  border: none;
+  border-radius: 50rem;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+}
+body header button:hover {
+  background-color: #ff7878 !important;
+  scale: 110%;
+  color: #ffd1bc !important;
+  transition: all 0.25s ease 0s;
+}
+body header .fa-solid {
+  grid-area: user;
+  cursor: pointer;
+  scale: 150%;
+  color: #292929 !important;
+  transition: all 0.25s ease 0s;
+}
+body header .fa-solid:hover {
+  scale: 170%;
+  color: #ff7878 !important;
 }
 
-li,a,button{
-    font-family: "Montserrat", Tahoma;
-    font-weight: 600;
-    font-size: 20px;
-    color: var(--text-color);
-    text-decoration: none;
+@keyframes dropdown-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-header {    
-    position: sticky;
-    top: 1rem;
-    background: var(--primary-color);
-    
-    border: 0.4rem solid var(--secondary-color);
-    box-shadow: 0rem 0rem 3rem 1rem var(--secondary-color);
-    border-radius: 2.5rem;
-    
-    margin-top: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 5%;
-    padding-right: 5%;
-    
-    display: flex;
-    flex-direction: row;
-    justify-content:center;
-    align-items: center;
-    gap: 3%;
-    
-    z-index: 999999;
-  }
-  
-  .logo{
-    grid-area: logo;
-    filter: invert();
-    margin-right: -1.5rem;
-
-    cursor: pointer;
-    display: block;
-    max-width: 10rem;
-    min-width: 7rem;
-    
-    transition: all 0.2s ease 0s;
-  }
-  
-  .logo:hover{
-    scale: 110%;
-  }
-  
-  .hamburger > input{
-    display: none;
-  }
-  
-  .nav_links  {
-    grid-area: menu;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  
-    list-style: none;
-  }
-  
-  .nav_links li{
-    display: inline-block;
-    padding: 0.5rem 1rem 0.5rem;
-  }
-  
-  .nav_links li a{
-    color: var(--text-color);
-    font-weight: 600;
-    transition: all 0.2s ease 0s;
-  }
-  
-  .nav_links li a:hover{
-    font-size: 35px;
-    color: var(--secondary-color);
-    transition: all 0.2s ease 0s;
-  }
-  
-  button{
-    grid-area: contact;
-    padding: 1em 2em 1em;
-    color: var(--background-color);
-    background-color: var(--text-color);
-    border: none;
-    border-radius: 50rem;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-  }
-  
-  button:hover{
-    background-color: var(--secondary-color);
-    scale: 110%;
-    color:var(--background-color);
-    transition: all 0.25s ease 0s;
-  }
-  
-  .fa-solid{
-    grid-area: user;
-    
-    cursor: pointer;
-    scale: 150%;
-    color: var(--text-color);
-    transition: all 0.25s ease 0s;
-  }
-  
-  .fa-solid:hover{
-    scale: 170%;
-    color: var(--secondary-color);
-  }
+/*# sourceMappingURL=header.css.map */
