@@ -10,12 +10,12 @@
     display: grid;
     margin-top: 3vh;
     /* width: 65vw; */
-    height: auto; /* Adjust height to fit content */
-    gap: 1.5rem; /* Use consistent spacing unit */
+    height: auto; 
+    gap: 1.5rem; 
 
     /* Make sure grid rows/columns are flexible */
     grid-template-columns: repeat(4, minmax(5em, 1fr));
-    grid-template-rows: auto auto auto auto auto; /* Responsive row heights */
+    grid-template-rows: auto auto auto auto auto; 
     grid-template-areas:
         "zona1 zona1 zona1 zona1"
         "zona2 zona2 zona8 zona8"
@@ -24,11 +24,11 @@
         "zona5 zona4 zona4 zona7";
     
     justify-content: center;
-    overflow: hidden; /* Prevents container from growing beyond viewport */
+    overflow: hidden; 
 }
 
 .container > div {
-    min-height: 5vh; /* Prevents elements from expanding uncontrollably */
+    min-height: 5vh; 
     padding: var(--padding);
     
     border-radius: 2em;

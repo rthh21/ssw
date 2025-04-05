@@ -1,41 +1,52 @@
-$primary-color: #ffbf9c !important;
-$secondary-color: #ff7878 !important;
-$accent-color: #ff6060 !important;
-$background-color: #ffd1bc !important;
-$text-color: #292929 !important;
+// Color Variables
+$primary-color:      #ffbf9c !important;
+$secondary-color:    #ff7878 !important;
+$accent-color:       #ff6060 !important;
+$background-color:   #ffd1bc !important;
+$text-color:         #292929 !important;
+
+// Layout Variables
 $bar-width: 60px;
 $bar-height: 8px;
 
+// Base Font Styles
 body {
-  li, a, button {
+  li,
+  a,
+  button,
+  p {
     font-family: "Montserrat", Tahoma;
     font-weight: 600;
     font-size: 20px;
     color: $text-color;
     text-decoration: none;
   }
-  
-  header {   
+
+  // Header Styles
+  header {
     position: sticky;
     top: 1rem;
+    z-index: 999999;
     background: $primary-color;
     border: 0.4rem solid $secondary-color;
-    box-shadow: 0rem 0rem 3rem 1rem $secondary-color;
+    box-shadow: 0 0 3rem 1rem $secondary-color;
     border-radius: 2.5rem;
     margin-top: 1rem;
+
     padding: {
       top: 1rem;
       bottom: 1rem;
       left: 5%;
       right: 5%;
     }
+
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 3%;
-    z-index: 999999;
-    
+
+    // Logo
     .logo {
       filter: invert(1);
       margin-right: -1.5rem;
@@ -43,19 +54,21 @@ body {
       display: block;
       max-width: 10rem;
       min-width: 7rem;
-      transition: all 0.2s ease 0s;
-      
+      transition: all 0.2s ease;
+
       &:hover {
         scale: 110%;
       }
     }
-    
+
+    // Hamburger Menu (Placeholder)
     .hamburger {
-      > input {
-        display: none; 
+      input {
+        display: none;
       }
     }
-    
+
+    // Navigation
     .nav_links {
       grid-area: menu;
       display: flex;
@@ -64,144 +77,123 @@ body {
       align-items: center;
       justify-content: center;
       list-style: none;
-      
+
+      // Home Icon
+      .home-icon {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+
+        .fa-house {
+          cursor: pointer;
+          scale: 150%;
+          color: $text-color;
+          transition: all 0.5s ease;
+        }
+
+        > p {
+          color: $primary-color;
+          font-weight: 700;
+          transition: all 0.4s ease;
+        }
+
+        &:hover {
+          .fa-house {
+            color: $secondary-color;
+          }
+
+          > p {
+            color: $secondary-color;
+          }
+        }
+      }
+
+      // Dropdown Menu
       .dropdown {
-        position: relative; 
-      
+        position: relative;
+
         .dropdown-content {
           position: absolute;
           top: 100%;
-          left: -30%;       
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          background-color: $primary-color;
-          border: 0.3rem solid $secondary-color;
           z-index: 200;
           padding: 1rem;
           border-radius: 0.5rem;
-          transform: scale(0); // Initial state (hidden)
-          transform-origin: top; // Ensure scaling starts from the top
-      
+          background-color: $primary-color;
+          border: 0.3rem solid $secondary-color;
+          transform: scale(0);
+          transform-origin: top;
+
+          display: flex; 
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
           li {
             display: flex;
-            justify-content: center; 
-            align-items: center; 
-            padding: 0.5rem; 
-            width: 100%; 
-            text-align: center; 
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            width: 100%;
+            text-align: center;
           }
         }
-      
+
         &:hover .dropdown-content {
-          transform: scale(1); // Expand dropdown on hover
-          transition: transform 0.3s ease-in-out; // Smooth animation for scaling
+          transform: scale(1);
+          transition: transform 0.3s ease-in-out;
         }
       }
-      
+
+      // Navigation Items
       li {
         display: inline-block;
         padding: 0.5rem 1rem 0.5rem;
         position: relative;
-        
+
         a {
-            color: $text-color;
-            font-weight: 600;
-            transition: all 0.2s ease 0s;
-          
-            
-            .drop-model {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: $primary-color;
-                border: 0.25rem solid $secondary-color;
-                border-radius: 1rem;
-                width: 200px;
-                padding: 1rem;
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-                z-index: 1000;
-                
-                ul {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                    
-                    li {
-                        display: block;
-                        padding: 0.5rem 0;
-                        margin: 0;
-                        
-                        a {
-                            display: block;
-                            font-size: 16px;
-                            padding: 0.5rem;
-                            border-radius: 0.5rem;
-                            
-                            &:hover {
-                                background: $secondary-color;
-                                color: $background-color;
-                                font-size: 18px;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            &:hover {
-                color: $secondary-color;
-                transition: all 0.35s ease 0s;
-                
-                .drop-model {
-                    display: block;
-                    animation: dropdown-appear 0.3s ease-in-out forwards;
-                }
-            }
+          color: $text-color;
+          font-weight: 600;
+          transition: all 0.2s ease;
+
+          &:hover {
+            color: $secondary-color;
+            transition: all 0.35s ease;
+          }
         }
       }
     }
-    
+
+    // Button
     button {
       grid-area: contact;
-      padding: 1em 2em 1em;
+      padding: 1em 2em;
       color: $background-color;
       background-color: $text-color;
       border: none;
       border-radius: 50rem;
       cursor: pointer;
-      transition: all 0.3s ease 0s;
-      
+      transition: all 0.3s ease;
+
       &:hover {
         background-color: $secondary-color;
         scale: 110%;
         color: $background-color;
-        transition: all 0.25s ease 0s;
+        transition: all 0.25s ease;
       }
     }
-    
-    .fa-solid {
+
+    // User Icon
+    .fa-circle-user {
       grid-area: user;
       cursor: pointer;
       scale: 150%;
       color: $text-color;
-      transition: all 0.25s ease 0s;
-      
+      transition: all 0.25s ease;
+
       &:hover {
         scale: 170%;
         color: $secondary-color;
       }
     }
-  }
-}
-
-@keyframes dropdown-appear {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

@@ -170,3 +170,92 @@ main{
     transform: translateX(3vh);
     transition: 0.3s ease-in-out;
 }
+
+@media print {
+    /* Afișează banner-ul pe prima pagină */
+    footer .banner-print {
+        display: block !important;
+        position: fixed;
+        top: 0;
+        left: 10%;
+        width: 80%;
+        text-align: center;
+        border: 1px dotted black;
+        background-color: white;
+        padding: 10px;
+        z-index: 9999;
+        page-break-after: always; /* Forțează un page break după banner */
+    }
+
+    /* Ascunde banner-ul pe paginile următoare */
+    @page {
+        .banner-print {
+            display: none !important;
+        }
+    }
+    
+    /* Ascunderea elementelor media și linkurilor */
+    img, video, iframe, .up, a[href="#top"] {
+        display: none !important;
+    }
+
+    /* Grid afișat ca block */
+    .grid-container {
+        display: block !important;
+    }
+
+    /* Linkurile afișate ca text normal */
+    a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
+    /* Heading-ul de nivel 1 (titlul site-ului) */
+    h1 {
+        position: fixed;
+        top: 50%; /* Centrare pe verticală */
+        left: 50%; /* Centrare pe orizontală */
+        transform: translate(-50%, -50%);
+        font-size: calc(2.5 * var(--base-font-size)); /* Dimensiune de 2.5 ori mai mare decât fontul de bază */
+        text-decoration: underline; /* Subliniere */
+        page-break-after: always; /* Page break după heading */
+    }
+
+    /* Ascunderea meniului */
+    .menu {
+        display: none !important;
+    }
+
+    /* Page break înaintea footerului */
+    footer::before {
+        content: '';
+        display: block;
+        page-break-before: always;
+    }
+
+    /* Watermark pe fiecare pagină */
+    body::after {
+        content: 'Stan Marius-Andrei'; /* Numele utilizatorului */
+        position: fixed;
+        bottom: 10px; /* Poziționat în partea de jos a paginii */
+        right: calc(50% - 50px); /* Centrat pe orizontală (lățime de 100px) */
+        width: 100px; /* Lățime watermark */
+        height: 2cm; /* Înălțime watermark */
+        border: double black; /* Border dublu negru */
+        opacity: 0.65; /* Opacitate redusă */
+        text-align: center;
+        font-size: 20px; /* Dimensiune font pentru watermark */
+    }
+
+    /* Margini diferite pentru paginile stânga/dreapta */
+    @page:left {
+        margin-left: 2.5cm; /* Margine stânga mare pentru paginile din stânga */
+        margin-right: 0.5cm; /* Margine dreapta mică pentru paginile din stânga */
+    }
+
+    @page:right {
+        margin-left: 0.5cm; /* Margine stânga mică pentru paginile din dreapta */
+        margin-right: 2.5cm; /* Margine dreapta mare pentru paginile din dreapta */
+    }
+}
+

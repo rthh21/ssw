@@ -1,4 +1,7 @@
-body li, body a, body button {
+body li,
+body a,
+body button,
+body p {
   font-family: "Montserrat", Tahoma;
   font-weight: 600;
   font-size: 20px;
@@ -8,9 +11,10 @@ body li, body a, body button {
 body header {
   position: sticky;
   top: 1rem;
+  z-index: 999999;
   background: #ffbf9c !important;
   border: 0.4rem solid #ff7878 !important;
-  box-shadow: 0rem 0rem 3rem 1rem #ff7878 !important;
+  box-shadow: 0 0 3rem 1rem #ff7878 !important;
   border-radius: 2.5rem;
   margin-top: 1rem;
   padding-top: 1rem;
@@ -22,7 +26,6 @@ body header {
   justify-content: center;
   align-items: center;
   gap: 3%;
-  z-index: 999999;
 }
 body header .logo {
   filter: invert(1);
@@ -31,12 +34,12 @@ body header .logo {
   display: block;
   max-width: 10rem;
   min-width: 7rem;
-  transition: all 0.2s ease 0s;
+  transition: all 0.2s ease;
 }
 body header .logo:hover {
   scale: 110%;
 }
-body header .hamburger > input {
+body header .hamburger input {
   display: none;
 }
 body header .nav_links {
@@ -48,23 +51,45 @@ body header .nav_links {
   justify-content: center;
   list-style: none;
 }
+body header .nav_links .home-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+body header .nav_links .home-icon .fa-house {
+  cursor: pointer;
+  scale: 150%;
+  color: #292929 !important;
+  transition: all 0.5s ease;
+}
+body header .nav_links .home-icon > p {
+  color: #ffbf9c !important;
+  font-weight: 700;
+  transition: all 0.4s ease;
+}
+body header .nav_links .home-icon:hover .fa-house {
+  color: #ff7878 !important;
+}
+body header .nav_links .home-icon:hover > p {
+  color: #ff7878 !important;
+}
 body header .nav_links .dropdown {
   position: relative;
 }
 body header .nav_links .dropdown .dropdown-content {
   position: absolute;
   top: 100%;
-  left: 0%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffbf9c !important;
-  border: 0.3rem solid #ff7878 !important;
   z-index: 200;
   padding: 1rem;
   border-radius: 0.5rem;
+  background-color: #ffbf9c !important;
+  border: 0.3rem solid #ff7878 !important;
   transform: scale(0);
   transform-origin: top;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 body header .nav_links .dropdown .dropdown-content li {
   display: flex;
@@ -86,87 +111,38 @@ body header .nav_links li {
 body header .nav_links li a {
   color: #292929 !important;
   font-weight: 600;
-  transition: all 0.2s ease 0s;
-}
-body header .nav_links li a .drop-model {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #ffbf9c !important;
-  border: 0.25rem solid #ff7878 !important;
-  border-radius: 1rem;
-  width: 200px;
-  padding: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
-body header .nav_links li a .drop-model ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-body header .nav_links li a .drop-model ul li {
-  display: block;
-  padding: 0.5rem 0;
-  margin: 0;
-}
-body header .nav_links li a .drop-model ul li a {
-  display: block;
-  font-size: 16px;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-}
-body header .nav_links li a .drop-model ul li a:hover {
-  background: #ff7878 !important;
-  color: #ffd1bc !important;
-  font-size: 18px;
+  transition: all 0.2s ease;
 }
 body header .nav_links li a:hover {
   color: #ff7878 !important;
-  transition: all 0.35s ease 0s;
-}
-body header .nav_links li a:hover .drop-model {
-  display: block;
-  animation: dropdown-appear 0.3s ease-in-out forwards;
+  transition: all 0.35s ease;
 }
 body header button {
   grid-area: contact;
-  padding: 1em 2em 1em;
+  padding: 1em 2em;
   color: #ffd1bc !important;
   background-color: #292929 !important;
   border: none;
   border-radius: 50rem;
   cursor: pointer;
-  transition: all 0.3s ease 0s;
+  transition: all 0.3s ease;
 }
 body header button:hover {
   background-color: #ff7878 !important;
   scale: 110%;
   color: #ffd1bc !important;
-  transition: all 0.25s ease 0s;
+  transition: all 0.25s ease;
 }
-body header .fa-solid {
+body header .fa-circle-user {
   grid-area: user;
   cursor: pointer;
   scale: 150%;
   color: #292929 !important;
-  transition: all 0.25s ease 0s;
+  transition: all 0.25s ease;
 }
-body header .fa-solid:hover {
+body header .fa-circle-user:hover {
   scale: 170%;
   color: #ff7878 !important;
-}
-
-@keyframes dropdown-appear {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /*# sourceMappingURL=header.css.map */
