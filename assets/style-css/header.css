@@ -57,6 +57,7 @@ body header .nav_links .home-icon {
   gap: 1em;
 }
 body header .nav_links .home-icon .fa-house {
+  display: block;
   cursor: pointer;
   scale: 150%;
   color: #292929 !important;

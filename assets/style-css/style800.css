@@ -12,7 +12,7 @@
   }
   .container {
     display: grid;
-    height: auto;
+    eight: auto;
     gap: 1rem;
     grid-template-columns: repeat(2, minmax(5vh, 1fr));
     grid-template-rows: auto auto auto auto auto auto;
