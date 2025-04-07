@@ -1,0 +1,126 @@
+$primary-color: #ffbf9c !important;
+$secondary-color: #ff7878 !important;
+$accent-color: #ff6060 !important;
+$background-color: #ffd1bc !important;
+$text-color: #292929 !important;
+$bar-width: 60px;
+$bar-height: 8px;
+
+@media (max-width: 800px) {
+    html {
+        font-size: 17px;
+    }
+
+    body {
+        margin-left: var(--margin-sides-medium);
+        margin-right: var(--margin-sides-medium);
+    }
+
+    header {
+        justify-content: center;
+        gap: 7%;
+    }
+
+    .container {
+        display: grid;
+        height: auto;
+        gap: 1rem;
+        grid-template-columns: repeat(2, minmax(5vh, 1fr));
+        grid-template-rows: auto auto auto auto auto auto;
+        grid-template-areas:
+            "zona1 zona1"
+            "zona3 zona2"
+            "zona3 zona4"
+            "zona5 zona6"
+            "zona7 zona6"
+            "zona8 zona6";
+
+        .zona1 {
+            grid-area: zona1;
+        }
+
+        .zona2 {
+            grid-area: zona2;
+        }
+
+        .zona3 {
+            grid-area: zona3;
+        }
+
+        .zona4 {
+            grid-area: zona4;
+        }
+
+        .zona5 {
+            grid-area: zona5;
+        }
+
+        .zona6 {
+            grid-area: zona6;
+        }
+
+        .zona7 {
+            grid-area: zona7;
+        }
+
+        .zona8 {
+            grid-area: zona8;
+
+            p {
+                font-family: "Bebas Neue", "Montserrat", sans-serif;
+                font-size: 2rem;
+                font-weight: bolder;
+            }
+        }
+    }
+
+    .nav_links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-flow: row nowrap;
+
+        li {
+            position: relative;
+            top: -3%;
+            padding-top: 2rem;
+
+            a {
+                color: var(--text-color);
+                font-size: 30px;
+
+                &:hover {
+                    font-size: 45px;
+                    color: var(--secondary-color);
+                }
+            }
+        }
+
+        > .home-icon {
+            display: inline-block;
+
+            p {
+                display: none;
+            }
+        }
+    }
+
+    .nav_links li a {
+        font-size: 15px !important;
+    }
+
+    .container-iframe {
+        min-width: 60vw;
+        scale: 75%;
+    }
+
+    .taburi-iframe {
+        a {
+            right: 0%;
+        }
+    }
+    
+    button{
+        display: none; 
+    } 
+}
