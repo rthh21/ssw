@@ -36,3 +36,7 @@ footer {
     scale: 90%;
     color: var(--background-color);
 }
+
+.banner-print{
+    display: none;
+}

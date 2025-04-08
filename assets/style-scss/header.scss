@@ -1,43 +1,49 @@
-// Color Variables
 $primary-color:      #ffbf9c !important;
 $secondary-color:    #ff7878 !important;
 $accent-color:       #ff6060 !important;
 $background-color:   #ffd1bc !important;
 $text-color:         #292929 !important;
 
-// Layout Variables
 $bar-width: 60px;
 $bar-height: 8px;
 
-// Base Font Styles
+$base-font-family:   "Montserrat", Tahoma;
+$base-font-weight:   600; 
+$base-font-size:     20px;
+$rem:       1rem;
+$half-rem:      0.5rem;
+$header-padding-side: 5%;
+$icon-scale-base:    150%;
+$hover-scale-small:  110%;
+$transition-fast:    all 0.2s ease;
+$transition-medium-fast: all 0.25s ease;   
+
 body {
   li,
-  a,
-  button,
-  p {
-    font-family: "Montserrat", Tahoma;
-    font-weight: 600;
-    font-size: 20px;
+  a, 
+  > p {
+    font-family: $base-font-family;
+    font-weight: $base-font-weight;
+    font-size: $base-font-size;
     color: $text-color;
     text-decoration: none;
   }
 
-  // Header Styles
   header {
     position: sticky;
-    top: 1rem;
+    top: $rem;
     z-index: 999999;
     background: $primary-color;
     border: 0.4rem solid $secondary-color;
-    box-shadow: 0 0 3rem 1rem $secondary-color;
+    box-shadow: 0 0 3rem $rem $secondary-color;
     border-radius: 2.5rem;
-    margin-top: 1rem;
+    margin-top: $rem;
 
     padding: {
-      top: 1rem;
-      bottom: 1rem;
-      left: 5%;
-      right: 5%;
+      top: $rem;
+      bottom: $rem;
+      left: $header-padding-side;
+      right: $header-padding-side;
     }
 
     display: flex;
@@ -46,7 +52,6 @@ body {
     align-items: center;
     gap: 3%;
 
-    // Logo
     .logo {
       filter: invert(1);
       margin-right: -1.5rem;
@@ -54,21 +59,19 @@ body {
       display: block;
       max-width: 10rem;
       min-width: 7rem;
-      transition: all 0.2s ease;
+      transition: $transition-fast;
 
       &:hover {
-        scale: 110%;
+        scale: $hover-scale-small;
       }
     }
 
-    // Hamburger Menu (Placeholder)
     .hamburger {
       input {
         display: none;
       }
     }
 
-    // Navigation
     .nav_links {
       grid-area: menu;
       display: flex;
@@ -78,28 +81,27 @@ body {
       justify-content: center;
       list-style: none;
 
-      // Home Icon
       .home-icon {
         display: flex;
         flex-direction: row;
         gap: 1em;
 
         .fa-house {
-          display: block; 
+          display: block;
           cursor: pointer;
-          scale: 150%;
+          scale: $icon-scale-base;
           color: $text-color;
           transition: all 0.5s ease;
         }
 
-        > p {
+        > a {
           color: $primary-color;
           font-weight: 700;
           transition: all 0.4s ease;
         }
 
         &:hover {
-          .fa-house {
+          .fa-house { 
             color: $secondary-color;
           }
 
@@ -109,22 +111,21 @@ body {
         }
       }
 
-      // Dropdown Menu
       .dropdown {
         position: relative;
 
         .dropdown-content {
           position: absolute;
-          top: 100%;
+          top: 90%;
+          left: 12%;
           z-index: 200;
-          padding: 1rem;
-          border-radius: 0.5rem;
+          border-radius: 1.2rem;  
           background-color: $primary-color;
           border: 0.3rem solid $secondary-color;
           transform: scale(0);
           transform-origin: top;
 
-          display: flex; 
+          display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
@@ -133,7 +134,7 @@ body {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0.5rem;
+            padding: $half-rem;
             width: 100%;
             text-align: center;
           }
@@ -145,16 +146,19 @@ body {
         }
       }
 
-      // Navigation Items
+      .dropdown-blog {
+        display: none;
+      }
+
       li {
         display: inline-block;
-        padding: 0.5rem 1rem 0.5rem;
+        padding: $half-rem $rem $half-rem; 
         position: relative;
 
         a {
           color: $text-color;
-          font-weight: 600;
-          transition: all 0.2s ease;
+          font-weight: $base-font-weight;
+          transition: $transition-fast;
 
           &:hover {
             color: $secondary-color;
@@ -164,32 +168,31 @@ body {
       }
     }
 
-    // Button
     button {
       grid-area: contact;
-      padding: 1em 2em;
+      padding: 0.3em 1em;         
       color: $background-color;
       background-color: $text-color;
-      border: none;
-      border-radius: 50rem;
+      font-size: 25px; 
+      border: none; 
+      border-radius: 60rem;  
       cursor: pointer;
       transition: all 0.3s ease;
 
       &:hover {
         background-color: $secondary-color;
-        scale: 110%;
+        scale: $hover-scale-small;
         color: $background-color;
-        transition: all 0.25s ease;
+        transition: $transition-medium-fast;
       }
-    }
+    } 
 
-    // User Icon
     .fa-circle-user {
       grid-area: user;
       cursor: pointer;
-      scale: 150%;
+      scale: $icon-scale-base;
       color: $text-color;
-      transition: all 0.25s ease;
+      transition: $transition-medium-fast;
 
       &:hover {
         scale: 170%;

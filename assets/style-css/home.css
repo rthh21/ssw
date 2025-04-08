@@ -87,7 +87,6 @@ main{
 }
 
 .tooltip{
-    /* display: none; */
     position: fixed;
     opacity: 0;
     padding: 0.3em;
@@ -120,7 +119,7 @@ main{
 .container-iframe {
     margin: 5em 0;
     display: flex;
-    justify-content: center; /* Centers the iframe */
+    justify-content: center;
     align-items: center;
     width: 100%;
 }
@@ -172,11 +171,10 @@ main{
 }
 
 @media print {
-    /* Afișează banner-ul pe prima pagină */
-    footer .banner-print {
+    .banner-print {
         display: block !important;
-        position: fixed;
-        top: 0;
+        position: absolute;
+        top: 10px;
         left: 10%;
         width: 80%;
         text-align: center;
@@ -184,78 +182,88 @@ main{
         background-color: white;
         padding: 10px;
         z-index: 9999;
-        page-break-after: always; /* Forțează un page break după banner */
     }
 
-    /* Ascunde banner-ul pe paginile următoare */
-    @page {
-        .banner-print {
-            display: none !important;
-        }
-    }
-    
-    /* Ascunderea elementelor media și linkurilor */
-    img, video, iframe, .up, a[href="#top"] {
+    .container {
+        display: block !important;
+      }
+      
+    .container > * {
+        display: block !important;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+    img, iframe{
         display: none !important;
     }
-
-    /* Grid afișat ca block */
-    .grid-container {
-        display: block !important;
+    
+    .taburi-iframe{
+        break-before: always; 
     }
-
-    /* Linkurile afișate ca text normal */
+    .PromoBig{
+        display: none !important;
+        
+    }
+    
+    .fa-circle-user{ 
+        display: none !important; 
+    }  
+    
     a {
         color: inherit !important;
         text-decoration: none !important;
     }
 
-    /* Heading-ul de nivel 1 (titlul site-ului) */
     h1 {
         position: fixed;
-        top: 50%; /* Centrare pe verticală */
-        left: 50%; /* Centrare pe orizontală */
+        top: 50%;
+        left: 50%;
         transform: translate(-50%, -50%);
-        font-size: calc(2.5 * var(--base-font-size)); /* Dimensiune de 2.5 ori mai mare decât fontul de bază */
-        text-decoration: underline; /* Subliniere */
-        page-break-after: always; /* Page break după heading */
+        font-size: 2.5em;
+        text-decoration: underline;
+        break-after: always;
     }
 
-    /* Ascunderea meniului */
-    .menu {
-        display: none !important;
+    header {
+        break-after: always;
     }
 
-    /* Page break înaintea footerului */
     footer::before {
         content: '';
         display: block;
-        page-break-before: always;
+        break-before: always;
     }
+    
+    .nav_links{
+        display: none !important;
+    }
+    
 
-    /* Watermark pe fiecare pagină */
     body::after {
-        content: 'Stan Marius-Andrei'; /* Numele utilizatorului */
+        content: 'Stan Marius-Andrei'; 
         position: fixed;
-        bottom: 10px; /* Poziționat în partea de jos a paginii */
-        right: calc(50% - 50px); /* Centrat pe orizontală (lățime de 100px) */
-        width: 100px; /* Lățime watermark */
-        height: 2cm; /* Înălțime watermark */
-        border: double black; /* Border dublu negru */
-        opacity: 0.65; /* Opacitate redusă */
+        bottom: 10px; 
+        right: calc(50% - 50px); 
+        width: 100px; 
+        height: 2cm; 
+        border: double black;
+        opacity: 0.65;
         text-align: center;
-        font-size: 20px; /* Dimensiune font pentru watermark */
+        font-size: 20px;
     }
 
-    /* Margini diferite pentru paginile stânga/dreapta */
+    .up{
+        display: none;
+    }
+
     @page:left {
-        margin-left: 2.5cm; /* Margine stânga mare pentru paginile din stânga */
-        margin-right: 0.5cm; /* Margine dreapta mică pentru paginile din stânga */
+        margin-left: 2.5cm; 
+        margin-right: 0.5cm; 
     }
 
     @page:right {
-        margin-left: 0.5cm; /* Margine stânga mică pentru paginile din dreapta */
-        margin-right: 2.5cm; /* Margine dreapta mare pentru paginile din dreapta */
+        margin-left: 0.5cm; 
+        margin-right: 2.5cm; 
     }
 }
-

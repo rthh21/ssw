@@ -1,4 +1,4 @@
-@media (max-width: 333400px) {
+@media (max-width: 400px) {
   html {
     font-size: 15px;
   }
@@ -7,8 +7,11 @@
     margin-right: var(--margin-sides-small);
   }
   header {
+    position: absolute !important;
     flex-wrap: wrap;
+    flex-direction: row;
     justify-content: space-around;
+    gap: 3rem !important;
   }
   header > .fa-solid {
     display: none;
@@ -64,21 +67,20 @@
     width: 70%;
     height: auto;
     cursor: pointer;
-    animation: none; /*!important removed*/
-    transition: transform 0.3s ease; /*transition enabled*/
+    animation: none;
+    transition: transform 0.3s ease;
   }
   .container .zona8 img:hover {
-    transform: scale(1.25); /*scale instead of scale3d*/
+    transform: scale(1.25);
   }
   .hamburger {
     position: inline-block;
   }
   .hamburger > nav {
     position: fixed;
-    background-color: #ffbf9c;
+    background-color: #ffbf9c !important;
     border: 0.4rem solid #ff7878 !important;
     border-radius: 2.5rem;
-    transform-origin: top;
     top: -100%;
     left: 1%;
     width: 98vw;
@@ -104,28 +106,69 @@
   }
   .hamburger .nav_links li a:hover {
     color: #ff7878 !important;
-    transition: color 0.3s ease; /* Smooth hover effect */
+    transition: color 0.3s ease;
   }
   .hamburger .nav_links li .dropdown-content {
     display: none !important;
   }
+  .hamburger .nav_links li .dropdown-blog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: #ffbf9c !important;
+    border: 0.4rem solid #ff7878 !important;
+    border-radius: 2rem;
+    transform: scale(0);
+    transform-origin: top;
+    top: 27rem !important;
+    left: 1%;
+    width: 98vw;
+    min-height: 5rem;
+    transition-delay: 0.2s;
+  }
+  .hamburger .nav_links li .blog-hover:hover ~ .dropdown-blog {
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+  }
+  .hamburger .nav_links li .dropdown-blog:hover {
+    transform: scale(1);
+  }
   .hamburger > input {
     display: block !important;
     z-index: 1000000;
-    width: 5em;
+    width: 3em;
     height: 0.5em;
-    background-color: red;
+    background-color: #292929 !important;
     border-radius: 7rem;
     appearance: none;
-    transition: 0.3 ease-in;
-    opacity: 0.5;
+    transition: 0.3s ease-in;
+    position: relative;
+  }
+  .hamburger > input::before,
+  .hamburger > input::after {
+    content: "";
+    position: absolute;
+    width: inherit;
+    height: 0.5em;
+    background-color: #292929 !important;
+    border-radius: 7rem;
+    transition: 0.3s ease-in;
+  }
+  .hamburger > input::before {
+    top: -0.7em;
+  }
+  .hamburger > input::after {
+    top: 0.7em;
   }
   .hamburger > input:checked ~ nav {
     top: 12rem;
   }
-  .hamburger > input:hover {
-    background-color: #292929;
-    transition: 0.3 ease-in;
+  .taburi-iframe a {
+    right: 10%;
+  }
+  .container-iframe {
+    scale: 60%;
   }
 }
 

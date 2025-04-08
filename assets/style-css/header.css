@@ -1,7 +1,6 @@
 body li,
 body a,
-body button,
-body p {
+body > p {
   font-family: "Montserrat", Tahoma;
   font-weight: 600;
   font-size: 20px;
@@ -63,7 +62,7 @@ body header .nav_links .home-icon .fa-house {
   color: #292929 !important;
   transition: all 0.5s ease;
 }
-body header .nav_links .home-icon > p {
+body header .nav_links .home-icon > a {
   color: #ffbf9c !important;
   font-weight: 700;
   transition: all 0.4s ease;
@@ -79,10 +78,10 @@ body header .nav_links .dropdown {
 }
 body header .nav_links .dropdown .dropdown-content {
   position: absolute;
-  top: 100%;
+  top: 90%;
+  left: 12%;
   z-index: 200;
-  padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 1.2rem;
   background-color: #ffbf9c !important;
   border: 0.3rem solid #ff7878 !important;
   transform: scale(0);
@@ -104,6 +103,9 @@ body header .nav_links .dropdown:hover .dropdown-content {
   transform: scale(1);
   transition: transform 0.3s ease-in-out;
 }
+body header .nav_links .dropdown-blog {
+  display: none;
+}
 body header .nav_links li {
   display: inline-block;
   padding: 0.5rem 1rem 0.5rem;
@@ -120,11 +122,12 @@ body header .nav_links li a:hover {
 }
 body header button {
   grid-area: contact;
-  padding: 1em 2em;
+  padding: 0.3em 1em;
   color: #ffd1bc !important;
   background-color: #292929 !important;
+  font-size: 25px;
   border: none;
-  border-radius: 50rem;
+  border-radius: 60rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }

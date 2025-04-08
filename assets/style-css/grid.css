@@ -111,8 +111,8 @@ caption {
     
     background-color: #292929 !important;
     
-    p{  
-        color: var(--primary-color);
+    > p{  
+        color: var(--accent-color); 
         padding-top: 1rem;
         font-family: "Bebas Neue", "Montserrat", sans-serif;
         font-size: 3vw;
