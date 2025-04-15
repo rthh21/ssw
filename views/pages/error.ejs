@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ro">
+ <%- include('../fragmente/head', { titlu: locals.titlu || 'Eroare' }) %>
+<body>
+    <%- include('../fragmente/header') %>
+
+    <main class="eroare-container">
+        <h2><%= locals.titlu %></h2>
+        <p><%= locals.text %></p>
+        <% if (locals.imagine) { %>
+            <img src="<%= locals.imagine %>" alt="<%= locals.titlu %>" style="max-width: 300px;">
+        <% } %>
+    </main>
+
+    <%- include('../fragmente/footer') %>
+</body>
+</html>
