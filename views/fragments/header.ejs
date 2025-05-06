@@ -1,10 +1,33 @@
 <header>
-    <h1>Numele Site-ului Tău</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Acasă</a></li>
-                <!-- TODO -->
-             <li><a href="/despre">Despre</a></li>
-        </ul>
-    </nav>
+    <img src="../assets/logo/logo.png" alt="Logo" class="logo">
+    
+    <label class="hamburger">
+        <input type="checkbox">
+        <nav>
+            <ul class="nav_links">
+                <li class="home-icon"><i class="fa-solid fa-house"></i><a href="#">Acasa</a></li>
+                <li class="dropdown">
+                    <a href="#">MODELE</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Nike</a></li>
+                        <li><a href="#">Adidas</a></li>
+                        <li><a href="#">Yeezy</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">ACCESORII</a></li>
+                <li><a href="#">BRANDURI</a></li>
+                <li><a href="#" class="blog-hover">BLOG</a>
+                    <ul class="dropdown-blog">
+                        <li><a href="#">Lansare Nike</a></li>
+                        <li><a href="#">Blog #1</a></li>
+                        <li><a href="#">Yeezy's run</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </label>
+    
+    
+    <a class="cta"><button>search</button></a>
+    <i class="fa-solid fa-circle-user fa-2xl"></i>
 </header>

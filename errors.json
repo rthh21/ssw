@@ -1,9 +1,9 @@
 {
-    "cale_baza": "/resurse/imagini/erori",
+    "cale_baza": "/assets/errors/",
     "eroare_default": {
         "titlu": "Eroare Generică",
         "text": "A apărut o eroare neașteptată.",
-        "imagine": "default.png"
+        "imagine": "error-icon.png"
     },
     "info_erori": [
         {

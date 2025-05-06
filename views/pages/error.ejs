@@ -1,17 +1,56 @@
 <!DOCTYPE html>
 <html lang="ro">
- <%- include('../fragmente/head', { titlu: locals.titlu || 'Eroare' }) %>
+<head>
+    <meta charset="UTF-8">
+    <title><%= locals.titlu %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            color: #222;
+            text-align: center;
+            padding: 40px 0;
+        }
+        .error-container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            display: inline-block;
+            padding: 32px 48px;
+            margin-top: 40px;
+        }
+        .error-image {
+            max-width: 300px;
+            margin: 24px auto;
+            display: block;
+        }
+        .error-title {
+            font-size: 2.2em;
+            margin-bottom: 16px;
+            color: #b71c1c;
+        }
+        .error-text {
+            font-size: 1.2em;
+            margin-bottom: 16px;
+        }
+        .error-ip {
+            color: #888;
+            font-size: 0.95em;
+            margin-top: 24px;
+        }
+        .ip{
+            color: black;
+            font-size: 1em;
+            font-weight: 500;
+        }
+    </style>
+</head>
 <body>
-    <%- include('../fragmente/header') %>
-
-    <main class="eroare-container">
-        <h2><%= locals.titlu %></h2>
-        <p><%= locals.text %></p>
-        <% if (locals.imagine) { %>
-            <img src="<%= locals.imagine %>" alt="<%= locals.titlu %>" style="max-width: 300px;">
-        <% } %>
-    </main>
-
-    <%- include('../fragmente/footer') %>
+    <div class="error-container">
+        <h1 class="error-title"><%= locals.eroare?.titlu %></h1>
+        <p class="error-text"><%= locals.eroare?.text %></p>
+        <img class="error-image" src="<%= locals.eroare?.imagine %>" alt="Imagine eroare">
+        <p class="ip">IP: <%= locals.ip %></p>
+    </div>
 </body>
 </html>
