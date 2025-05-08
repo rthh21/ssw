@@ -1,0 +1,31 @@
+body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-container {
+    background: var(--accent-color);
+    border-radius: 3rem;
+    box-shadow: 0em 0em 3em var(--accent-color);
+    display: inline-block;
+    padding: 2rem 3rem;
+    margin-top: 2.5rem;
+}
+.error-image {
+    width: 30vw;
+    margin: 24px auto;
+    display: block;
+    border-radius: 3em;
+}
+.error-title {
+    font-size: 2.2em;
+    margin-bottom: 16px;
+    color: var(--background-color);
+}
+.error-text {
+    color: var(--background-color);
+    font-size: 1.2em;
+    margin-bottom: 16px;
+}

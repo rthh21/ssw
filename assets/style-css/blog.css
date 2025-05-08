@@ -1,0 +1,16 @@
+.text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3em;   
+    margin-bottom: 3em;   
+    padding: 3em;
+    display: block;
+    background-color: var(--primary-color);
+    border-radius: 3em;
+}
+
+.text > p {
+    padding-top: 1rem;
+}
