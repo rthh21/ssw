@@ -16,7 +16,7 @@ console.log("Folderul curent de lucru (process.cwd()):", process.cwd());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 //-------------------------------------------------------------------------------
-// IP
+// IP si PAGINI
 app.get(['/', '/index', '/home'], (req, res) => {
     res.render('pages/index', { 
         titlu: "Pagina Principală", 
@@ -24,6 +24,12 @@ app.get(['/', '/index', '/home'], (req, res) => {
     });
 });
 
+app.get(['/blog'], (req, res) => {
+    res.render('pages/blog', { 
+        titlu: "Blog", 
+        ip: req.ip.replace(/^.*:/, '') // Elimină prefixul IPv6 pentru adrese locale
+    });
+});
 //-------------------------------------------------------------------------------
 // include path (no relative)
 ejs.includer = (pathName, options) => {
