@@ -76,6 +76,32 @@
                 <a href="https://www.youtube.com/watch?v=6j2_YKkXRjg" target="ifr-video" >The Desert Runner</a>
             </div>      
         </div>
+    <div class="video-wrapper">
+        <video 
+            controls 
+            poster="../assets/Nike/vid/thumbnail.jpg" 
+            preload="auto"
+          >
+            <source src="../assets/Nike/vid/video.webm" type="video/webm">
+            <source src="../assets/Nike/vid/video.mp4" type="video/mp4">
+            
+            <track 
+              kind="subtitles" 
+              srclang="ro" 
+              label="Română" 
+              src="../assets/Nike/vid/sub/subtitles-ro.vtt" 
+              default
+            >
+            <track 
+              kind="subtitles" 
+              srclang="en" 
+              label="English" 
+              src="../assets/Nike/vid/sub/subtitles-en.vtt"
+            >
+            
+            Browserul nu suportă elementul video.
+        </video>      
+    </div>
     </main>
     <%- include('../fragments/footer.ejs') %>
  </body>

@@ -1,12 +1,3 @@
-body li,
-body a,
-body > p {
-  font-family: "Montserrat", Tahoma;
-  font-weight: 600;
-  font-size: 20px;
-  color: #292929 !important;
-  text-decoration: none;
-}
 body header {
   position: sticky;
   top: 1rem;
@@ -49,6 +40,9 @@ body header .nav_links {
   align-items: center;
   justify-content: center;
   list-style: none;
+}
+body header .nav_links a {
+  text-decoration: none !important;
 }
 body header .nav_links .home-icon {
   display: flex;

@@ -8,12 +8,26 @@ const PORT = 8080;
 
 // Setări EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // Ensure this path points to the correct directory containing EJS files
+app.set('views', path.join(__dirname, 'views')); 
 console.log("Calea folderului (__dirname):", __dirname);
 console.log("Calea fișierului (__filename):", __filename);
 console.log("Folderul curent de lucru (process.cwd()):", process.cwd());
 // Servește fișiere statice din assets
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+//-------------------------------------------------------------------------------
+// 20
+const vect_foldere = ['temp','temp1']; // sau ['temp', 'temp1'] pentru testare
+
+vect_foldere.forEach(folder => {
+    const folderPath = path.join(__dirname, folder);
+    if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath);
+        console.log(`Folder creat: ${folderPath}`);
+    } else {
+        console.log(`Folderul exista deja: ${folderPath}`);
+    }
+});
 
 //-------------------------------------------------------------------------------
 // IP si PAGINI
@@ -92,14 +106,6 @@ function afisareEroare(res, identificator) {
     });
 }
 
-
-//-------------------------------------------------------------------------------
-// Blochează accesul la fișiere .ejs
-app.all(/\.ejs$/i, (req, res) => {
-    afisareEroare(res, 400);
-});
-
-
 //-------------------------------------------------------------------------------
 // Ruta FAVICON
 app.get('/favicon.ico', (req, res) => {
@@ -108,32 +114,41 @@ app.get('/favicon.ico', (req, res) => {
 
 //-------------------------------------------------------------------------------
 app.listen(PORT, () => {
-    console.log('Server is running on http://localhost:${PORT}\n');
+    console.log('Server domain: http://localhost:'+PORT);
 });
 
-// app.get('/*splat', (req, res) => {
-//     // Extrage numele paginii din URL, fără slash-ul inițial
-//     const pagina = req.params.splat[0];
-//     console.log(pagina)
-//     // Dacă nu s-a specificat nimic ("/"), randează index.ejs
-//     if (!pagina) {
-//         return res.render('pages/index');
-//     }
-
-//     // Încearcă să randezi views/pages/pagina.ejs
-//     res.render('pages/${pagina}', (err, html) => {
-//         if (err) {
-//             // Dacă fișierul nu există sau altă eroare, randează o pagină de eroare
-//             return res.status(404).render('pages/error', { mesaj: "Pagina nu a fost găsită!" });
-//         }
-//         res.send(html);
-//     });
-// });
-
-app.get("/*splat", function (req, res, next) {
-    if (req.url.startsWith('/assets/')) {
-        afisareEroare(res, 403); 
-    } else {
-        afisareEroare(res, 404); 
+app.get('/*splat', (req, res) => {
+    const pagina = req.params.splat[0];
+    if (!pagina) {
+        return res.render('pages/index', function (eroare, rezultatRandare) {
+            if (eroare) {
+                if (eroare.message.startsWith("Failed to lookup view")) {
+                    return afisareEroare(res, 404);
+                } else {
+                    console.error("Eroare la randare:", eroare);
+                    return afisareEroare(res, 500); // TO ADD
+                }
+            }
+            res.send(rezultatRandare);
+        });
     }
+    
+        if(req.url.startsWith('/assets/')) {
+            afisareEroare(res, 403);       
+        } else if (req.url.endsWith('.ejs')) {
+            afisareEroare(res, 400);
+        } else {
+            afisareEroare(res, 404); 
+        }
+    });
+
+app.use((req, res, next) => {
+    if (req.url.endsWith('.ejs')) {
+        if (req.url.startsWith('/assets/')) {
+            return afisareEroare(res, 403); 
+        }
+        return afisareEroare(res, 400);
+    }
+    next();
 });
+

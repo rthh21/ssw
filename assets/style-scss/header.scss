@@ -18,17 +18,7 @@ $hover-scale-small:  110%;
 $transition-fast:    all 0.2s ease;
 $transition-medium-fast: all 0.25s ease;   
 
-body {
-  li,
-  a, 
-  > p {
-    font-family: $base-font-family;
-    font-weight: $base-font-weight;
-    font-size: $base-font-size;
-    color: $text-color;
-    text-decoration: none;
-  }
-
+body{   
   header {
     position: sticky;
     top: $rem;
@@ -81,6 +71,10 @@ body {
       justify-content: center;
       list-style: none;
 
+      a {  
+        text-decoration: none !important; 
+      }
+      
       .home-icon {
         display: flex;
         flex-direction: row;

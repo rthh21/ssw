@@ -170,6 +170,81 @@ main{
     transition: 0.3s ease-in-out;
 }
 
+/* Etapa 4, task link  */
+main a {
+    color: var(--accent-color);
+    text-decoration: underline;
+  
+    background-image: radial-gradient(ellipse, 
+      var(--secondary-color) 0%, 
+      var(--secondary-color) 40%, 
+      transparent 80%, 
+      transparent 100%);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0 0;
+    transition: 1.2s;
+  }
+
+main a:hover, 
+main a:focus {
+  background-size: 100% 100%;
+}
+
+main a:visited {
+    color: var(--text-color);
+}
+
+main a:active{
+    border: 0.1em solid var(--text-color);
+}
+
+main a[href^="http"]:before {
+    content: "⮳";
+    text-decoration: none !important;
+    font-size: 1.5em;          
+    vertical-align: middle; 
+    margin-right: 0.1em;       
+    color: var(--text-color);   
+    transition: color 0.2s;
+}
+
+main a:hover::before {
+    color: var(--accent-color);
+}
+  
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+    height: 0;
+    margin: 0.5em;
+    width: 60%;
+    min-width: 20rem; 
+    max-width: 75rem;
+}
+  
+video {
+    position:static;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--text-color);
+}
+  
+video::cue {
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    font-family: 'Arial', sans-serif;
+    text-align: left;
+    text-shadow: 1px 1px 2px black;
+}
+  
+video::cue(b) {
+    font-weight: 700;
+    color: #ffd700;
+}
+
 @media print {
     .banner-print {
         display: block !important;
