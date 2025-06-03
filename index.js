@@ -5,6 +5,7 @@ const fs = require('fs');
 const app = express();
 const ejs = require('ejs');
 const http = require('http');
+const fsp = require('fs/promises');
 const PORT = 8080;
 
 // Setări EJS
@@ -115,10 +116,56 @@ app.get('/favicon.ico', (req, res) => {
 });
 
 //-------------------------------------------------------------------------------
-app.listen(PORT, () => {
-    console.log('Server domain: http://localhost:'+PORT);
+// Route pentru galerie
+app.get('/galerie', async (req, res) => {
+  try {
+    // Citește fișierul JSON în mod asincron
+    const galerieData = JSON.parse(
+      await fsp.readFile('./assets/galerie/galerie.json')
+    );
+
+    // Ora curentă (sau setează manual pentru test)
+    const currentHour = new Date().getHours();
+
+    // Filtrare imagini după intervale orare
+    let imaginiFiltrate = galerieData.imagini.filter(img =>
+      img.intervale_ore.some(([start, end]) =>
+        currentHour >= start && currentHour <= end
+      )
+    );
+
+    // Trunchiere la cel mai mic număr par
+    if (imaginiFiltrate.length % 2 !== 0) {
+      imaginiFiltrate.pop();
+    }
+
+    // Generează imaginile responsive (dacă funcția e async, folosește await)
+    for (const img of imaginiFiltrate) {
+      const imagePath = path.join(
+        __dirname,
+        'public',
+        galerieData.cale_galerie,
+        img.cale_relativa
+      );
+      await generateResponsiveImages(imagePath, img.cale_relativa);
+    }
+
+    // Render template cu datele galeriei
+    res.render('pages/galerie', {
+      titlu: "Galerie",
+      ip: req.ip.replace(/^.*:/, ''),
+      cale_galerie: galerieData.cale_galerie,
+      imagini: imaginiFiltrate,
+      title: 'Galeria de Pantofi Sport'
+    });
+  } catch (error) {
+    console.error('Eroare la încărcarea galeriei:', error);
+    res.status(500).send('Eroare server');
+  }
 });
 
+//-------------------------------------------------------------------------------
+// ERRORS
 app.get('/*splat', (req, res) => {
     const pagina = req.params.splat[0];
     if (!pagina) {
@@ -360,8 +407,12 @@ module.exports = {
     compilareInitiala,
     monitorizareScss
 };
-
 // În fișierul principal al aplicației (ex: app.js, server.js)
-
 // La pornirea serverului
 initializeScssCompiler();
+
+
+//-------------------------------------------------------------------------------
+app.listen(PORT, () => {
+    console.log('Server domain: http://localhost:'+PORT);
+});

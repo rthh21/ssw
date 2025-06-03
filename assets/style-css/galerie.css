@@ -1,0 +1,21 @@
+.galerie-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    "img1  .     ."
+    ".     img2  ."
+    ".     .     img3"
+    "img4  .     ."
+    ".     img5  ."
+    ".     .     img6"
+    "img7  .     .";
+  gap: 2rem;
+  width: 100%;
+}
+.galerie-grid > .img1 { grid-area: img1; }
+.galerie-grid > .img2 { grid-area: img2; }
+.galerie-grid > .img3 { grid-area: img3; }
+.galerie-grid > .img4 { grid-area: img4; }
+.galerie-grid > .img5 { grid-area: img5; }
+.galerie-grid > .img6 { grid-area: img6; }
+.galerie-grid > .img7 { grid-area: img7; }
