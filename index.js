@@ -1,4 +1,5 @@
 const express = require('express');
+const sass = require('sass');
 const path = require('path');
 const fs = require('fs');
 const app = express();
@@ -16,7 +17,8 @@ console.log("Folderul curent de lucru (process.cwd()):", process.cwd());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 //-------------------------------------------------------------------------------
-// 20
+
+// 20 Adaugare etapa 4 pentru 5
 const vect_foldere = ['temp','temp1']; // sau ['temp', 'temp1'] pentru testare
 
 vect_foldere.forEach(folder => {
@@ -152,3 +154,214 @@ app.use((req, res, next) => {
     next();
 });
 
+// ETAPA 5
+// COMPILARE SCSS 
+
+global.folderScss = path.join(__dirname, 'assets', 'style-scss');
+global.folderCss = path.join(__dirname, 'assets', 'style-css');
+
+function createFolders() {
+    const folders = [
+        global.folderScss,
+        global.folderCss,
+        path.join(__dirname, 'temp'),
+        path.join(__dirname, 'backup'),
+    ];
+    
+    folders.forEach(folder => {
+        if (!fs.existsSync(folder)) {
+            fs.mkdirSync(folder, { recursive: true });
+        }
+    }); 
+    
+    // Verificare creere fisiere
+    folders.forEach(folder => {
+      try {
+        fs.mkdirSync(folder, { recursive: true });
+        console.log(`Folder creat sau existent: ${folder}`);
+      } catch (err) {
+        console.error(`Eroare la crearea folderului ${folder}:`, err);
+      }
+    });
+}
+createFolders();
+
+// COMPILARE SASS
+function compileazaScss(caleScss, caleCss) {
+    // Determinarea căii absolute pentru SCSS
+    const timestamp = Date.now();
+    
+    let inputPath;
+    if (path.isAbsolute(caleScss)) {
+        inputPath = caleScss;
+    } else {
+        inputPath = path.join(global.folderScss, caleScss);
+    }
+    
+    // Determinarea căii pentru CSS
+    let outputPath;
+    if (!caleCss || caleCss === '') {
+        const baseName = path.basename(inputPath, '.scss');
+        outputPath = path.join(global.folderCss, baseName + '.css');
+    } else if (path.isAbsolute(caleCss)) {
+        outputPath = caleCss;
+    } else {
+        outputPath = path.join(global.folderCss, caleCss);
+    }
+    
+    // Salvare în backup înainte de compilare
+    if (fs.existsSync(outputPath)) {
+        const backupDir = path.join(__dirname, 'backup', 'assets', 'style-css');
+        // AICI modifici:
+        const numeFisier = path.basename(outputPath, '.css');
+        const extensie = path.extname(outputPath);
+        const backupPath = path.join(backupDir, `${numeFisier}_${timestamp}${extensie}`);
+    
+        try {
+            if (!fs.existsSync(backupDir)) {
+                fs.mkdirSync(backupDir, { recursive: true });
+            }
+    
+            fs.copyFileSync(outputPath, backupPath);
+            console.log(`Backup creat pentru: ${path.basename(backupPath)}`);
+        } catch (error) {
+            console.error(`Eroare la copierea fișierului CSS în backup: ${error.message}`);
+        }
+    }
+    
+    try {
+        // Compilarea SCSS cu includePaths pentru Bootstrap
+        const result = sass.compile(inputPath, {
+            includePaths: [
+                path.join(__dirname, 'node_modules'),
+                path.join(__dirname, 'assets', 'style-scss')
+            ],
+            style: 'compressed',
+            silenceDeprecations: ['import'] // Silențiază warning-urile pentru @import
+        });
+        
+        // Crearea directorului de output dacă nu există
+        const outputDir = path.dirname(outputPath);
+        if (!fs.existsSync(outputDir)) {
+            fs.mkdirSync(outputDir, { recursive: true });
+        }
+        
+        // Salvarea fișierului CSS compilat
+        fs.writeFileSync(outputPath, result.css);
+        console.log(`Compilat cu succes: ${path.basename(inputPath)} -> ${path.basename(outputPath)}`);
+        
+        return outputPath;
+    } catch (error) {
+        console.error(`Eroare la compilarea SCSS: ${error.message}`);
+        throw error;
+    }
+}
+
+
+function compilareInitiala() {
+    console.log('Începe compilarea inițială a fișierelor SCSS...');
+    
+    try {
+        // Citirea tuturor fișierelor SCSS din folderul style-scss
+        const fisiere = fs.readdirSync(global.folderScss);
+        const fisiereScss = fisiere.filter(fisier => fisier.endsWith('.scss'));
+        
+        if (fisiereScss.length === 0) {
+            console.log('Nu au fost găsite fișiere SCSS pentru compilare în assets/style-scss/');
+            return;
+        }
+        
+        console.log(`Găsite ${fisiereScss.length} fișiere SCSS: ${fisiereScss.join(', ')}`);
+        
+        fisiereScss.forEach(fisier => {
+            const caleFisier = path.join(global.folderScss, fisier);
+            
+            try {
+                compileazaScss(caleFisier);
+            } catch (error) {
+                console.error(`Eroare la compilarea fișierului ${fisier}: ${error.message}`);
+            }
+        });
+        
+        console.log(`Compilarea inițială completă pentru folderul assets/style-scss/`);
+    } catch (error) {
+        console.error(`Eroare la citirea folderului SCSS: ${error.message}`);
+    }
+}
+
+function monitorizareScss() {
+    console.log(`Monitorizarea folderului SCSS: ${global.folderScss}`);
+    
+    if (!fs.existsSync(global.folderScss)) {
+        console.error('Folderul assets/style-scss nu există!');
+        return;
+    }
+    
+    const watcher = fs.watch(global.folderScss, { recursive: false }, (eventType, filename) => {
+        if (!filename || !filename.endsWith('.scss')) {
+            return;
+        }
+        
+        const caleFisier = path.join(global.folderScss, filename);
+        
+        if (!fs.existsSync(caleFisier)) {
+            return;
+        }
+        
+        console.log(`Detectată modificare în style-scss: ${filename} (${eventType})`);
+        
+        setTimeout(() => {
+            try {
+                compileazaScss(caleFisier);
+            } catch (error) {
+                console.error(`Eroare la compilarea automată a ${filename}: ${error.message}`);
+            }
+        }, 100);
+    });
+    
+    watcher.on('error', (error) => {
+        console.error(`Eroare la monitorizarea folderului style-scss: ${error.message}`);
+    });
+    
+    return watcher;
+}
+
+// Funcție de inițializare adaptată la structura ta
+async function initializeScssCompiler() {
+    console.log('Inițializare sistem compilare SCSS pentru proiectul SSW...');
+    console.log(`Folder SCSS: ${global.folderScss}`);
+    console.log(`Folder CSS: ${global.folderCss}`);
+    
+    // Crearea folderelor necesare
+    createFolders();
+    
+    // Compilarea inițială a fișierelor existente
+    compilareInitiala();
+    
+    // Pornirea monitorizării pentru modificări viitoare
+    const watcher = monitorizareScss();
+    
+    // Gestionarea închiderii aplicației
+    process.on('SIGINT', () => {
+        console.log('Închidere sistem compilare SCSS...');
+        if (watcher) {
+            watcher.close();
+        }
+        process.exit(0);
+    });
+    
+    console.log('Sistem compilare SCSS inițializat cu succes!');
+}
+
+// Export pentru utilizare în aplicația principală
+module.exports = {
+    compileazaScss,
+    initializeScssCompiler,
+    compilareInitiala,
+    monitorizareScss
+};
+
+// În fișierul principal al aplicației (ex: app.js, server.js)
+
+// La pornirea serverului
+initializeScssCompiler();

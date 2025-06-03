@@ -14,3 +14,88 @@
 .text > p {
     padding-top: 1rem;
 }
+
+/* TASK ULTIMUL ETAPA 5 */
+.reflectat{
+    color: var(--text-color);
+	position:absolute;
+	display: inline-block;
+	left:0;
+	top:100%;
+	transform-origin:0 0;
+	/*conetaza ordinea transformarilor!*/
+	transform: rotateX(180deg) skew(-45deg) scaleY(0.5) translate(10px,-25px); 
+	opacity:0.55;
+
+    mask-image: repeating-radial-gradient(
+        ellipse 10px 15% at bottom center,
+        transparent 0px,
+        rgba(0, 0, 0, 0.8) 2px,
+        rgba(0, 0, 0, 0.4) 4px,
+        transparent 6px,
+        transparent 8px
+    );
+    -webkit-mask-image: repeating-radial-gradient(
+        ellipse 10px 15% at bottom center,
+        transparent 0px,
+        rgba(0, 0, 0, 0.8) 2px,
+        rgba(0, 0, 0, 0.4) 4px,
+        transparent 6px,
+        transparent 8px
+    );
+    mask-size: 100% 200%;         /* esențial pentru efectul de mișcare */
+    mask-position: 0% 0%;
+    transition: mask-position 0.3s;
+}
+
+.ref{	
+    position: relative;
+    display: inline-block; /* IMPORTANT - adaugă această linie */
+    font-size: 50px;
+    line-height: 50px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.ref, .reflectat{
+	font-size:50px;
+	line-height:50px;
+	font-weight: bold;
+}
+
+/* Animația pentru valuri infinite spre dreapta */
+@keyframes moveMask {
+    0%   { mask-position: 0% 0%; }
+    100% { mask-position: 0% 100%; }
+}
+
+.ref:hover .reflectat {
+    animation: moveMask 2s linear infinite;
+}
+
+/* TASK ULTIMUL */
+.miscare_orizontala {
+    width: 100%; /* Responsiv - ocupă tot spațiul disponibil */
+    overflow: hidden; /* Ascunde excesul de text */
+    white-space: nowrap; /* Nu permite wrap */
+    margin-bottom: 3em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    background-color: var(--primary-color);
+    border-radius: 2em;
+}
+
+.miscare_content {
+    display: inline-block;
+    padding-right: 100%; /* Inițial, textul este în afara ecranului */
+    animation: miscare 15s linear infinite;
+}
+
+.miscare_content > span{
+    margin-left: 30em;
+}
+
+@keyframes miscare {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}

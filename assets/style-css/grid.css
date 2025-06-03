@@ -99,7 +99,58 @@ caption {
     width: max(70%,80%); 
 }
 
-.zona3 { grid-area: zona3; }
+.zona3{
+    position: relative;
+    grid-area: zona3;
+    overflow: hidden;
+    padding: 0 !important;
+    z-index: 100;
+}
+.duotone {  
+    position: absolute;
+    z-index: 90;
+    top: 0;
+    left: 0;
+    z-index: 90;
+    width: 100%;
+    height: 100%;
+	background: no-repeat url("../Adidas/yeezy350.jpg");
+	background-color: red;
+	background-position: center;
+	background-size: 100%;
+	filter:brightness(100%) grayscale(0) ;
+	transition:all 2s linear;
+}
+
+.duotone:after, .duotone:before{
+	content:" ";
+	position:absolute;
+	height:100%;
+	width:100%;
+	top:0;
+	left:0;
+	transition:all 2s linear;
+}
+
+.duotone:after{
+	background-color:rgb(255, 0, 106);
+	mix-blend-mode:lighten;
+	transform: translateX(-100%);
+}
+
+.duotone:before{
+	background-color:rgb(47, 0, 255);
+	transform: translateX(+100%);
+	mix-blend-mode:darken;
+}
+
+.duotone:hover::after{
+	transform: translateX(0%);
+}
+.duotone:hover::before{
+	transform: translateX(0%);
+}
+
 .zona4 { grid-area: zona4; }
 .zona5 { grid-area: zona5; }
 .zona6 { grid-area: zona6; }
