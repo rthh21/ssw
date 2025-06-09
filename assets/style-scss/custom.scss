@@ -1,4 +1,3 @@
-
 // === VARIABILE CUSTOM ===
 // Tema 1: "Noapte"
 $noapte-bg: #232946;
@@ -39,6 +38,14 @@ $grid-breakpoints: (
 // Variabilă suplimentară: spațiere între carduri
 $spacer: 2rem;
 
+$input-border-radius: 1.2rem;
+$input-border-width: 3px;
+$input-border-color: #ff8425;
+$input-bg: #fffbe6;
+$input-focus-shadow: 0 0 0 0.2rem rgba(255, 132, 37, 0.25);
+
+$btn-border-radius: 1.5rem;
+$btn-border-width: 3px;
 
 // === CLASE DE TEMĂ ===
 .theme-noapte {
@@ -77,4 +84,36 @@ $spacer: 2rem;
     color: #fffbe6;
     border: none;
   }
+}
+
+.form-control, .form-select {
+  border-radius: $input-border-radius;
+  border-width: $input-border-width;
+  border-color: $input-border-color;
+  background-color: $input-bg;
+  font-family: $font-family-base;
+  font-weight: 600;
+  &:focus {
+    box-shadow: $input-focus-shadow;
+    border-color: darken($input-border-color, 10%);
+  }
+}
+
+.form-range {
+  border-radius: $input-border-radius;
+  border-width: $input-border-width;
+  border-color: $input-border-color;
+  background-color: $input-bg;
+}
+
+.btn-primary, .btn-secondary, .btn-outline-secondary {
+  border-radius: $btn-border-radius;
+  border-width: $btn-border-width;
+  font-family: $font-family-base;
+  font-weight: 700;
+  padding: 0.6em 1.5em;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }

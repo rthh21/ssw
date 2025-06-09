@@ -65,15 +65,13 @@ main{
     border-top-color: var(--accent-color);
     border-bottom-color: var(--accent-color);
     border-radius: 50%;
-    
     background-color: var(--background-color);
-    
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    
     transition: 0.7s;
+    text-decoration: none !important;
 }
 
 #triunghi {
@@ -84,6 +82,10 @@ main{
     color: var(--text-color);
     filter: blur(3.1px);
     transition: 0.7s;
+    text-decoration: none !important;
+    background: none !important;
+    border: none !important;
+    outline: none !important;
 }
 
 .tooltip{

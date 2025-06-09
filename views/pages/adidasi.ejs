@@ -11,19 +11,19 @@
         <section id="filtre">
             <div>
                 <label for="inp-nume">Nume produs (începe cu...)</label>
-                <textarea id="inp-nume" rows="1"></textarea>
+                <textarea id="inp-nume" rows="1" class="form-control form-control-lg"></textarea>
             </div>
             <div>
                 <label for="inp-descriere">Cuvânt cheie în descriere</label>
-                <input type="text" id="inp-descriere">
+                <input type="text" id="inp-descriere" class="form-control form-control-lg">
             </div>
             <div>
                 <label for="inp-pret">Preț maxim: <span id="val-pret">1000</span> RON</label>
-                <input type="range" id="inp-pret" min="0" max="1000" value="1000">
+                <input type="range" id="inp-pret" min="0" max="1000" value="1000" class="form-range">
             </div>
             <div>
                 <label for="inp-categorie">Categorie</label>
-                <select id="inp-categorie">
+                <select id="inp-categorie" class="form-select form-select-lg">
                     <option value="toate" selected>Oricare</option>
                     <% categorii.forEach(cat => { %>
                         <option value="<%= cat %>"><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></option>
@@ -32,16 +32,16 @@
             </div>
             <div class="radio-group">
                 <label>Subcategorie</label>
-                <div>
-                    <label><input type="radio" name="subcategorie" value="toate" checked> Toate</label>
-                    <label><input type="radio" name="subcategorie" value="barbati"> Bărbați</label>
-                    <label><input type="radio" name="subcategorie" value="femei"> Femei</label>
-                    <label><input type="radio" name="subcategorie" value="copii"> Copii</label>
+                <div class="form-check">
+                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="toate" checked> Toate</label>
+                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="barbati"> Bărbați</label>
+                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="femei"> Femei</label>
+                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="copii"> Copii</label>
                 </div>
             </div>
             <div>
                 <label for="inp-culoare">Culoare</label>
-                <input type="text" id="inp-culoare" list="culori" placeholder="ex: rosu, alb...">
+                <input type="text" id="inp-culoare" list="culori" placeholder="ex: rosu, alb..." class="form-control form-control-lg">
                 <datalist id="culori">
                     <option value="rosu"></option>
                     <option value="verde"></option>
@@ -49,14 +49,14 @@
                     <option value="alb"></option>
                 </datalist>
             </div>
-            <div>
-                <label>
-                    <input type="checkbox" id="inp-noutati"> Doar noutăți (adăugate după 01.01.2025)
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" id="inp-noutati" class="form-check-input"> Doar noutăți (adăugate după 01.01.2025)
                 </label>
             </div>
             <div>
                 <label for="inp-materiale">Materiale</label>
-                <select id="inp-materiale" multiple size="3">
+                <select id="inp-materiale" multiple size="3" class="form-select">
                     <option value="piele">Piele</option>
                     <option value="textil">Textil</option>
                     <option value="spuma">Spumă</option>
@@ -65,12 +65,27 @@
         </section>
 
         <!-- ########## SECTIUNE BUTOANE ########## -->
-        <div id="container-butoane">
-            <button id="btn-filtreaza">Filtrează</button>
-            <button id="btn-sort-asc" class="btn-sort">Sortează A-Z</button>
-            <button id="btn-sort-desc" class="btn-sort">Sortează Z-A</button>
-            <button id="btn-calculeaza" class="btn btn-primary">Calculează preț mediu</button>
-            <button id="btn-reseteaza">Resetează Filtrele</button>
+        <div id="container-butoane" class="mb-4">
+            <button id="btn-filtreaza" class="btn btn-primary btn-lg">
+                <i class="bi bi-funnel"></i>
+                <span class="d-none d-sm-inline">Filtrează</span>
+            </button>
+            <button id="btn-sort-asc" class="btn btn-secondary btn-lg btn-sort">
+                <i class="bi bi-sort-alpha-down"></i>
+                <span class="d-none d-sm-inline">Sortează A-Z</span>
+            </button>
+            <button id="btn-sort-desc" class="btn btn-secondary btn-lg btn-sort">
+                <i class="bi bi-sort-alpha-up"></i>
+                <span class="d-none d-sm-inline">Sortează Z-A</span>
+            </button>
+            <button id="btn-calculeaza" class="btn btn-primary btn-lg">
+                <i class="bi bi-calculator"></i>
+                <span class="d-none d-sm-inline">Calculează preț mediu</span>
+            </button>
+            <button id="btn-reseteaza" class="btn btn-outline-secondary btn-lg">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span class="d-none d-sm-inline">Resetează Filtrele</span>
+            </button>
         </div>
 
         <!-- ########## CONTAINER PRODUSE ########## -->

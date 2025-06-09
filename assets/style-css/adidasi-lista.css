@@ -204,8 +204,9 @@
     /* Div calcul dinamic (Neschimbat) */
     .rezultat-calcul {
         position: fixed;
-        top: 50%;
-        left: 50%;
+        top: 90%;
+        left: 85%;
+        width: 20%;
         transform: translate(-50%, -50%);
         background-color: var(--text-color);
         color: var(--primary-color);
@@ -216,7 +217,7 @@
         z-index: 9999;
         font-size: 1.2em;
         font-weight: bold;
-        animation: fadeIn 0.3s ease-in;
+        animation: fadeIn 0.3s ease-in-out;
     }
 
     @keyframes fadeIn {
