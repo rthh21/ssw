@@ -168,19 +168,14 @@ app.get('/galerie', async (req, res) => {
 // Ruta pentru afișarea listei de adidași, cu filtrare și sortare
 app.get('/adidasi', async (req, res) => {
     try {
-        // Extrage filtrele din query-ul URL-ului (ex: /adidasi?categorie=sport&pret_max=500)
-        const { categorie, nume, descriere, pret_min, pret_max, editie_limitata } = req.query;
+        // Extrage filtrele din query-ul URL-ului
+        const { nume, descriere, pret_max, categorie, subcategorie, culoare, noutati, materiale } = req.query;
 
-        // Construim query-ul SQL dinamic
-        let query = 'SELECT * FROM adidasi WHERE 1=1'; // "1=1" este un truc pentru a adăuga ușor clauze AND
+        // Construim query-ul SQL dinamic, adăugând coloane calculate pentru sortare naturală
+        let query = "SELECT *, substring(nume from '^[^0-9]+') as text_part, (regexp_matches(nume, '[0-9]+'))[1]::integer as num_part FROM adidasi WHERE 1=1";
         let params = [];
-        let idx = 1; // Index pentru parametrii SQL ($1, $2, etc.) pentru a preveni SQL Injection
+        let idx = 1;
 
-        // Adaugă filtru pentru categorie, dacă este selectată una
-        if (categorie && categorie !== 'toate') {
-            query += ` AND categorie_mare = $${idx++}`; // `categorie_mare` corespunde coloanei din DB
-            params.push(categorie);
-        }
         // Adaugă filtru pentru nume (căutare case-insensitive după prefix)
         if (nume) {
             query += ` AND LOWER(nume) LIKE $${idx++}`;
@@ -188,28 +183,52 @@ app.get('/adidasi', async (req, res) => {
         }
         // Adaugă filtru pentru descriere (căutare case-insensitive)
         if (descriere) {
+            // Validare server-side
+            if (/\d/.test(descriere)) {
+                return afisareEroare(res, 400, "Cerere invalidă", "Cuvântul cheie din descriere nu poate conține cifre.");
+            }
             query += ` AND LOWER(descriere) LIKE $${idx++}`;
             params.push('%' + descriere.toLowerCase() + '%');
         }
-        // Filtre pentru intervalul de preț
-        if (pret_min) {
-            query += ` AND pret >= $${idx++}`;
-            params.push(pret_min);
-        }
+        // Filtru pentru preț maxim
         if (pret_max) {
             query += ` AND pret <= $${idx++}`;
-            params.push(pret_max);
+            params.push(parseFloat(pret_max));
         }
-        // Filtru pentru ediție limitată (checkbox-urile trimit 'on' când sunt bifate)
-        if (editie_limitata === 'on') {
-            query += ` AND editie_limitata = true`;
+        // Adaugă filtru pentru categorie
+        if (categorie && categorie !== 'toate') {
+            query += ` AND categorie_mare = $${idx++}`;
+            params.push(categorie);
+        }
+        // Adaugă filtru pentru subcategorie
+        if (subcategorie && subcategorie !== 'toate') {
+            query += ` AND subcategorie = $${idx++}`;
+            params.push(subcategorie);
+        }
+        // Adaugă filtru pentru culoare
+        if (culoare) {
+            query += ` AND culoare = $${idx++}`;
+            params.push(culoare.toLowerCase());
+        }
+        // Filtru pentru noutăți (adăugate după o anumită dată)
+        if (noutati) {
+            query += ` AND data_introdusa > '2025-01-01'`;
+        }
+        // Filtru pentru materiale (verifică dacă array-ul de materiale din DB conține unul dintre materialele selectate)
+        if (materiale && materiale.length > 0) {
+            // Asigură-te că 'materiale' este un array
+            const materialeArray = Array.isArray(materiale) ? materiale : [materiale];
+            if (materialeArray.length > 0) {
+                query += ` AND materiale && $${idx++}`; // Operatorul && verifică dacă există elemente comune între array-uri (OR)
+                params.push(materialeArray);
+            }
         }
 
         // Adaugă logica de sortare
         if (req.query.sort === 'asc') {
-            query += ' ORDER BY nume ASC, (marime::float/pret) ASC';
+            query += " ORDER BY text_part ASC, num_part ASC NULLS FIRST";
         } else if (req.query.sort === 'desc') {
-            query += ' ORDER BY nume DESC, (marime::float/pret) DESC';
+            query += " ORDER BY text_part DESC, num_part DESC NULLS LAST";
         }
 
         // Execută query-ul final pentru a obține produsele filtrate și sortate
@@ -224,7 +243,7 @@ app.get('/adidasi', async (req, res) => {
             titlu: "Adidasi", 
             adidasi, // Lista de produse
             categorii, // Lista de categorii pentru meniu
-            categorie_selectata: categorie || 'toate', // Pentru a menține filtrul activ în view
+            query: req.query, // Trimite query-ul pentru a repopula filtrele
             ip: req.ip.replace(/^.*:/, '') // Elimină prefixul IPv6 pentru adrese locale
         });
 

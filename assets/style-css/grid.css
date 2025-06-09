@@ -6,7 +6,7 @@
     --text-color: #292929 !important;
 }
 
-.container {
+.custom-container {
     display: grid;
     margin-top: 3vh;
     /* width: 65vw; */
@@ -27,7 +27,7 @@
     overflow: hidden; 
 }
 
-.container > div {
+.custom-container > div {
     min-height: 5vh; 
     padding: var(--padding);
     
