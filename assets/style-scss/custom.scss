@@ -1,0 +1,80 @@
+
+// === VARIABILE CUSTOM ===
+// Tema 1: "Noapte"
+$noapte-bg: #232946;
+$noapte-card-bg: #393e6b;
+$noapte-text: #eebbc3;
+
+// Tema 2: "zi"
+$primavara-bg: #ffef87;
+$primavara-card-bg: #ff8615;
+$primavara-text: #5f7a3a;
+
+// Fonturi
+$font-family-sans-serif: 'Quicksand', Arial, sans-serif;
+$font-family-base: $font-family-sans-serif;
+
+// Culori de font
+$btn-primary-color: #fff; // alb pe buton primary
+$btn-secondary-color: #393e6b; // mov închis pe buton secondary
+
+// Dimensiuni headinguri
+$h1-font-size: 2.8rem;
+$h2-font-size: 2.2rem;
+$h3-font-size: 1.7rem;
+
+// Border radius
+$border-radius: 18px;
+$border-radius-lg: 28px;
+ 
+// Dimensiuni ecran (breakpoints)
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 820px,   // modificat
+  lg: 1120px,  // modificat
+  xl: 1400px
+);
+
+// Variabilă suplimentară: spațiere între carduri
+$spacer: 2rem;
+
+
+// === CLASE DE TEMĂ ===
+.theme-noapte {
+  background: #232946;
+  color: #eebbc3;
+  border-radius: 18px !important;
+  font-family: 'Quicksand', Arial, sans-serif;
+  .btn-primary {
+    background: #ff8425 !important; // portocaliu intens
+    color: #232946 !important;      // text albastru închis
+    border: none !important;
+    border-radius: 18px !important;
+    font-family: 'Quicksand', Arial, sans-serif;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    font-size: 1.2rem;
+    transition: background 0.2s;
+    &:hover, &:focus {
+      background: darken(#ff8425, 10%) !important;
+      color: #fff !important;
+    } 
+  }
+}
+  
+
+.theme-primavara {
+  background: $primavara-bg;
+  color: $primavara-text;
+  font-family: $font-family-base;
+  .card {
+    background: $primavara-card-bg;
+    color: $primavara-text;
+  }
+  .btn-secondary {
+    background: #5f7a3a;
+    color: #fffbe6;
+    border: none;
+  }
+}

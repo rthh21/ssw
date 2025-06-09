@@ -1,0 +1,212 @@
+
+    :root {
+        --primary-color: #ffbf9c; 
+        --secondary-color: #ff7878; 
+        --accent-color: #ff6060; 
+        --background-color: #ffd1bc;  
+        --text-color: #292929;
+    }
+
+#filtre {
+    background-color: var(--primary-color);
+    /* Setam o latime maxima si o centram, pentru a o forta sa fie lata */
+    max-width: 1280px;
+    margin-left: auto;
+    margin-top: 3%;
+    margin-right: auto;
+    /* Padding redus drastic pentru un aspect compact */
+    padding: 1em; 
+    margin-bottom: 2em;
+    border-radius: 2em;
+    border: 5px solid var(--secondary-color);
+    box-shadow: 0 0 1.5rem 0.3rem var(--secondary-color);
+    display: grid;
+    /* Grid mai dens, care incurajeaza mai multe coloane */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Gap redus intre elemente */
+    gap: 0.8rem;
+}
+
+#filtre div { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; /* Aliniaza continutul pe verticala */
+}
+#filtre label { 
+    font-weight: bold; 
+    margin-bottom: 4px; 
+    color: var(--text-color);
+    font-size: 0.85em; /* Font mai mic */
+}
+#filtre input, #filtre textarea, #filtre select {
+    padding: 0.5em; /* Padding redus */
+    border: 2px solid var(--accent-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-radius: 0.8em;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+#filtre input[type="radio"], #filtre input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5em;
+}
+#filtre .radio-group {
+    font-size: 0.85em; /* Micsoreaza si textul de la radio buttons */
+}
+#filtre .radio-group label {
+    flex-direction: row;
+    align-items: center;
+}
+#filtre input.invalid { border-color: red; }
+
+    /* Stil Butoane (Neschimbat) */
+    #container-butoane {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+        justify-content: center;
+        margin-bottom: 2em;
+    }
+    #container-butoane button {
+        padding: 0.6em 1.5em;
+        color: var(--background-color) !important;
+        background-color: var(--text-color) !important;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 60rem;
+        cursor: pointer;
+        transition: all .25s ease;
+    }
+    #container-butoane button:hover {
+        background-color: var(--accent-color) !important;
+        scale: 110%;
+    }
+
+    /* --- Grid pentru produse (MODIFICAT) --- */
+    #produse-container {
+        display: grid;
+        /* Mobil: 1 coloana */
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    /* Tableta mica: 2 coloane */
+    @media (min-width: 600px) {
+        #produse-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    /* Tableta mare: 3 coloane */
+    @media (min-width: 900px) {
+        #produse-container {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    /* Desktop: 4 coloane */
+    @media (min-width: 1200px) {
+        #produse-container {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+    /* Desktop Foarte Mare: 5 COLOANE (cum ai cerut) */
+    @media (min-width: 1600px) {
+        #produse-container {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+
+
+    /* Card Produs (Neschimbat) */
+    article.produs {
+        background-color: var(--primary-color);
+        border: 5px solid var(--secondary-color);
+        border-radius: 2em;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 1rem 0.2rem rgba(0,0,0,0.2);
+        transition: transform 0.3s ease;
+    }
+    article.produs:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 2rem 0.5rem var(--secondary-color);
+    }
+    
+    article .imagine-container {
+        width: 100%;
+        padding-top: 75%;
+        position: relative;
+    }
+    article img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .info-container {
+        padding: 1.5em;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    article h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.4em;
+        font-family: "Bebas Neue", sans-serif;
+        color: var(--text-color);
+        text-align: left;
+    }
+    .categorie-produs {
+        font-weight: bold;
+        color: var(--accent-color);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1em;
+        text-align: left;
+    }
+    .descriere-produs {
+        font-size: 0.9em;
+        flex-grow: 1;
+        margin-bottom: 1em;
+        text-align: left;
+    }
+    
+    .lista-caracteristici {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.9em;
+        text-align: left;
+    }
+    .lista-caracteristici li { margin-bottom: 8px; }
+    .lista-caracteristici strong {
+        background-color: var(--background-color);
+        padding: 4px 8px;
+        border-radius: 5px;
+        margin-right: 8px;
+        color: var(--text-color);
+        border: 2px solid var(--accent-color);
+    }
+
+    /* Div calcul dinamic (Neschimbat) */
+    .rezultat-calcul {
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--text-color);
+        color: var(--primary-color);
+        padding: 1em 2em;
+        border-radius: 1em;
+        border: 3px solid var(--accent-color);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        z-index: 1000;
+        font-size: 1.1em;
+        font-weight: bold;
+    }

@@ -7,6 +7,7 @@ const ejs = require('ejs');
 const http = require('http');
 const fsp = require('fs/promises');
 const PORT = 8080;
+const pool = require('./scripts/db.js');
 
 // Setări EJS
 app.set('view engine', 'ejs');
@@ -163,6 +164,101 @@ app.get('/galerie', async (req, res) => {
     res.status(500).send('Eroare server');
   }
 });
+
+// Ruta pentru afișarea listei de adidași, cu filtrare și sortare
+app.get('/adidasi', async (req, res) => {
+    try {
+        // Extrage filtrele din query-ul URL-ului (ex: /adidasi?categorie=sport&pret_max=500)
+        const { categorie, nume, descriere, pret_min, pret_max, editie_limitata } = req.query;
+
+        // Construim query-ul SQL dinamic
+        let query = 'SELECT * FROM adidasi WHERE 1=1'; // "1=1" este un truc pentru a adăuga ușor clauze AND
+        let params = [];
+        let idx = 1; // Index pentru parametrii SQL ($1, $2, etc.) pentru a preveni SQL Injection
+
+        // Adaugă filtru pentru categorie, dacă este selectată una
+        if (categorie && categorie !== 'toate') {
+            query += ` AND categorie_mare = $${idx++}`; // `categorie_mare` corespunde coloanei din DB
+            params.push(categorie);
+        }
+        // Adaugă filtru pentru nume (căutare case-insensitive după prefix)
+        if (nume) {
+            query += ` AND LOWER(nume) LIKE $${idx++}`;
+            params.push(nume.toLowerCase() + '%');
+        }
+        // Adaugă filtru pentru descriere (căutare case-insensitive)
+        if (descriere) {
+            query += ` AND LOWER(descriere) LIKE $${idx++}`;
+            params.push('%' + descriere.toLowerCase() + '%');
+        }
+        // Filtre pentru intervalul de preț
+        if (pret_min) {
+            query += ` AND pret >= $${idx++}`;
+            params.push(pret_min);
+        }
+        if (pret_max) {
+            query += ` AND pret <= $${idx++}`;
+            params.push(pret_max);
+        }
+        // Filtru pentru ediție limitată (checkbox-urile trimit 'on' când sunt bifate)
+        if (editie_limitata === 'on') {
+            query += ` AND editie_limitata = true`;
+        }
+
+        // Adaugă logica de sortare
+        if (req.query.sort === 'asc') {
+            query += ' ORDER BY nume ASC, (marime::float/pret) ASC';
+        } else if (req.query.sort === 'desc') {
+            query += ' ORDER BY nume DESC, (marime::float/pret) DESC';
+        }
+
+        // Execută query-ul final pentru a obține produsele filtrate și sortate
+        const adidasi = (await pool.query(query, params)).rows;
+
+        // Extrage toate categoriile posibile din ENUM pentru a popula meniul de filtrare
+        const categoriiQuery = "SELECT unnest(enum_range(NULL::categorie_mare)) AS categ";
+        const categorii = (await pool.query(categoriiQuery)).rows.map(o => o.categ);
+        
+        // Randează pagina EJS și îi trimite datele necesare
+        res.render('pages/adidasi', { 
+            titlu: "Adidasi", 
+            adidasi, // Lista de produse
+            categorii, // Lista de categorii pentru meniu
+            categorie_selectata: categorie || 'toate', // Pentru a menține filtrul activ în view
+            ip: req.ip.replace(/^.*:/, '') // Elimină prefixul IPv6 pentru adrese locale
+        });
+
+    } catch (err) {
+        console.error("Eroare la ruta /adidasi:", err);
+        afisareEroare(res, 500, "Eroare server", "A apărut o problemă la încărcarea produselor.");
+    }
+});
+
+// Ruta pentru afișarea unui singur produs, pe baza ID-ului
+app.get('/adidas/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = 'SELECT * FROM adidasi WHERE id=$1';
+        const adidas = (await pool.query(query, [id])).rows[0];
+
+        // Dacă nu se găsește niciun produs cu acest ID, trimite eroare 404
+        if (!adidas) {
+            return afisareEroare(res, 404);
+        }
+
+        // Randează pagina pentru un singur produs
+        res.render('pages/adidas', { 
+            titlu: adidas.nume, // Titlu dinamic pentru pagină
+            adidas 
+        });
+        
+    } catch (err) {
+        console.error(`Eroare la ruta /adidas/${req.params.id}:`, err);
+        afisareEroare(res, 500);
+    }
+});
+
+
 
 //-------------------------------------------------------------------------------
 // ERRORS
@@ -416,3 +512,8 @@ initializeScssCompiler();
 app.listen(PORT, () => {
     console.log('Server domain: http://localhost:'+PORT);
 });
+
+
+
+// etapa 6
+// Pagina de produse cu filtrare/sortare

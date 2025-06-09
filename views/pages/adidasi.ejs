@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ro">
+<%- include("../fragments/head.ejs") %>
+
+<body>
+    <!-- Includere header, pentru un design consistent -->
+    <%- include("../fragments/header.ejs") %>
+
+    <main>
+        <!-- ########## SECTIUNE FILTRE ########## -->
+        <section id="filtre">
+            <div>
+                <label for="inp-nume">Nume produs (începe cu...)</label>
+                <textarea id="inp-nume" rows="1"></textarea>
+            </div>
+            <div>
+                <label for="inp-descriere">Cuvânt cheie în descriere</label>
+                <input type="text" id="inp-descriere">
+            </div>
+            <div>
+                <label for="inp-pret">Preț maxim: <span id="val-pret">1000</span> RON</label>
+                <input type="range" id="inp-pret" min="0" max="1000" value="1000">
+            </div>
+            <div>
+                <label for="inp-categorie">Categorie</label>
+                <select id="inp-categorie">
+                    <option value="toate" selected>Oricare</option>
+                    <% categorii.forEach(cat => { %>
+                        <option value="<%= cat %>"><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="radio-group">
+                <label>Subcategorie</label>
+                <div>
+                    <label><input type="radio" name="subcategorie" value="toate" checked> Toate</label>
+                    <label><input type="radio" name="subcategorie" value="barbati"> Bărbați</label>
+                    <label><input type="radio" name="subcategorie" value="femei"> Femei</label>
+                    <label><input type="radio" name="subcategorie" value="copii"> Copii</label>
+                </div>
+            </div>
+            <div>
+                <label for="inp-culoare">Culoare</label>
+                <input type="text" id="inp-culoare" list="culori" placeholder="ex: rosu, alb...">
+                <datalist id="culori">
+                    <option value="rosu"></option>
+                    <option value="verde"></option>
+                    <option value="albastru"></option>
+                    <option value="alb"></option>
+                </datalist>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" id="inp-noutati"> Doar noutăți (adăugate după 01.01.2025)
+                </label>
+            </div>
+            <div>
+                <label for="inp-materiale">Materiale</label>
+                <select id="inp-materiale" multiple size="3">
+                    <option value="piele">Piele</option>
+                    <option value="textil">Textil</option>
+                    <option value="spuma">Spumă</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- ########## SECTIUNE BUTOANE ########## -->
+        <div id="container-butoane">
+            <button id="btn-filtreaza">Filtrează</button>
+            <button id="btn-sort-asc" class="btn-sort">Sortează A-Z</button>
+            <button id="btn-sort-desc" class="btn-sort">Sortează Z-A</button>
+            <button id="btn-calculeaza">Calculează preț mediu</button>
+            <button id="btn-reseteaza">Resetează Filtrele</button>
+        </div>
+
+        <!-- ########## CONTAINER PRODUSE ########## -->
+        <div id="produse-container">
+            <% 
+            const optiuniData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            adidasi.forEach(function(adidas, index) { %>
+                <article id="artc-<%= adidas.id %>" class="produs <%= adidas.categorie_mare %>"
+                    data-nume="<%= adidas.nume.toLowerCase() %>"
+                    data-descriere="<%= adidas.descriere.toLowerCase() %>"
+                    data-pret="<%= adidas.pret %>"
+                    data-categorie="<%= adidas.categorie_mare %>"
+                    data-subcategorie="<%= adidas.subcategorie %>"
+                    data-marime="<%= adidas.marime %>"
+                    data-culoare="<%= adidas.culoare.toLowerCase() %>"
+                    data-data_introdusa="<%= adidas.data_introdusa %>"
+                    data-editie_limitata="<%= adidas.editie_limitata %>"
+                    data-materiale="<%= adidas.materiale %>"
+                    data-initial-order="<%= index %>">
+                    
+                    <div class="imagine-container">
+                        <% if (adidas.imagine) { %>
+                            <img src="/<%= adidas.imagine %>" alt="<%= adidas.nume %>">
+                        <% } %>
+                    </div>
+                    
+                    <div class="info-container">
+                        <h3><%= adidas.nume %></h3>
+                        <p class="categorie-produs"><%= adidas.categorie_mare %></p>
+                        <p class="descriere-produs"><%= adidas.descriere %></p>
+                        <ul class="lista-caracteristici">
+                            <li><strong>Mărime:</strong> <%= adidas.marime %></li>
+                            <li><strong>Materiale:</strong> <%= adidas.materiale %></li>
+                            <li>
+                                <strong>Adăugat:</strong> 
+                                <time datetime="<%= adidas.data_introdusa %>">
+                                    <%= new Date(adidas.data_introdusa).toLocaleDateString('ro-RO', optiuniData) %>
+                                </time>
+                            </li>
+                            <li><strong>Ediție limitată:</strong> <%= adidas.editie_limitata ? 'Da' : 'Nu' %></li>
+                        </ul>
+                    </div>
+                </article>
+            <% }); %>
+        </div>
+
+    </main>
+
+    <!-- Includere footer -->
+    <%- include("../fragments/footer.ejs") %>
+
+    <!-- ########## SCRIPTURI JAVASCRIPT ########## -->
+    <!-- Codul JavaScript rămâne același, nu necesită modificări -->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const btnFiltreaza = document.getElementById('btn-filtreaza');
+            const btnReseteaza = document.getElementById('btn-reseteaza');
+            const btnSortAsc = document.getElementById('btn-sort-asc');
+            const btnSortDesc = document.getElementById('btn-sort-desc');
+            const btnCalculeaza = document.getElementById('btn-calculeaza');
+            
+            const inpNume = document.getElementById('inp-nume');
+            const inpDescriere = document.getElementById('inp-descriere');
+            const inpPret = document.getElementById('inp-pret');
+            const valPret = document.getElementById('val-pret');
+            const inpCategorie = document.getElementById('inp-categorie');
+            const inpCuloare = document.getElementById('inp-culoare');
+            const inpNoutati = document.getElementById('inp-noutati');
+            const inpMateriale = document.getElementById('inp-materiale');
+            
+            const produseContainer = document.getElementById('produse-container');
+            const produse = Array.from(document.querySelectorAll('.produs'));
+
+            inpPret.addEventListener('input', function() {
+                valPret.textContent = this.value;
+            });
+
+            function valideazaInput(input) {
+                if (input.id === 'inp-descriere' && /\d/.test(input.value)) {
+                    alert("Cuvântul cheie din descriere nu poate conține cifre.");
+                    input.classList.add('invalid');
+                    return false;
+                }
+                input.classList.remove('invalid');
+                return true;
+            }
+
+            btnFiltreaza.addEventListener('click', function() {
+                if (inpDescriere.value.trim() !== '' && !valideazaInput(inpDescriere)) return;
+                
+                const valNume = inpNume.value.toLowerCase().trim();
+                const valDescriere = inpDescriere.value.toLowerCase().trim();
+                const valPret = parseFloat(inpPret.value);
+                const valCategorie = inpCategorie.value;
+                const valSubcategorie = document.querySelector('input[name="subcategorie"]:checked').value;
+                const valCuloare = inpCuloare.value.toLowerCase().trim();
+                const valNoutati = inpNoutati.checked;
+                const dataNoutati = new Date('2025-01-01');
+                const valMaterialeSelectate = Array.from(inpMateriale.selectedOptions).map(opt => opt.value);
+
+                produse.forEach(produs => {
+                    const numeProdus = produs.dataset.nume;
+                    const descriereProdus = produs.dataset.descriere;
+                    const pretProdus = parseFloat(produs.dataset.pret);
+                    const categorieProdus = produs.dataset.categorie;
+                    const subcategorieProdus = produs.dataset.subcategorie;
+                    const culoareProdus = produs.dataset.culoare;
+                    const dataProdus = new Date(produs.dataset.data_introdusa);
+                    const materialeProdus = produs.dataset.materiale.split(',');
+
+                    let vizibil = true;
+
+                    if (valNume && !numeProdus.startsWith(valNume)) vizibil = false;
+                    if (valDescriere && !descriereProdus.includes(valDescriere)) vizibil = false;
+                    if (pretProdus > valPret) vizibil = false;
+                    if (valCategorie !== 'toate' && categorieProdus !== valCategorie) vizibil = false;
+                    if (valSubcategorie !== 'toate' && subcategorieProdus !== valSubcategorie) vizibil = false;
+                    if (valCuloare && culoareProdus !== valCuloare) vizibil = false;
+                    if (valNoutati && dataProdus < dataNoutati) vizibil = false;
+                    if (valMaterialeSelectate.length > 0 && !valMaterialeSelectate.some(mat => materialeProdus.includes(mat))) {
+                        vizibil = false;
+                    }
+                    
+                    produs.style.display = vizibil ? 'flex' : 'none';
+                });
+            });
+
+            function sorteazaProduse(directie) {
+                produse.sort((a, b) => {
+                    const numeA = a.dataset.nume;
+                    const numeB = b.dataset.nume;
+                    const raportA = parseFloat(a.dataset.marime) / parseFloat(a.dataset.pret);
+                    const raportB = parseFloat(b.dataset.marime) / parseFloat(b.dataset.pret);
+
+                    let comparatieNume = numeA.localeCompare(numeB);
+                    if (directie === 'desc') comparatieNume *= -1;
+
+                    if (comparatieNume !== 0) return comparatieNume;
+                    
+                    let comparatieRaport = raportA - raportB;
+                    if (directie === 'desc') comparatieRaport *= -1;
+                    return comparatieRaport;
+                });
+                produse.forEach(p => produseContainer.appendChild(p));
+            }
+
+            btnSortAsc.addEventListener('click', () => sorteazaProduse('asc'));
+            btnSortDesc.addEventListener('click', () => sorteazaProduse('desc'));
+
+            btnCalculeaza.addEventListener('click', function() {
+                const produseVizibile = produse.filter(p => p.style.display !== 'none');
+                if (produseVizibile.length === 0) {
+                    alert("Nu sunt produse afișate pentru a calcula media.");
+                    return;
+                }
+                const sumaPreturi = produseVizibile.reduce((acc, p) => acc + parseFloat(p.dataset.pret), 0);
+                const pretMediu = sumaPreturi / produseVizibile.length;
+                const divRezultat = document.createElement('div');
+                divRezultat.className = 'rezultat-calcul';
+                divRezultat.textContent = `Prețul mediu: ${pretMediu.toFixed(2)} RON`;
+                document.body.appendChild(divRezultat);
+                setTimeout(() => document.body.removeChild(divRezultat), 2000);
+            });
+            
+            btnReseteaza.addEventListener('click', function() {
+                if (confirm("Sunteți sigur că doriți să resetați toate filtrele?")) {
+                    document.getElementById('filtre').querySelectorAll('input, select, textarea').forEach(el => {
+                        if (el.type === 'text' || el.type === 'textarea') el.value = '';
+                        if (el.type === 'range') el.value = el.max;
+                        if (el.tagName === 'SELECT' && !el.multiple) el.selectedIndex = 0;
+                        if (el.multiple) Array.from(el.options).forEach(opt => opt.selected = false);
+                        if (el.type === 'radio' && el.value === 'toate') el.checked = true;
+                        if (el.type === 'checkbox') el.checked = false;
+                    });
+                    valPret.textContent = inpPret.value;
+                    produse.forEach(p => p.style.display = 'flex');
+                    produse.sort((a,b) => a.dataset.initialOrder - b.dataset.initialOrder);
+                    produse.forEach(p => produseContainer.appendChild(p));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

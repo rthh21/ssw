@@ -215,7 +215,7 @@ main a:hover::before {
   
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+    padding-bottom: 40%; /* Aspect ratio 16:9 */
     height: 0;
     margin: 0.5em;
     width: 60%;
@@ -341,4 +341,10 @@ video::cue(b) {
         margin-left: 0.5cm; 
         margin-right: 2.5cm; 
     }
+}
+
+.bootstrap-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 1000px;
 }
