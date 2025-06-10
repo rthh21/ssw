@@ -30,13 +30,20 @@
                     <% }) %>
                 </select>
             </div>
-            <div class="radio-group">
-                <label>Subcategorie</label>
-                <div class="form-check">
-                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="toate" checked> Toate</label>
-                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="barbati"> Bărbați</label>
-                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="femei"> Femei</label>
-                    <label class="form-check-label"><input type="radio" class="form-check-input" name="subcategorie" value="copii"> Copii</label>
+            <div class="radio-group mb-3">
+                <label class="mb-1">Subcategorie</label>
+                <div class="btn-group btn-group-lg w-100" role="group" aria-label="Subcategorie toggle">
+                    <input type="radio" class="btn-check" name="subcategorie" id="subcat-toate" value="toate" autocomplete="off" checked>
+                    <label class="btn btn-outline-dark btn-lg rounded-pill text-dark" for="subcat-toate">Toate</label>
+
+                    <input type="radio" class="btn-check" name="subcategorie" id="subcat-barbati" value="barbati" autocomplete="off">
+                    <label class="btn btn-outline-dark btn-lg rounded-pill text-dark" for="subcat-barbati">Bărbați</label>
+
+                    <input type="radio" class="btn-check" name="subcategorie" id="subcat-femei" value="femei" autocomplete="off">
+                    <label class="btn btn-outline-dark btn-lg rounded-pill text-dark" for="subcat-femei">Femei</label>
+
+                    <input type="radio" class="btn-check" name="subcategorie" id="subcat-copii" value="copii" autocomplete="off">
+                    <label class="btn btn-outline-dark btn-lg rounded-pill text-dark" for="subcat-copii">Copii</label>
                 </div>
             </div>
             <div>
@@ -49,10 +56,11 @@
                     <option value="alb"></option>
                 </datalist>
             </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" id="inp-noutati" class="form-check-input"> Doar noutăți (adăugate după 01.01.2025)
-                </label>
+            <div class="mb-3">
+                <div class="btn-group btn-group-lg w-100" role="group" aria-label="Noutati toggle">
+                    <input type="checkbox" class="btn-check" id="inp-noutati" autocomplete="off">
+                    <label class="btn btn-outline-dark btn-lg rounded-pill text-dark" for="inp-noutati">Doar noutăți (adăugate după 01.01.2025)</label>
+                </div>
             </div>
             <div>
                 <label for="inp-materiale">Materiale</label>
@@ -140,5 +148,38 @@
 
     <!-- ########## SCRIPTURI JAVASCRIPT ########## -->
     <script src="../assets/js/adidasi.js"></script>
+    <script>
+    // Text alb doar pe butonul selectat (radio)
+    function updateRadioTextColor() {
+      document.querySelectorAll('input[name="subcategorie"]').forEach(function(radio) {
+        var label = document.querySelector('label[for="' + radio.id + '"]');
+        if (radio.checked) {
+          label.classList.add('text-white');
+          label.classList.remove('text-dark');
+        } else {
+          label.classList.remove('text-white');
+          label.classList.add('text-dark');
+        }
+      });
+    }
+    document.querySelectorAll('input[name="subcategorie"]').forEach(function(radio) {
+      radio.addEventListener('change', updateRadioTextColor);
+    });
+    updateRadioTextColor();
+    // Text alb pe checkbox dacă e bifat
+    var noutatiCheckbox = document.getElementById('inp-noutati');
+    var noutatiLabel = document.querySelector('label[for="inp-noutati"]');
+    function updateCheckboxTextColor() {
+      if (noutatiCheckbox.checked) {
+        noutatiLabel.classList.add('text-white');
+        noutatiLabel.classList.remove('text-dark');
+      } else {
+        noutatiLabel.classList.remove('text-white');
+        noutatiLabel.classList.add('text-dark');
+      }
+    }
+    noutatiCheckbox.addEventListener('change', updateCheckboxTextColor);
+    updateCheckboxTextColor();
+    </script>
 </body>
 </html>
