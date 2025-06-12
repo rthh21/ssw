@@ -244,33 +244,39 @@ window.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
+    // Funcție pentru eliminarea diacriticelor
+    function faraDiacritice(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
     // Funcție pentru aplicarea filtrelor
     function aplicaFiltrare() {
-        const valNume = inpNume.value.toLowerCase().trim();
-        const valDescriere = inpDescriere.value.toLowerCase().trim();
+        const valNume = faraDiacritice(inpNume.value.trim());
+        const valDescriere = faraDiacritice(inpDescriere.value.trim());
         const valPret = parseFloat(inpPret.value);
         const valCategorie = inpCategorie.value;
         const valSubcategorie = document.querySelector('input[name="subcategorie"]:checked').value;
-        const valCuloare = inpCuloare.value.toLowerCase().trim();
+        const valCuloare = faraDiacritice(inpCuloare.value.trim());
         const valNoutati = inpNoutati.checked;
         const dataNoutati = new Date('2025-01-01');
         const valMaterialeSelectate = Array.from(inpMateriale.selectedOptions).map(opt => opt.value);
         const valMarime = inpMarime.value;
 
         produse.forEach(produs => {
-            const numeProdus = produs.dataset.nume;
-            const descriereProdus = produs.dataset.descriere;
+            const numeProdus = faraDiacritice(produs.dataset.nume);
+            const descriereProdus = faraDiacritice(produs.dataset.descriere);
             const pretProdus = parseFloat(produs.dataset.pret);
             const categorieProdus = produs.dataset.categorie;
             const subcategorieProdus = produs.dataset.subcategorie;
-            const culoareProdus = produs.dataset.culoare;
+            const culoareProdus = faraDiacritice(produs.dataset.culoare);
             const dataProdus = new Date(produs.dataset.data_introdusa);
             const materialeProdus = produs.dataset.materiale.split(',');
             const marimeProdus = produs.dataset.marime;
 
             let vizibil = true;
 
-            if (valNume && !numeProdus.startsWith(valNume)) vizibil = false;
+            // Căutare fără diacritice pentru nume și descriere
+            if (valNume && !numeProdus.includes(valNume)) vizibil = false;
             if (valDescriere && !descriereProdus.includes(valDescriere)) vizibil = false;
             if (pretProdus > valPret) vizibil = false;
             if (valCategorie !== 'toate' && categorieProdus !== valCategorie) vizibil = false;

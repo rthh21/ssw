@@ -172,7 +172,8 @@ app.get('/adidasi', async (req, res) => {
         const { nume, descriere, pret_max, categorie, subcategorie, culoare, noutati, materiale } = req.query;
 
         // Construim query-ul SQL dinamic, adăugând coloane calculate pentru sortare naturală
-        let query = "SELECT *, substring(nume from '^[^0-9]+') as text_part, (regexp_matches(nume, '[0-9]+'))[1]::integer as num_part FROM adidasi WHERE 1=1";
+        let query = "SELECT * from adidasi";
+        // let query = "SELECT *, substring(nume from '^[^0-9]+') as text_part, (regexp_matches(nume, '[0-9]+'))[1]::integer as num_part FROM adidasi WHERE 1=1";
         let params = [];
         let idx = 1;
 
@@ -232,7 +233,11 @@ app.get('/adidasi', async (req, res) => {
         }
 
         // Execută query-ul final pentru a obține produsele filtrate și sortate
-        const adidasi = (await pool.query(query, params)).rows;
+        console.log('Executing query:', query);
+        console.log('With parameters:', params);
+        const result = await pool.query(query, params);
+        console.log('Number of products found:', result.rows.length);
+        const adidasi = result.rows;
 
         // Extrage toate categoriile posibile din ENUM pentru a popula meniul de filtrare
         const categoriiQuery = "SELECT unnest(enum_range(NULL::categorie_mare)) AS categ";
