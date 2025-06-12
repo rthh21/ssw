@@ -244,9 +244,8 @@ window.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    btnFiltreaza.addEventListener('click', function() {
-        if (inpDescriere.value.trim() !== '' && !valideazaInput(inpDescriere)) return;
-        
+    // Funcție pentru aplicarea filtrelor
+    function aplicaFiltrare() {
         const valNume = inpNume.value.toLowerCase().trim();
         const valDescriere = inpDescriere.value.toLowerCase().trim();
         const valPret = parseFloat(inpPret.value);
@@ -257,9 +256,6 @@ window.addEventListener('DOMContentLoaded', function() {
         const dataNoutati = new Date('2025-01-01');
         const valMaterialeSelectate = Array.from(inpMateriale.selectedOptions).map(opt => opt.value);
         const valMarime = inpMarime.value;
-
-        // Salvează produsele înainte de filtrare pentru a le putea restaura
-        const produseInitiale = [...produse];
 
         produse.forEach(produs => {
             const numeProdus = produs.dataset.nume;
@@ -293,50 +289,32 @@ window.addEventListener('DOMContentLoaded', function() {
         actualizeazaMarimiDisponibile();
         actualizeazaMaterialeDisponibile();
         actualizeazaCategoriiDisponibile();
-        
-        // Actualizează mesajul de lipsă produse
         actualizeazaMesajProduse();
+    }
+
+    // Adaugă clasa 'filtru' la toate elementele de filtrare
+    [inpNume, inpDescriere, inpPret, inpCategorie, inpCuloare, inpNoutati, inpMateriale, inpMarime].forEach(el => {
+        if (el) el.classList.add('filtru');
     });
 
-    // Actualizează toate filtrele disponibile când se schimbă alte filtre
-    [inpNume, inpDescriere, inpPret, inpCuloare, inpNoutati].forEach(input => {
-        if (input) {
-            if (input.type === 'checkbox') {
-                input.addEventListener('change', () => {
-                    actualizeazaMarimiDisponibile();
-                    actualizeazaMaterialeDisponibile();
-                    actualizeazaCategoriiDisponibile();
-                    actualizeazaMesajProduse();
-                });
-            } else if (input.type === 'range') {
-                input.addEventListener('input', () => {
-                    actualizeazaMarimiDisponibile();
-                    actualizeazaMaterialeDisponibile();
-                    actualizeazaCategoriiDisponibile();
-                    actualizeazaMesajProduse();
-                });
-            } else {
-                input.addEventListener('input', () => {
-                    actualizeazaMarimiDisponibile();
-                    actualizeazaMaterialeDisponibile();
-                    actualizeazaCategoriiDisponibile();
-                    actualizeazaMesajProduse();
-                });
-            }
+    // Adaugă clasa 'filtru' la toate radio butoanele de subcategorie
+    document.querySelectorAll('input[name="subcategorie"]').forEach(radio => {
+        radio.classList.add('filtru');
+    });
+
+    // Adaugă event listener pentru change pe toate elementele cu clasa 'filtru'
+    document.querySelectorAll('.filtru').forEach(el => {
+        if (el.type === 'range') {
+            el.addEventListener('input', aplicaFiltrare); // Pentru range folosim 'input' în loc de 'change'
+        } else {
+            el.addEventListener('change', aplicaFiltrare);
         }
     });
 
-    // Actualizează toate filtrele disponibile când se schimbă subcategoria
-    document.querySelectorAll('input[name="subcategorie"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            actualizeazaMarimiDisponibile();
-            actualizeazaMaterialeDisponibile();
-            actualizeazaCategoriiDisponibile();
-            actualizeazaMesajProduse();
-        });
-    });
+    // Elimină event listener-ul de click de pe butonul de filtrare
+    btnFiltreaza.removeEventListener('click', aplicaFiltrare);
 
-    // Inițializează toate filtrele disponibile la încărcarea paginii
+    // Actualizează toate filtrele disponibile la încărcarea paginii
     actualizeazaMarimiDisponibile();
     actualizeazaMaterialeDisponibile();
     actualizeazaCategoriiDisponibile();
