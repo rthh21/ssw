@@ -1,4 +1,4 @@
-$noapte-bg: #232946;
+$noapte-bg: #002aff;
 $noapte-card-bg: #393e6b;
 $noapte-text: #eebbc3;
 
@@ -38,11 +38,18 @@ $input-focus-shadow: 0 0 0 0.2rem rgba(255, 132, 37, 0.25);
 $btn-border-radius: 1.5rem;
 $btn-border-width: 3px;
 
+// Bootstrap range slider custom vars
+$range-thumb-width: 1.5em;
+$range-thumb-height: 1.5em;
+$range-thumb-bg: #ff7878;
+$range-track-bg: #ff7878;
+
 .theme-noapte {
   background: #232946;
   color: #eebbc3;
   border-radius: 18px !important;
   font-family: 'Quicksand', Arial, sans-serif;
+  margin-bottom:2rem !important;  
   .btn-primary {
     background: #ff7878 !important;
     color: #232946 !important;
@@ -360,4 +367,17 @@ input[type="radio"].btn-check:checked + .btn {
 
 html[data-theme="dark"] body {
   background: #000 !important;
+}
+
+html[data-theme="dark"] .custom-container > div {
+  background: #292929 !important;
+}
+
+html[data-theme="dark"] .theme-noapte {
+  background: #232946 !important;
+  color: #eebbc3 !important;
+}
+html[data-theme="dark"] .theme-noapte .btn-primary {
+  background: #ff7878 !important;
+  color: #232946 !important;
 }
