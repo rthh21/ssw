@@ -1,3 +1,13 @@
+BONUSURI:
+1. 
+3.
+4.
+7.
+6.
+
+
+
+
 window.addEventListener('DOMContentLoaded', function() {
     const btnFiltreaza = document.getElementById('btn-filtreaza');
     const btnReseteaza = document.getElementById('btn-reseteaza');
@@ -249,6 +259,15 @@ window.addEventListener('DOMContentLoaded', function() {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
+    // Funcție pentru actualizarea contorului de produse
+    function actualizeazaContorProduse() {
+        const produseVizibile = produse.filter(p => p.style.display !== 'none');
+        const contorProduse = document.getElementById('numar-produse');
+        if (contorProduse) {
+            contorProduse.textContent = produseVizibile.length;
+        }
+    }
+
     // Funcție pentru aplicarea filtrelor
     function aplicaFiltrare() {
         const valNume = faraDiacritice(inpNume.value.trim());
@@ -282,7 +301,7 @@ window.addEventListener('DOMContentLoaded', function() {
             if (valCategorie !== 'toate' && categorieProdus !== valCategorie) vizibil = false;
             if (valSubcategorie !== 'toate' && subcategorieProdus !== valSubcategorie) vizibil = false;
             if (valCuloare && culoareProdus !== valCuloare) vizibil = false;
-            if (valNoutati && dataProdus < dataNoutati) vizibil = false;
+            if (valNoutati && dataProdus <= dataNoutati) vizibil = false;
             if (valMarime !== 'toate' && marimeProdus !== valMarime) vizibil = false;
             if (valMaterialeSelectate.length > 0 && !valMaterialeSelectate.some(mat => materialeProdus.includes(mat))) {
                 vizibil = false;
@@ -296,6 +315,7 @@ window.addEventListener('DOMContentLoaded', function() {
         actualizeazaMaterialeDisponibile();
         actualizeazaCategoriiDisponibile();
         actualizeazaMesajProduse();
+        actualizeazaContorProduse();
     }
 
     // Adaugă clasa 'filtru' la toate elementele de filtrare
@@ -308,23 +328,40 @@ window.addEventListener('DOMContentLoaded', function() {
         radio.classList.add('filtru');
     });
 
-    // Adaugă event listener pentru change pe toate elementele cu clasa 'filtru'
+    // Adaugă event listeners pentru toate elementele de filtrare
     document.querySelectorAll('.filtru').forEach(el => {
         if (el.type === 'range') {
-            el.addEventListener('input', aplicaFiltrare); // Pentru range folosim 'input' în loc de 'change'
+            el.addEventListener('input', aplicaFiltrare);
         } else {
             el.addEventListener('change', aplicaFiltrare);
         }
     });
 
-    // Elimină event listener-ul de click de pe butonul de filtrare
-    btnFiltreaza.removeEventListener('click', aplicaFiltrare);
-
-    // Actualizează toate filtrele disponibile la încărcarea paginii
-    actualizeazaMarimiDisponibile();
-    actualizeazaMaterialeDisponibile();
-    actualizeazaCategoriiDisponibile();
-    actualizeazaMesajProduse();
+    // Resetare filtre
+    btnReseteaza.addEventListener('click', function() {
+        if (confirm("Sunteți sigur că doriți să resetați toate filtrele?")) {
+            document.getElementById('filtre').querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.type === 'text' || el.type === 'textarea') el.value = '';
+                if (el.type === 'range') el.value = el.max;
+                if (el.tagName === 'SELECT' && !el.multiple) el.selectedIndex = 0;
+                if (el.multiple) Array.from(el.options).forEach(opt => opt.selected = false);
+                if (el.type === 'radio' && el.value === 'toate') el.checked = true;
+                if (el.type === 'checkbox') el.checked = false;
+            });
+            
+            valPret.textContent = inpPret.value;
+            produse.forEach(p => p.style.display = 'flex');
+            produse.sort((a,b) => a.dataset.initialOrder - b.dataset.initialOrder);
+            produse.forEach(p => produseContainer.appendChild(p));
+            
+            // Actualizează toate filtrele disponibile după resetare
+            actualizeazaMarimiDisponibile();
+            actualizeazaMaterialeDisponibile();
+            actualizeazaCategoriiDisponibile();
+            actualizeazaMesajProduse();
+            actualizeazaContorProduse();
+        }
+    });
 
     function sorteazaProduse(directie) {
         produse.sort((a, b) => {
@@ -376,30 +413,4 @@ window.addEventListener('DOMContentLoaded', function() {
             console.log('Popup removed');
         }, 2000);
     });
-    
-    btnReseteaza.addEventListener('click', function() {
-        if (confirm("Sunteți sigur că doriți să resetați toate filtrele?")) {
-            document.getElementById('filtre').querySelectorAll('input, select, textarea').forEach(el => {
-                if (el.type === 'text' || el.type === 'textarea') el.value = '';
-                if (el.type === 'range') el.value = el.max;
-                if (el.tagName === 'SELECT' && !el.multiple) el.selectedIndex = 0;
-                if (el.multiple) Array.from(el.options).forEach(opt => opt.selected = false);
-                if (el.type === 'radio' && el.value === 'toate') el.checked = true;
-                if (el.type === 'checkbox') el.checked = false;
-            });
-            valPret.textContent = inpPret.value;
-            produse.forEach(p => p.style.display = 'flex');
-            produse.sort((a,b) => a.dataset.initialOrder - b.dataset.initialOrder);
-            produse.forEach(p => produseContainer.appendChild(p));
-            
-            // Actualizează toate filtrele disponibile după resetare
-            actualizeazaMarimiDisponibile();
-            actualizeazaMaterialeDisponibile();
-            actualizeazaCategoriiDisponibile();
-            actualizeazaMesajProduse();
-        }
-    });
-
-    // === SWITCH TEMA ===
-    // Codul pentru nightmode a fost mutat in assets/js/nightmode.js pentru utilizare globala.
 }); 
