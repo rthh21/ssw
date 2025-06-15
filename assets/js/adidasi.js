@@ -29,6 +29,93 @@ window.addEventListener('DOMContentLoaded', function() {
     const produseContainer = document.getElementById('produse-container');
     const produse = Array.from(document.querySelectorAll('.produs'));
 
+    // Seturi pentru a ține evidența stărilor produselor
+    const produsePastrate = new Set();
+    const produseAscunse = new Set(); // temporary hidden
+    const produseSterse = new Set();
+
+    // Încarcă stările salvate din sessionStorage
+    function incarcaStariSalvate() {
+        const pastrate = JSON.parse(sessionStorage.getItem('produsePastrate') || '[]');
+        const sterse = JSON.parse(sessionStorage.getItem('produseSterse') || '[]');
+        
+        pastrate.forEach(id => produsePastrate.add(id));
+        sterse.forEach(id => produseSterse.add(id));
+        
+        // Aplică stările salvate
+        produse.forEach(produs => {
+            const id = produs.dataset.produsId;
+            if (produsePastrate.has(id)) {
+                produs.classList.add('pastrat');
+                const btn = produs.querySelector(`[data-action="pastrat"]`);
+                if (btn) btn.classList.add('pastrat');
+            }
+            if (produseSterse.has(id)) {
+                produs.style.display = 'none';
+            }
+        });
+    }
+
+    // Salvează stările în sessionStorage
+    function salveazaStari() {
+        sessionStorage.setItem('produsePastrate', JSON.stringify([...produsePastrate]));
+        sessionStorage.setItem('produseSterse', JSON.stringify([...produseSterse]));
+    }
+
+    // Funcție pentru gestionarea acțiunilor butoanelor
+    function gestioneazaActiuneProdus(e) {
+        const buton = e.currentTarget;
+        const action = buton.dataset.action;
+        const produsId = buton.dataset.produsId;
+        const produs = document.querySelector(`article[data-produs-id="${produsId}"]`);
+
+        if (!produs) return;
+
+        switch (action) {
+            case 'pastrat':
+                if (produsePastrate.has(produsId)) {
+                    produsePastrate.delete(produsId);
+                    produs.classList.remove('pastrat');
+                    buton.classList.remove('pastrat');
+                    aplicaFiltrare();
+                } else {
+                    produsePastrate.add(produsId);
+                    produs.classList.add('pastrat');
+                    buton.classList.add('pastrat');
+                    produs.style.display = 'flex';
+                }
+                salveazaStari();
+                break;
+            case 'ascuns':
+                produseAscunse.add(produsId);
+                produs.classList.add('ascuns');
+                buton.classList.add('ascuns');
+                produs.style.display = 'none';
+                break;
+            case 'sterge':
+                if (produseSterse.has(produsId)) {
+                    produseSterse.delete(produsId);
+                    produs.style.display = 'flex';
+                    buton.classList.remove('sterge');
+                    aplicaFiltrare();
+                } else {
+                    produseSterse.add(produsId);
+                    produs.style.display = 'none';
+                    buton.classList.add('sterge');
+                }
+                salveazaStari();
+                break;
+        }
+
+        actualizeazaContorProduse();
+        actualizeazaMesajProduse();
+    }
+
+    // Adaugă event listeners pentru butoanele de acțiune
+    document.querySelectorAll('.buton-actiune').forEach(buton => {
+        buton.addEventListener('click', gestioneazaActiuneProdus);
+    });
+
     // Funcție pentru afișarea/ascunderea mesajului de lipsă produse
     function actualizeazaMesajProduse() {
         const produseVizibile = produse.filter(p => p.style.display !== 'none');
@@ -261,15 +348,21 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Funcție pentru actualizarea contorului de produse
     function actualizeazaContorProduse() {
-        const produseVizibile = produse.filter(p => p.style.display !== 'none');
+        // Only count visible product cards, not the warning message
+        const produseVizibile = produse.filter(p => 
+            p.style.display !== 'none' && p.classList.contains('produs')
+        );
         const contorProduse = document.getElementById('numar-produse');
+        // If the "no products" message is present, show 0
+        const mesaj = document.querySelector('.mesaj-filtrare');
         if (contorProduse) {
-            contorProduse.textContent = produseVizibile.length;
+            contorProduse.textContent = (mesaj ? 0 : produseVizibile.length);
         }
     }
 
     // Funcție pentru aplicarea filtrelor
     function aplicaFiltrare() {
+        produseAscunse.clear(); // Clear temporary hidden products on every filter
         const valNume = faraDiacritice(inpNume.value.trim());
         const valDescriere = faraDiacritice(inpDescriere.value.trim());
         const valPret = parseFloat(inpPret.value);
@@ -282,6 +375,22 @@ window.addEventListener('DOMContentLoaded', function() {
         const valMarime = inpMarime.value;
 
         produse.forEach(produs => {
+            const produsId = produs.dataset.produsId;
+            // Sari peste produsele șterse din sesiune
+            if (produseSterse.has(produsId)) {
+                produs.style.display = 'none';
+                return;
+            }
+            // Păstrează produsele marcate ca păstrate
+            if (produsePastrate.has(produsId)) {
+                produs.style.display = 'flex';
+                return;
+            }
+            // Verifică dacă produsul e ascuns temporar (should never happen after clear, but for safety)
+            if (produseAscunse.has(produsId)) {
+                produs.style.display = 'none';
+                return;
+            }
             const numeProdus = faraDiacritice(produs.dataset.nume);
             const descriereProdus = faraDiacritice(produs.dataset.descriere);
             const pretProdus = parseFloat(produs.dataset.pret);
@@ -291,10 +400,7 @@ window.addEventListener('DOMContentLoaded', function() {
             const dataProdus = new Date(produs.dataset.data_introdusa);
             const materialeProdus = produs.dataset.materiale.split(',');
             const marimeProdus = produs.dataset.marime;
-
             let vizibil = true;
-
-            // Căutare fără diacritice pentru nume și descriere
             if (valNume && !numeProdus.includes(valNume)) vizibil = false;
             if (valDescriere && !descriereProdus.includes(valDescriere)) vizibil = false;
             if (pretProdus > valPret) vizibil = false;
@@ -306,11 +412,8 @@ window.addEventListener('DOMContentLoaded', function() {
             if (valMaterialeSelectate.length > 0 && !valMaterialeSelectate.some(mat => materialeProdus.includes(mat))) {
                 vizibil = false;
             }
-            
             produs.style.display = vizibil ? 'flex' : 'none';
         });
-
-        // Actualizează toate filtrele disponibile după aplicarea filtrelor
         actualizeazaMarimiDisponibile();
         actualizeazaMaterialeDisponibile();
         actualizeazaCategoriiDisponibile();
@@ -339,6 +442,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Resetare filtre
     btnReseteaza.addEventListener('click', function() {
+        produseAscunse.clear(); // Clear temporary hidden products on reset
         if (confirm("Sunteți sigur că doriți să resetați toate filtrele?")) {
             document.getElementById('filtre').querySelectorAll('input, select, textarea').forEach(el => {
                 if (el.type === 'text' || el.type === 'textarea') el.value = '';
@@ -350,11 +454,25 @@ window.addEventListener('DOMContentLoaded', function() {
             });
             
             valPret.textContent = inpPret.value;
-            produse.forEach(p => p.style.display = 'flex');
+            
+            // Resetează doar produsele care nu sunt păstrate sau șterse
+            produse.forEach(p => {
+                const produsId = p.dataset.produsId;
+                if (!produseSterse.has(produsId)) {
+                    if (produsePastrate.has(produsId)) {
+                        p.style.display = 'flex';
+                    } else {
+                        p.style.display = 'flex';
+                        p.classList.remove('ascuns');
+                        const btn = p.querySelector(`[data-action="ascuns"]`);
+                        if (btn) btn.classList.remove('ascuns');
+                    }
+                }
+            });
+            
             produse.sort((a,b) => a.dataset.initialOrder - b.dataset.initialOrder);
             produse.forEach(p => produseContainer.appendChild(p));
             
-            // Actualizează toate filtrele disponibile după resetare
             actualizeazaMarimiDisponibile();
             actualizeazaMaterialeDisponibile();
             actualizeazaCategoriiDisponibile();
@@ -362,6 +480,9 @@ window.addEventListener('DOMContentLoaded', function() {
             actualizeazaContorProduse();
         }
     });
+
+    // Încarcă stările salvate la încărcarea paginii
+    incarcaStariSalvate();
 
     function sorteazaProduse(directie) {
         produse.sort((a, b) => {

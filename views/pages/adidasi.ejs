@@ -112,6 +112,7 @@
             const optiuniData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             adidasi.forEach(function(adidas, index) { %>
                 <article id="artc-<%= adidas.id %>" class="produs <%= adidas.categorie_mare %>"
+                    data-produs-id="<%= adidas.id %>"
                     data-nume="<%= adidas.nume.toLowerCase() %>"
                     data-descriere="<%= adidas.descriere.toLowerCase() %>"
                     data-pret="<%= adidas.pret %>"
@@ -124,6 +125,21 @@
                     data-materiale="<%= adidas.materiale %>"
                     data-initial-order="<%= index %>">
                     
+                    <div class="butoane-actiuni">
+                        <button class="buton-actiune" data-action="pastrat" data-produs-id="<%= adidas.id %>">
+                            <i class="bi bi-pin-angle"></i>
+                            <span class="tooltip">Păstrează produsul</span>
+                        </button>
+                        <button class="buton-actiune" data-action="ascuns" data-produs-id="<%= adidas.id %>">
+                            <i class="bi bi-eye-slash"></i>
+                            <span class="tooltip">Ascunde temporar</span>
+                        </button>
+                        <button class="buton-actiune" data-action="sterge" data-produs-id="<%= adidas.id %>">
+                            <i class="bi bi-x-circle"></i>
+                            <span class="tooltip">Șterge din sesiune</span>
+                        </button>
+                    </div>
+
                     <div class="imagine-container">
                         <% if (adidas.imagine) { %>
                             <img src="/<%= adidas.imagine %>" alt="<%= adidas.nume %>">

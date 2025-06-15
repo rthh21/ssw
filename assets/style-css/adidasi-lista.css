@@ -292,17 +292,101 @@
         box-shadow: 0 4px 6px rgba(255, 91, 91, 0.2);
     }
 
-    /* Remove all button action styles */
-    .butoane-actiuni,
-    .buton-actiune,
-    .buton-actiune .tooltip,
-    .buton-actiune:hover .tooltip,
-    .buton-actiune .tooltip::after,
-    .buton-actiune.pastrat,
-    .buton-actiune.ascuns,
-    .produs.pastrat,
+    /* Stiluri pentru butoanele de acțiune */
+    .butoane-actiuni {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        display: flex;
+        gap: 0.5em;
+        z-index: 10;
+    }
+
+    .buton-actiune {
+        width: 2.5em;
+        height: 2.5em;
+        border-radius: 50%;
+        border: 2px solid var(--accent-color);
+        background-color: var(--background-color);
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .buton-actiune:hover {
+        transform: scale(1.1);
+        background-color: var(--accent-color);
+        color: var(--background-color);
+    }
+
+    .buton-actiune .tooltip {
+        position: absolute;
+        top: -2.5em;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--text-color);
+        color: var(--background-color);
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        font-size: 0.9em;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        z-index: 100;
+    }
+
+    .buton-actiune:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+        top: -3em;
+    }
+
+    .buton-actiune .tooltip::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5em;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 0.5em;
+        border-style: solid;
+        border-color: var(--text-color) transparent transparent transparent;
+    }
+
+    /* Stiluri pentru stările butoanelor */
+    .buton-actiune.pastrat {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+        border-color: var(--text-color);
+    }
+
+    .buton-actiune.ascuns {
+        background-color: var(--text-color);
+        color: var(--background-color);
+        border-color: var(--accent-color);
+    }
+
+    .buton-actiune.sterge {
+        background-color: var(--secondary-color);
+        color: var(--background-color);
+        border-color: var(--text-color);
+    }
+
+    /* Stiluri pentru produsele păstrate sau ascunse */
+    .produs.pastrat {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 1rem 0.5rem var(--accent-color);
+    }
+
     .produs.ascuns {
-        display: none;
+        opacity: 0.5;
+        filter: grayscale(50%);
     }
 
     @media (max-width: 600px) {
@@ -346,5 +430,22 @@
             width: fit-content;
             font-size: 1rem;
             padding: 0.6em 1.2em;
+        }
+
+        .butoane-actiuni {
+            top: 0.5em;
+            right: 0.5em;
+            gap: 0.3em;
+        }
+
+        .buton-actiune {
+            width: 2em;
+            height: 2em;
+            font-size: 0.9em;
+        }
+
+        .buton-actiune .tooltip {
+            font-size: 0.8em;
+            padding: 0.4em 0.8em;
         }
     }
