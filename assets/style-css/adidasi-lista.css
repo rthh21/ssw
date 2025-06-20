@@ -389,6 +389,21 @@
         filter: grayscale(50%);
     }
 
+    .buton-actiune i {
+        color: #000 !important;
+    }
+
+    .buton-actiune:hover i,
+    .buton-actiune.pastrat i,
+    .buton-actiune.ascuns i,
+    .buton-actiune.sterge i {
+        color: #000 !important;
+    }
+
+    html[data-theme="dark"] .buton-actiune i {
+        color: #000 !important;
+    }
+
     @media (max-width: 600px) {
         #filtre {
             margin: 1em auto;
