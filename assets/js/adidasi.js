@@ -4,7 +4,7 @@
 // 4.
 // 7.
 // 6.
-
+// 5. TODO butoane
 
 
 
@@ -534,4 +534,68 @@ window.addEventListener('DOMContentLoaded', function() {
             console.log('Popup removed');
         }, 2000);
     });
+
+    // PAGINARE CLIENT
+    const K = 6; // numar produse pe pagina
+    let paginaCurenta = 1;
+    function afiseazaPagina(pagina, produse) {
+        const start = (pagina-1)*K;
+        const end = pagina*K;
+        produse.forEach((prod, idx) => {
+            prod.style.display = (idx >= start && idx < end) ? 'flex' : 'none';
+        });
+    }
+    function creeazaPaginare(produse) {
+        const paginareContainer = document.getElementById('paginare-container');
+        paginareContainer.innerHTML = '';
+        const N = produse.length;
+        const NRL = Math.ceil(N/K);
+        if (NRL <= 1) return;
+        for (let i=1; i<=NRL; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.className = 'btn btn-outline-primary mx-1 btn-paginare'+(i===paginaCurenta?' active':'');
+            btn.addEventListener('click', () => {
+                paginaCurenta = i;
+                afiseazaPagina(paginaCurenta, produse);
+                creeazaPaginare(produse);
+            });
+            paginareContainer.appendChild(btn);
+        }
+    }
+    function paginareInit() {
+        // Selectează toate produsele care nu sunt șterse
+        const produseToate = Array.from(document.querySelectorAll('#produse-container .produs'));
+        const produseActive = produseToate.filter(p => !produseSterse.has(p.dataset.produsId));
+        if (paginaCurenta > Math.ceil(produseActive.length/K) || paginaCurenta < 1) paginaCurenta = 1;
+        afiseazaPagina(paginaCurenta, produseActive);
+        creeazaPaginare(produseActive);
+    }
+    // La incarcare initiala
+    paginaCurenta = 1;
+    paginareInit();
+
+    // Integreaza cu filtrarea/sortarea/resetarea
+    function aplicaFiltrareCuPaginare() {
+        aplicaFiltrareOriginal && aplicaFiltrareOriginal();
+        paginaCurenta = 1;
+        paginareInit();
+    }
+    const aplicaFiltrareOriginal = window.aplicaFiltrare;
+    window.aplicaFiltrare = aplicaFiltrareCuPaginare;
+    function sorteazaProduseCuPaginare(dir) {
+        sorteazaProduseOriginal && sorteazaProduseOriginal(dir);
+        paginaCurenta = 1;
+        paginareInit();
+    }
+    const sorteazaProduseOriginal = window.sorteazaProduse;
+    window.sorteazaProduse = sorteazaProduseCuPaginare;
+    if (btnReseteaza) {
+        btnReseteaza.addEventListener('click', function() {
+            setTimeout(function() {
+                paginaCurenta = 1;
+                paginareInit();
+            }, 100);
+        });
+    }
 }); 

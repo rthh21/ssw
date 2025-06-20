@@ -163,7 +163,8 @@
                 </article>
             <% }); %>
         </div>
-
+        <!-- Pagination Container -->
+        <div id="paginare-container" class="d-flex justify-content-center align-items-center my-4"></div>
     </main>
 
     <!-- Includere footer -->
@@ -171,38 +172,5 @@
 
     <!-- ########## SCRIPTURI JAVASCRIPT ########## -->
     <script src="../assets/js/adidasi.js"></script>
-    <script>
-    // Text alb doar pe butonul selectat (radio)
-    function updateRadioTextColor() {
-      document.querySelectorAll('input[name="subcategorie"]').forEach(function(radio) {
-        var label = document.querySelector('label[for="' + radio.id + '"]');
-        if (radio.checked) {
-          label.classList.add('text-white');
-          label.classList.remove('text-dark');
-        } else {
-          label.classList.remove('text-white');
-          label.classList.add('text-dark');
-        }
-      });
-    }
-    document.querySelectorAll('input[name="subcategorie"]').forEach(function(radio) {
-      radio.addEventListener('change', updateRadioTextColor);
-    });
-    updateRadioTextColor();
-    // Text alb pe checkbox dacă e bifat
-    var noutatiCheckbox = document.getElementById('inp-noutati');
-    var noutatiLabel = document.querySelector('label[for="inp-noutati"]');
-    function updateCheckboxTextColor() {
-      if (noutatiCheckbox.checked) {
-        noutatiLabel.classList.add('text-white');
-        noutatiLabel.classList.remove('text-dark');
-      } else {
-        noutatiLabel.classList.remove('text-white');
-        noutatiLabel.classList.add('text-dark');
-      }
-    }
-    noutatiCheckbox.addEventListener('change', updateCheckboxTextColor);
-    updateCheckboxTextColor();
-    </script>
 </body>
 </html>
