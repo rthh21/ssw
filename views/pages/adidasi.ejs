@@ -165,6 +165,35 @@
         </div>
         <!-- Pagination Container -->
         <div id="paginare-container" class="d-flex justify-content-center align-items-center my-4"></div>
+
+        <!-- Modal pentru detalii produs -->
+        <div id="modal-produs">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <button class="modal-close" aria-label="Închide">&times;</button>
+                <div class="modal-body">
+                    <!-- Content will be dynamically updated by JS -->
+                    <% if (adidasi && adidasi.length) { const adidas = adidasi[0]; %>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:1.2em;">
+                        <% if (adidas.imagine) { %>
+                            <img src="/<%= adidas.imagine %>" alt="<%= adidas.nume %>" style="max-width:220px;max-height:220px;border-radius:1em;box-shadow:0 2px 16px 0 rgba(0,0,0,.18);">
+                        <% } %>
+                        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2em;color:var(--text-color,#292929);margin-bottom:0.2em;"><%= adidas.nume %></h2>
+                        <p style="font-size:1.1em;color:var(--accent-color,#ff6060);font-weight:bold;margin-bottom:0.5em;"><%= adidas.categorie_mare %> &ndash; <%= adidas.subcategorie %></p>
+                        <p style="font-size:1.2em;font-weight:700;color:var(--secondary-color,#ff7878);margin-bottom:0.5em;">Preț: <%= adidas.pret %> RON</p>
+                        <p style="margin-bottom:0.7em;"><%= adidas.descriere %></p>
+                        <ul style="list-style:none;padding:0;margin:0 0 1em 0;font-size:1em;">
+                            <li><strong style="background:var(--accent-color,#ff6060);color:#fff;border-radius:8px;padding:0.18em 0.7em;margin-right:0.7em;">Mărime</strong> <%= adidas.marime %></li>
+                            <li><strong style="background:var(--accent-color,#ff6060);color:#fff;border-radius:8px;padding:0.18em 0.7em;margin-right:0.7em;">Materiale</strong> <%= adidas.materiale %></li>
+                            <li><strong style="background:var(--accent-color,#ff6060);color:#fff;border-radius:8px;padding:0.18em 0.7em;margin-right:0.7em;">Adăugat</strong> <%= new Date(adidas.data_introdusa).toLocaleDateString('ro-RO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></li>
+                            <li><strong style="background:var(--accent-color,#ff6060);color:#fff;border-radius:8px;padding:0.18em 0.7em;margin-right:0.7em;">Ediție limitată</strong> <%= adidas.editie_limitata ? 'Da' : 'Nu' %></li>
+                            <li><strong style="background:var(--accent-color,#ff6060);color:#fff;border-radius:8px;padding:0.18em 0.7em;margin-right:0.7em;">Culoare</strong> <%= adidas.culoare %></li>
+                        </ul>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Includere footer -->

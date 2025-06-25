@@ -5,7 +5,7 @@
 // 7.
 // 6.
 // 5. 
-// 
+// 11. 
 
 // ETAPE:
 // 0: 0.3
@@ -14,7 +14,7 @@
 // 3: 0.45
 // 4: 0.6
 // 5: 1.15
-// 6: 4.15
+// 6: 4.15 + 0.4
 
 
 
@@ -608,4 +608,82 @@ window.addEventListener('DOMContentLoaded', function() {
             }, 100);
         });
     }
+
+    // === BONUS 11: Modal Box for Product Details ===
+    // (HTML and CSS are now in EJS and CSS files)
+
+    // Helper: get product data from article element
+    function getProdusData(article) {
+        return {
+            imagine: article.querySelector('img')?.src,
+            nume: article.dataset.nume,
+            descriere: article.dataset.descriere,
+            pret: article.dataset.pret,
+            categorie: article.dataset.categorie,
+            subcategorie: article.dataset.subcategorie,
+            marime: article.dataset.marime,
+            culoare: article.dataset.culoare,
+            data_introdusa: article.dataset.data_introdusa,
+            editie_limitata: article.dataset.editie_limitata,
+            materiale: article.dataset.materiale
+        };
+    }
+
+    // Helper: format date
+    function formatData(dataStr) {
+        if (!dataStr) return '';
+        const d = new Date(dataStr);
+        return d.toLocaleDateString('ro-RO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // Show modal with product data
+    function showModalProdus(article) {
+        const data = getProdusData(article);
+        const modal = document.getElementById('modal-produs');
+        const body = modal.querySelector('.modal-body');
+        body.innerHTML = `
+            <div class="modal-card">
+                ${data.imagine ? `<img src="${data.imagine}" alt="${data.nume}">` : ''}
+                <h2>${data.nume}</h2>
+                <p class="modal-subcat"><span>${data.categorie}</span> &ndash; <span>${data.subcategorie}</span></p>
+                <p class="modal-pret">Preț: <strong>${data.pret} RON</strong></p>
+                <p class="modal-descriere">${data.descriere}</p>
+                <ul>
+                    <li><strong>Mărime</strong> ${data.marime}</li>
+                    <li><strong>Materiale</strong> ${data.materiale}</li>
+                    <li><strong>Adăugat</strong> ${formatData(data.data_introdusa)}</li>
+                    <li><strong>Ediție limitată</strong> ${data.editie_limitata === 'true' ? 'Da' : 'Nu'}</li>
+                    <li><strong>Culoare</strong> ${data.culoare}</li>
+                </ul>
+            </div>
+        `;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Hide modal
+    function hideModalProdus() {
+        const modal = document.getElementById('modal-produs');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Event listeners for modal
+    const modal = document.getElementById('modal-produs');
+    modal.querySelector('.modal-close').addEventListener('click', hideModalProdus);
+    modal.querySelector('.modal-overlay').addEventListener('click', hideModalProdus);
+    document.addEventListener('keydown', function(e) {
+        if (modal.classList.contains('active') && (e.key === 'Escape' || e.key === 'Esc')) {
+            hideModalProdus();
+        }
+    });
+
+    // Open modal on product click (but not on action buttons)
+    produse.forEach(produs => {
+        produs.addEventListener('click', function(e) {
+            // Prevent if click is on a button inside the product
+            if (e.target.closest('.buton-actiune')) return;
+            showModalProdus(produs);
+        });
+    });
 }); 
