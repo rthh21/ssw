@@ -127,14 +127,14 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     // Funcție pentru afișarea/ascunderea mesajului de lipsă produse
+    // Funcție pentru afișarea/ascunderea mesajului de lipsă produse
     function actualizeazaMesajProduse() {
-        const produseVizibile = produse.filter(p => p.style.display !== 'none');
+        // We now filter based on products currently in the DOM and visible (not just from the 'produse' array)
+        const produseVizibileCount = Array.from(produseContainer.querySelectorAll('.produs')).filter(p => p.style.display !== 'none').length;
         
-        // Verifică dacă există un mesaj deja
         let mesajExistent = produseContainer.querySelector('.alert-warning');
         
-        if (produseVizibile.length === 0) {
-            // Dacă nu există produse vizibile și nu există deja un mesaj, creează-l
+        if (produseVizibileCount === 0) {
             if (!mesajExistent) {
                 const mesaj = document.createElement('div');
                 mesaj.className = 'alert alert-warning mesaj-filtrare';
@@ -142,11 +142,15 @@ window.addEventListener('DOMContentLoaded', function() {
                     <i class="bi bi-exclamation-triangle-fill"></i>
                     Nu există produse conform filtrării curente.
                 `;
-                produseContainer.innerHTML = ''; // Curăță containerul
+                // Only clear if adding the message AND there are actual product cards, otherwise, just append
+                // This prevents clearing product cards that are about to be re-added by applyFilter
+                const hasProductsInContainer = produseContainer.querySelector('.produs');
+                if (hasProductsInContainer) {
+                    produseContainer.innerHTML = ''; 
+                }
                 produseContainer.appendChild(mesaj);
             }
         } else {
-            // Dacă există produse vizibile și există un mesaj, șterge-l
             if (mesajExistent) {
                 mesajExistent.remove();
             }
@@ -371,9 +375,11 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     // Funcție pentru aplicarea filtrelor
+   // Funcție pentru aplicarea filtrelor
     function aplicaFiltrare() {
         produseAscunse.clear(); // Clear temporary hidden products on every filter
         const valNume = faraDiacritice(inpNume.value.trim());
+        // FIX: Corrected typo: faraDiacriere should be faraDiacritice
         const valDescriere = faraDiacritice(inpDescriere.value.trim());
         const valPret = parseFloat(inpPret.value);
         const valCategorie = inpCategorie.value;
@@ -384,23 +390,19 @@ window.addEventListener('DOMContentLoaded', function() {
         const valMaterialeSelectate = Array.from(inpMateriale.selectedOptions).map(opt => opt.value);
         const valMarime = inpMarime.value;
 
-        produse.forEach(produs => {
+        // Determine which products should be visible based on filters
+        const produseFiltrate = produse.filter(produs => {
             const produsId = produs.dataset.produsId;
-            // Sari peste produsele șterse din sesiune
+
+            // Immediately hide deleted products
             if (produseSterse.has(produsId)) {
-                produs.style.display = 'none';
-                return;
+                return false;
             }
-            // Păstrează produsele marcate ca păstrate
+            // Immediately show "kept" products, regardless of other filters
             if (produsePastrate.has(produsId)) {
-                produs.style.display = 'flex';
-                return;
+                return true;
             }
-            // Verifică dacă produsul e ascuns temporar (should never happen after clear, but for safety)
-            if (produseAscunse.has(produsId)) {
-                produs.style.display = 'none';
-                return;
-            }
+
             const numeProdus = faraDiacritice(produs.dataset.nume);
             const descriereProdus = faraDiacritice(produs.dataset.descriere);
             const pretProdus = parseFloat(produs.dataset.pret);
@@ -408,8 +410,9 @@ window.addEventListener('DOMContentLoaded', function() {
             const subcategorieProdus = produs.dataset.subcategorie;
             const culoareProdus = faraDiacritice(produs.dataset.culoare);
             const dataProdus = new Date(produs.dataset.data_introdusa);
-            const materialeProdus = produs.dataset.materiale.split(',');
+            const materialeProdus = produs.dataset.materiale ? produs.dataset.materiale.split(',').map(m => m.trim()) : [];
             const marimeProdus = produs.dataset.marime;
+
             let vizibil = true;
             if (valNume && !numeProdus.includes(valNume)) vizibil = false;
             if (valDescriere && !descriereProdus.includes(valDescriere)) vizibil = false;
@@ -422,13 +425,34 @@ window.addEventListener('DOMContentLoaded', function() {
             if (valMaterialeSelectate.length > 0 && !valMaterialeSelectate.some(mat => materialeProdus.includes(mat))) {
                 vizibil = false;
             }
-            produs.style.display = vizibil ? 'flex' : 'none';
+
+            return vizibil;
         });
+
+        // Now, update the DOM: Clear container and append only filtered products
+        produseContainer.innerHTML = '';
+        produseFiltrate.forEach(p => {
+            p.style.display = 'flex'; // Ensure it's visible if it's in the filtered set
+            produseContainer.appendChild(p); // Add to container
+        });
+
+        // Hide any products that were not filtered to be visible, but are still in the 'produse' array
+        // (important if they were previously shown and now don't pass filters)
+        produse.forEach(p => {
+            if (!produseFiltrate.includes(p)) {
+                p.style.display = 'none';
+            }
+        });
+
+        // Update filter options and messages based on the currently *visible* products
         actualizeazaMarimiDisponibile();
         actualizeazaMaterialeDisponibile();
         actualizeazaCategoriiDisponibile();
         actualizeazaMesajProduse();
         actualizeazaContorProduse();
+
+        // Re-initialize pagination based on the newly filtered and ordered products
+        paginareInit();
     }
 
     // Adaugă clasa 'filtru' la toate elementele de filtrare
