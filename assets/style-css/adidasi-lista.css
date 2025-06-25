@@ -478,34 +478,36 @@
 }
 
 .btn-paginare {
+    /* Match filter button styles except shape */
+    padding: 0.6em 1.5em;
+    color: var(--background-color) !important;
+    background-color: var(--text-color) !important;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.8em; /* Keep a subtle rounding, not pill */
+    cursor: pointer;
+    transition: all .25s ease;
     min-width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
+    height: auto;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    font-size: 1rem;
-    border: 2px solid var(--accent-color, #007bff);
-    color: var(--text-color, #333);
-    background-color: var(--background-color, #fff);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    padding: 0;
     margin: 0 0.25rem;
 }
 
 .btn-paginare:hover {
-    transform: translateY(-2px);
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    background-color: var(--accent-color) !important;
+    color: var(--background-color) !important;
+    scale: 110%;
+    box-shadow: none;
+    transform: none;
 }
 
 .btn-paginare.active {
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    box-shadow: 0 0 0 3px var(--background-color), 0 0 0 5px var(--accent-color);
+    background-color: var(--accent-color) !important;
+    color: var(--background-color) !important;
+    box-shadow: none;
 }
 
 @media (max-width: 600px) {
@@ -516,7 +518,7 @@
     
     .btn-paginare {
         min-width: 35px;
-        height: 35px;
         font-size: 0.9rem;
+        padding: 0.5em 1em;
     }
 }
