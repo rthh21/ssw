@@ -37,8 +37,9 @@ vect_foldere.forEach(folder => {
 //-------------------------------------------------------------------------------
 // IP si PAGINI
 // In your routes
+// Replace your current routes
 app.get(['/', '/index', '/home'], async (req, res) => {
-    const galerie = await getImaginiGalerie(req.query.ora);
+    const galerie = await getImaginiGalerie(req.query.ora); // Fix: Pass query parameter
     res.render('pages/index', {
       titlu: "Pagina Principală",
       galerie: galerie,
@@ -47,7 +48,7 @@ app.get(['/', '/index', '/home'], async (req, res) => {
   });
   
   app.get('/galerie', async (req, res) => {
-    const galerie = await getImaginiGalerie(req.query.ora);
+    const galerie = await getImaginiGalerie(req.query.ora); // Fix: Pass query parameter  
     res.render('pages/galerie', {
       titlu: "Galerie",
       galerie: galerie,
@@ -319,6 +320,8 @@ app.use((req, res, next) => {
 
 // ETAPA 5
 //galerie:
+
+
 async function getImaginiGalerie(oraParam = null) {
     const galerieRaw = fs.readFileSync("./galerie.json");
     const galerieJson = JSON.parse(galerieRaw);
@@ -326,19 +329,25 @@ async function getImaginiGalerie(oraParam = null) {
     const now = new Date();
     const oraCurenta = oraParam !== null ? parseInt(oraParam, 10) : now.getHours();
     
+    console.log(`Current hour: ${oraCurenta}, from param: ${oraParam}`); // Debug log
+    
     let imaginiFiltrate = galerieJson.imagini.filter(img => {
       if (!img.intervale_ore || !Array.isArray(img.intervale_ore)) {
         return false;
       }
-      return img.intervale_ore.some(interval => {
+      const matches = img.intervale_ore.some(interval => {
         const [start, end] = interval;
         return start <= oraCurenta && oraCurenta <= end;
       });
+      
+      console.log(`Image ${img.cale_relativa}: intervals ${JSON.stringify(img.intervale_ore)}, matches: ${matches}`);
+      
+      return matches;
     });
     
-    // Generate responsive images - FIX: Include gallery path
+    // Generate responsive images
     for (const img of imaginiFiltrate) {
-      const fullImagePath = path.join(galerieJson.cale_galerie, img.cale_fisier);
+      const fullImagePath = path.join(galerieJson.cale_galerie, img.cale_relativa);
       await generateResponsiveImages(fullImagePath);
     }
     
@@ -346,21 +355,23 @@ async function getImaginiGalerie(oraParam = null) {
     const evenCount = Math.floor(imaginiFiltrate.length / 2) * 2;
     imaginiFiltrate = imaginiFiltrate.slice(0, evenCount);
     
+    console.log(`Filtered ${imaginiFiltrate.length} images`);
+    
     return {
       cale_galerie: galerieJson.cale_galerie,
-      cale_galerie_mediu: galerieJson.cale_galerie_mediu,
-      cale_galerie_mic: galerieJson.cale_galerie_mic,
+      cale_galerie_mediu: galerieJson.cale_galerie_mediu || 'Galerie-medium/',
+      cale_galerie_mic: galerieJson.cale_galerie_mic || 'Galerie-small/',
       imagini: imaginiFiltrate,
       oraAfisata: oraCurenta
     };
   }
-  async function generateResponsiveImages(imagePath, sizes = { large: 500, medium: 300, small: 200 }) {
+  
+  async function generateResponsiveImages(imagePath, sizes = { medium: 400, small: 250 }) {
     const inputPath = path.join(__dirname, 'assets', imagePath);
     
-    // Check if input file exists
     if (!fs.existsSync(inputPath)) {
       console.error(`Input file does not exist: ${inputPath}`);
-      return; // Skip processing this image
+      return;
     }
     
     const filename = path.parse(imagePath).name;
@@ -370,21 +381,18 @@ async function getImaginiGalerie(oraParam = null) {
       const outputDir = path.join(__dirname, 'assets', `Galerie-${size}`);
       const outputPath = path.join(outputDir, `${filename}${ext}`);
       
-      // Create output directory if it doesn't exist
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
-        console.log(`Created directory: ${outputDir}`);
       }
       
-      // Skip if output file already exists
       if (fs.existsSync(outputPath)) {
-        console.log(`File already exists, skipping: ${outputPath}`);
-        continue;
+        continue; // Skip if already exists
       }
       
       try {
         await sharp(inputPath)
           .resize({ width, height: width, fit: 'cover' })
+          .jpeg({ quality: 85 })
           .toFile(outputPath);
         
         console.log(`Generated ${size} image: ${path.basename(outputPath)}`);
@@ -393,6 +401,7 @@ async function getImaginiGalerie(oraParam = null) {
       }
     }
   }
+  
   
   
 

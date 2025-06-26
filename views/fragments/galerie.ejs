@@ -1,21 +1,16 @@
 <% if (galerie && galerie.imagini && galerie.imagini.length > 0) { %>
     <div class="gallery-grid">
-      <% 
-      const evenCount = Math.floor(galerie.imagini.length / 2) * 2;
-      const imaginiAfisate = galerie.imagini.slice(0, evenCount);
-      %>
-      
-      <% imaginiAfisate.forEach(function(img, idx) { %>
+      <% galerie.imagini.forEach(function(img, idx) { %>
         <figure class="gallery-item">
           <picture>
             <source 
               media="(max-width: 600px)" 
-              srcset="/assets/<%= galerie.cale_galerie_mic %><%= img.cale_fisier %>">
+              srcset="/assets/<%= galerie.cale_galerie_mic %><%= img.cale_relativa %>">
             <source 
               media="(max-width: 900px)" 
-              srcset="/assets/<%= galerie.cale_galerie_mediu %><%= img.cale_fisier %>">
+              srcset="/assets/<%= galerie.cale_galerie_mediu %><%= img.cale_relativa %>">
             <img 
-              src="/assets/<%= galerie.cale_galerie %><%= img.cale_fisier %>"
+              src="/assets/<%= galerie.cale_galerie %><%= img.cale_relativa %>"
               alt="<%= img.alternativ || img.nume_imag %>"
               title="<%= img.descriere_imag %>"
               loading="lazy">
@@ -23,10 +18,16 @@
           <figcaption>
             <%= img.nume_imag %>
           </figcaption>
+          <% if (img.atribuire) { %>
+            <div class="attribution">
+              Photo by <a href="<%= img.atribuire.sursa %>"><%= img.atribuire.autor %></a> 
+              under <a href="<%= img.atribuire.licenta_url %>"><%= img.atribuire.licenta %></a>
+            </div>
+          <% } %>
         </figure>
       <% }) %>
     </div>
   <% } else { %>
-    <p>Nu există imagini pentru intervalul orar selectat.</p>
+    <p class="no-images">Nu există imagini pentru intervalul orar selectat (ora <%= galerie ? galerie.oraAfisata : 'necunoscută' %>).</p>
   <% } %>
   
