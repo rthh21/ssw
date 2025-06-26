@@ -1,20 +1,23 @@
 /* Gallery Grid Layout */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: "item1 item2 item3"  
+                         "item6 item5 item4"  
+                         "item7 item8 item9"  
+                         "item12 item11 item10"; 
     gap: 20px;
     padding: 20px;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     counter-reset: gallery-counter;
-  }
-  
-  /* Zig-zag pattern for large screens - FIXED */
-  .gallery-item:nth-child(4n+1) { grid-column: 1; }
-  .gallery-item:nth-child(4n+2) { grid-column: 2; }
-  .gallery-item:nth-child(4n+3) { grid-column: 3; }
-  .gallery-item:nth-child(4n) { grid-column: 2; }
+}
+
+.gallery-item:nth-child(1) { grid-area: item1; }
+.gallery-item:nth-child(2) { grid-area: item5; }
+.gallery-item:nth-child(3) { grid-area: item9; }
+.gallery-item:nth-child(4) { grid-area: item11; }
+
   
   /* Figure styling */
   .gallery-item {

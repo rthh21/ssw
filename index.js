@@ -340,7 +340,7 @@ async function getImaginiGalerie(oraParam = null) {
         return start <= oraCurenta && oraCurenta <= end;
       });
       
-      console.log(`Image ${img.cale_relativa}: intervals ${JSON.stringify(img.intervale_ore)}, matches: ${matches}`);
+    //   console.log(`Image ${img.cale_relativa}: intervals ${JSON.stringify(img.intervale_ore)}, matches: ${matches}`);
       
       return matches;
     });
@@ -459,10 +459,8 @@ function compileazaScss(caleScss, caleCss) {
         outputPath = path.join(global.folderCss, caleCss);
     }
     
-    // Salvare în backup înainte de compilare
     if (fs.existsSync(outputPath)) {
         const backupDir = path.join(__dirname, 'backup', 'assets', 'style-css');
-        // AICI modifici:
         const numeFisier = path.basename(outputPath, '.css');
         const extensie = path.extname(outputPath);
         const backupPath = path.join(backupDir, `${numeFisier}_${timestamp}${extensie}`);

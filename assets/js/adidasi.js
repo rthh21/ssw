@@ -127,9 +127,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     // Funcție pentru afișarea/ascunderea mesajului de lipsă produse
-    // Funcție pentru afișarea/ascunderea mesajului de lipsă produse
     function actualizeazaMesajProduse() {
-        // We now filter based on products currently in the DOM and visible (not just from the 'produse' array)
         const produseVizibileCount = Array.from(produseContainer.querySelectorAll('.produs')).filter(p => p.style.display !== 'none').length;
         
         let mesajExistent = produseContainer.querySelector('.alert-warning');
@@ -142,8 +140,6 @@ window.addEventListener('DOMContentLoaded', function() {
                     <i class="bi bi-exclamation-triangle-fill"></i>
                     Nu există produse conform filtrării curente.
                 `;
-                // Only clear if adding the message AND there are actual product cards, otherwise, just append
-                // This prevents clearing product cards that are about to be re-added by applyFilter
                 const hasProductsInContainer = produseContainer.querySelector('.produs');
                 if (hasProductsInContainer) {
                     produseContainer.innerHTML = ''; 
@@ -375,11 +371,9 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     // Funcție pentru aplicarea filtrelor
-   // Funcție pentru aplicarea filtrelor
     function aplicaFiltrare() {
-        produseAscunse.clear(); // Clear temporary hidden products on every filter
+        produseAscunse.clear(); 
         const valNume = faraDiacritice(inpNume.value.trim());
-        // FIX: Corrected typo: faraDiacriere should be faraDiacritice
         const valDescriere = faraDiacritice(inpDescriere.value.trim());
         const valPret = parseFloat(inpPret.value);
         const valCategorie = inpCategorie.value;
@@ -394,11 +388,9 @@ window.addEventListener('DOMContentLoaded', function() {
         const produseFiltrate = produse.filter(produs => {
             const produsId = produs.dataset.produsId;
 
-            // Immediately hide deleted products
             if (produseSterse.has(produsId)) {
                 return false;
             }
-            // Immediately show "kept" products, regardless of other filters
             if (produsePastrate.has(produsId)) {
                 return true;
             }
@@ -429,29 +421,24 @@ window.addEventListener('DOMContentLoaded', function() {
             return vizibil;
         });
 
-        // Now, update the DOM: Clear container and append only filtered products
         produseContainer.innerHTML = '';
         produseFiltrate.forEach(p => {
             p.style.display = 'flex'; // Ensure it's visible if it's in the filtered set
             produseContainer.appendChild(p); // Add to container
         });
 
-        // Hide any products that were not filtered to be visible, but are still in the 'produse' array
-        // (important if they were previously shown and now don't pass filters)
         produse.forEach(p => {
             if (!produseFiltrate.includes(p)) {
                 p.style.display = 'none';
             }
         });
 
-        // Update filter options and messages based on the currently *visible* products
         actualizeazaMarimiDisponibile();
         actualizeazaMaterialeDisponibile();
         actualizeazaCategoriiDisponibile();
         actualizeazaMesajProduse();
         actualizeazaContorProduse();
 
-        // Re-initialize pagination based on the newly filtered and ordered products
         paginareInit();
     }
 
@@ -522,8 +509,9 @@ window.addEventListener('DOMContentLoaded', function() {
         produse.sort((a, b) => {
             const numeA = a.dataset.nume;
             const numeB = b.dataset.nume;
-            const raportA = parseFloat(a.dataset.marime) / parseFloat(a.dataset.pret);
-            const raportB = parseFloat(b.dataset.marime) / parseFloat(b.dataset.pret);
+            // const raportA = parseFloat(a.dataset.marime) / parseFloat(a.dataset.pret);
+            const raportA = a.dataset.pret;
+            const raportB = b.dataset.pret;
 
             let comparatieNume = numeA.localeCompare(numeB);
             if (directie === 'desc') comparatieNume *= -1;
