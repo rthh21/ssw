@@ -1,0 +1,32 @@
+<% if (galerie && galerie.imagini && galerie.imagini.length > 0) { %>
+    <div class="gallery-grid">
+      <% 
+      const evenCount = Math.floor(galerie.imagini.length / 2) * 2;
+      const imaginiAfisate = galerie.imagini.slice(0, evenCount);
+      %>
+      
+      <% imaginiAfisate.forEach(function(img, idx) { %>
+        <figure class="gallery-item">
+          <picture>
+            <source 
+              media="(max-width: 600px)" 
+              srcset="/assets/<%= galerie.cale_galerie_mic %><%= img.cale_fisier %>">
+            <source 
+              media="(max-width: 900px)" 
+              srcset="/assets/<%= galerie.cale_galerie_mediu %><%= img.cale_fisier %>">
+            <img 
+              src="/assets/<%= galerie.cale_galerie %><%= img.cale_fisier %>"
+              alt="<%= img.alternativ || img.nume_imag %>"
+              title="<%= img.descriere_imag %>"
+              loading="lazy">
+          </picture>
+          <figcaption>
+            <%= img.nume_imag %>
+          </figcaption>
+        </figure>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>Nu există imagini pentru intervalul orar selectat.</p>
+  <% } %>
+  
