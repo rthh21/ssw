@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ro" >
- <head>
-    <!--Etapa: 1 /// Pas: 2-->
-    <title>Galerie</title>
+<html lang="ro">
+  <head>
+    <title>Galerie Foto</title>
     <%- include('../fragments/head.ejs') %>
-    <link rel="stylesheet" href="../assets/style-css/blog.css">
- </head>
-     <%- include('../fragments/header.ejs') %>
-     <body>
-        <main>
-             <%- include('../fragments/galerie_fragment.ejs') %>
-        <main>
-     </body>
-     <%- include('../fragments/footer.ejs') %>
-</html>
+
+  </head>
+  <body>
+    <%- include('../fragments/header.ejs') %>
+    <main>
+      <h2 class="galerie-title">Galerie Foto</h2>
+      <%- include("../fragments/galerie.ejs", {galerie: galerie}) %>
+    </main>
+    <%- include('../fragments/footer.ejs') %>
+  </body>
+</html> 

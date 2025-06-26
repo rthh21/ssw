@@ -1,6 +1,7 @@
 const express = require('express');
 const sass = require('sass');
 const path = require('path');
+const sharp = require('sharp');
 const fs = require('fs');
 const app = express();
 const ejs = require('ejs');
@@ -35,12 +36,26 @@ vect_foldere.forEach(folder => {
 
 //-------------------------------------------------------------------------------
 // IP si PAGINI
-app.get(['/', '/index', '/home'], (req, res) => {
-    res.render('pages/index', { 
-        titlu: "Pagina Principală", 
-        ip: req.ip.replace(/^.*:/, '') // Elimină prefixul IPv6 pentru adrese locale
+// In your routes
+app.get(['/', '/index', '/home'], async (req, res) => {
+    const galerie = await getImaginiGalerie(req.query.ora);
+    res.render('pages/index', {
+      titlu: "Pagina Principală",
+      galerie: galerie,
+      ip: req.ip.replace(/^.*:/, '')
     });
-});
+  });
+  
+  app.get('/galerie', async (req, res) => {
+    const galerie = await getImaginiGalerie(req.query.ora);
+    res.render('pages/galerie', {
+      titlu: "Galerie",
+      galerie: galerie,
+      ip: req.ip.replace(/^.*:/, '')
+    });
+  });
+  
+  
 
 app.get(['/blog'], (req, res) => {
     res.render('pages/blog', { 
@@ -117,53 +132,6 @@ app.get('/favicon.ico', (req, res) => {
 });
 
 //-------------------------------------------------------------------------------
-// Route pentru galerie
-app.get('/galerie', async (req, res) => {
-  try {
-    // Citește fișierul JSON în mod asincron
-    const galerieData = JSON.parse(
-      await fsp.readFile('./assets/galerie/galerie.json')
-    );
-
-    // Ora curentă (sau setează manual pentru test)
-    const currentHour = new Date().getHours();
-
-    // Filtrare imagini după intervale orare
-    let imaginiFiltrate = galerieData.imagini.filter(img =>
-      img.intervale_ore.some(([start, end]) =>
-        currentHour >= start && currentHour <= end
-      )
-    );
-
-    // Trunchiere la cel mai mic număr par
-    if (imaginiFiltrate.length % 2 !== 0) {
-      imaginiFiltrate.pop();
-    }
-
-    // Generează imaginile responsive (dacă funcția e async, folosește await)
-    for (const img of imaginiFiltrate) {
-      const imagePath = path.join(
-        __dirname,
-        'public',
-        galerieData.cale_galerie,
-        img.cale_relativa
-      );
-      await generateResponsiveImages(imagePath, img.cale_relativa);
-    }
-
-    // Render template cu datele galeriei
-    res.render('pages/galerie', {
-      titlu: "Galerie",
-      ip: req.ip.replace(/^.*:/, ''),
-      cale_galerie: galerieData.cale_galerie,
-      imagini: imaginiFiltrate,
-      title: 'Galeria de Pantofi Sport'
-    });
-  } catch (error) {
-    console.error('Eroare la încărcarea galeriei:', error);
-    res.status(500).send('Eroare server');
-  }
-});
 
 // Ruta pentru afișarea listei de adidași, cu filtrare și sortare
 app.get('/adidasi', async (req, res) => {
@@ -282,6 +250,34 @@ app.get('/adidas/:id', async (req, res) => {
     }
 });
 
+// // Galerie route should be here, before the catch-all route
+// function getImaginiGalerie(oraParam = null) {
+//     const galerieRaw = fs.readFileSync("./galerie.json");
+//     const galerieJson = JSON.parse(galerieRaw);
+
+//     // Use provided hour or current hour - CONVERT TO NUMBER
+//     const now = new Date();
+//     const oraCurenta = oraParam !== null ? parseInt(oraParam, 10) : now.getHours();
+
+//     // Filter images based on current hour and time intervals
+//     let imaginiFiltrate = galerieJson.imagini.filter(img => {
+//         if (!img.intervale_ore || !Array.isArray(img.intervale_ore)) {
+//             return false;
+//         }
+
+//         return img.intervale_ore.some(interval => {
+//             const [start, end] = interval;
+//             return start <= oraCurenta && oraCurenta <= end;
+//         });
+//     });
+
+//     return {
+//         cale_galerie: galerieJson.cale_galerie,
+//         imagini: imaginiFiltrate,
+//         oraAfisata: oraCurenta
+//     };
+// }
+
 
 
 //-------------------------------------------------------------------------------
@@ -322,6 +318,84 @@ app.use((req, res, next) => {
 });
 
 // ETAPA 5
+//galerie:
+async function getImaginiGalerie(oraParam = null) {
+    const galerieRaw = fs.readFileSync("./galerie.json");
+    const galerieJson = JSON.parse(galerieRaw);
+    
+    const now = new Date();
+    const oraCurenta = oraParam !== null ? parseInt(oraParam, 10) : now.getHours();
+    
+    let imaginiFiltrate = galerieJson.imagini.filter(img => {
+      if (!img.intervale_ore || !Array.isArray(img.intervale_ore)) {
+        return false;
+      }
+      return img.intervale_ore.some(interval => {
+        const [start, end] = interval;
+        return start <= oraCurenta && oraCurenta <= end;
+      });
+    });
+    
+    // Generate responsive images - FIX: Include gallery path
+    for (const img of imaginiFiltrate) {
+      const fullImagePath = path.join(galerieJson.cale_galerie, img.cale_fisier);
+      await generateResponsiveImages(fullImagePath);
+    }
+    
+    // Truncate to even number for zig-zag pattern
+    const evenCount = Math.floor(imaginiFiltrate.length / 2) * 2;
+    imaginiFiltrate = imaginiFiltrate.slice(0, evenCount);
+    
+    return {
+      cale_galerie: galerieJson.cale_galerie,
+      cale_galerie_mediu: galerieJson.cale_galerie_mediu,
+      cale_galerie_mic: galerieJson.cale_galerie_mic,
+      imagini: imaginiFiltrate,
+      oraAfisata: oraCurenta
+    };
+  }
+  async function generateResponsiveImages(imagePath, sizes = { large: 500, medium: 300, small: 200 }) {
+    const inputPath = path.join(__dirname, 'assets', imagePath);
+    
+    // Check if input file exists
+    if (!fs.existsSync(inputPath)) {
+      console.error(`Input file does not exist: ${inputPath}`);
+      return; // Skip processing this image
+    }
+    
+    const filename = path.parse(imagePath).name;
+    const ext = path.parse(imagePath).ext;
+    
+    for (const [size, width] of Object.entries(sizes)) {
+      const outputDir = path.join(__dirname, 'assets', `Galerie-${size}`);
+      const outputPath = path.join(outputDir, `${filename}${ext}`);
+      
+      // Create output directory if it doesn't exist
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+        console.log(`Created directory: ${outputDir}`);
+      }
+      
+      // Skip if output file already exists
+      if (fs.existsSync(outputPath)) {
+        console.log(`File already exists, skipping: ${outputPath}`);
+        continue;
+      }
+      
+      try {
+        await sharp(inputPath)
+          .resize({ width, height: width, fit: 'cover' })
+          .toFile(outputPath);
+        
+        console.log(`Generated ${size} image: ${path.basename(outputPath)}`);
+      } catch (error) {
+        console.error(`Error processing ${size} image for ${imagePath}:`, error.message);
+      }
+    }
+  }
+  
+  
+
 // COMPILARE SCSS 
 
 global.folderScss = path.join(__dirname, 'assets', 'style-scss');
@@ -539,5 +613,3 @@ app.listen(PORT, () => {
 
 
 
-// etapa 6
-// Pagina de produse cu filtrare/sortare
