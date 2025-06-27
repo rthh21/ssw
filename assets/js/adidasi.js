@@ -351,19 +351,15 @@ window.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    // Funcție pentru eliminarea diacriticelor
     function faraDiacritice(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
-    // Funcție pentru actualizarea contorului de produse
     function actualizeazaContorProduse() {
-        // Only count visible product cards, not the warning message
         const produseVizibile = produse.filter(p => 
             p.style.display !== 'none' && p.classList.contains('produs')
         );
         const contorProduse = document.getElementById('numar-produse');
-        // If the "no products" message is present, show 0
         const mesaj = document.querySelector('.mesaj-filtrare');
         if (contorProduse) {
             contorProduse.textContent = (mesaj ? 0 : produseVizibile.length);
@@ -567,6 +563,7 @@ window.addEventListener('DOMContentLoaded', function() {
             prod.style.display = (idx >= start && idx < end) ? 'flex' : 'none';
         });
     }
+    
     function creeazaPaginare(produse) {
         const paginareContainer = document.getElementById('paginare-container');
         paginareContainer.innerHTML = '';
@@ -621,10 +618,7 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // === BONUS 11: Modal Box for Product Details ===
-    // (HTML and CSS are now in EJS and CSS files)
-
-    // Helper: get product data from article element
+    // === BONUS 11: Modal Box
     function getProdusData(article) {
         return {
             imagine: article.querySelector('img')?.src,
@@ -648,7 +642,6 @@ window.addEventListener('DOMContentLoaded', function() {
         return d.toLocaleDateString('ro-RO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
-    // Show modal with product data
     function showModalProdus(article) {
         const data = getProdusData(article);
         const modal = document.getElementById('modal-produs');
@@ -690,7 +683,6 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Open modal on product click (but not on action buttons)
     produse.forEach(produs => {
         produs.addEventListener('click', function(e) {
             // Prevent if click is on a button inside the product
