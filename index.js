@@ -3,11 +3,12 @@
 // 2. 0.45 / 0.5175
 // 3. 0.45 / 0.5175
 // 4. 0.6
-// 5. 1.15 sau 1.035
-// 6. 1.75+0.8+0.05+0.4+0.5+0.5+0.15+0.4+0.05 = 4.6 / 4.14.
-// res = 8.2025
+// 5. 1.15 
+// ------------------4.0625
+// 6. 1.75 + 0.8 + 0.05 + 0.4 + 0.5 + 0.5 + 0.15 + 0.4 + 0.05 + 0.2 + 0.15= 4.95 / 4.455.
+// res = 8.3825
 // -------------------------
-// final 9.6025
+// final 10.0175
 
 const express = require('express');
 const sass = require('sass');
@@ -19,7 +20,8 @@ const ejs = require('ejs');
 const http = require('http');
 const fsp = require('fs/promises');
 const PORT = 8080;
-const pool = require('./scripts/db.js');
+const pool = require('./scripts/db.js');    
+const INTERVAL_NOU_ZILE = 60;
 
 // Setări EJS
 app.set('view engine', 'ejs');
@@ -51,10 +53,31 @@ vect_foldere.forEach(folder => {
 // Replace your current routes
 app.get(['/', '/index', '/home'], async (req, res) => {
     const galerie = await getImaginiGalerie(req.query.ora); // Fix: Pass query parameter
+    // --- BONUS 18: Produse noi ---
+    let produseNoi = [];
+    try {
+        console.log('\n=== FETCHING NEW PRODUCTS ===');
+        const query = `
+            SELECT id, nume, data_introdusa, pret, imagine, descriere, categorie_mare, subcategorie, marime, culoare, editie_limitata, materiale
+            FROM adidasi 
+            WHERE data_introdusa >= NOW() - INTERVAL '${INTERVAL_NOU_ZILE} days' 
+            ORDER BY data_introdusa DESC`;
+        console.log('Query:', query);
+        const result = await pool.query(query);
+        produseNoi = result.rows;
+        console.log('Number of products found:', produseNoi.length);
+        console.log('Products:', produseNoi);
+        console.log('=== END PRODUCTS FETCH ===\n');
+    } catch (e) {
+        console.error('Eroare la interogarea produselor noi:', e.message);
+        console.error('Stack:', e.stack);
+    }
     res.render('pages/index', {
       titlu: "Pagina Principală",
       galerie: galerie,
-      ip: req.ip.replace(/^.*:/, '')
+      ip: req.ip.replace(/^.*:/, ''),
+      produseNoi, // trimite produsele noi către homepage
+      intervalNouZile: INTERVAL_NOU_ZILE
     });
   });
   
@@ -229,7 +252,8 @@ app.get('/adidasi', async (req, res) => {
             adidasi, // Lista de produse
             categorii, // Lista de categorii pentru meniu
             query: req.query, // Trimite query-ul pentru a repopula filtrele
-            ip: req.ip.replace(/^.*:/, '') // Elimină prefixul IPv6 pentru adrese locale
+            ip: req.ip.replace(/^.*:/, ''), // Elimină prefixul IPv6 pentru adrese locale
+            intervalNouZile: INTERVAL_NOU_ZILE
         });
 
     } catch (err) {
@@ -629,5 +653,38 @@ app.listen(PORT, () => {
     console.log('Server domain: http://localhost:'+PORT);
 });
 
+// BONUS 13: Stergere fisiere vechi din backup
+const T_MS = 432000000; // 5 zile in ms
+const backupDir = path.join(__dirname, 'backup');
 
+async function deleteOldFiles(dir) {
+    try {
+        const files = await fs.readdir(dir);
+        const now = Date.now();
+        
+        for (const file of files) {
+            const filePath = path.join(dir, file);
+            try {
+                const stats = await fs.stat(filePath);
+                
+                if (stats.isDirectory()) {
+                    await deleteOldFiles(filePath); // Recursiv
+                } else {
+                    if (now - stats.mtimeMs > T_MS) {
+                        await fs.unlink(filePath);
+                        console.log('Deleted old backup:', filePath);
+                    }
+                }
+            } catch (fileErr) {
+                console.error(`Error processing ${filePath}:`, fileErr.message);
+            }
+        }
+    } catch (err) {
+        console.error(`Error reading directory ${dir}:`, err.message);
+    }
+}
+
+setInterval(() => {
+    deleteOldFiles(backupDir);
+}, 60 * 60 * 1000);
 

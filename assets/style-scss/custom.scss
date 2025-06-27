@@ -381,3 +381,32 @@ html[data-theme="dark"] .theme-noapte .btn-primary {
   background: #ff7878 !important;
   color: #232946 !important;
 }
+
+.badge-nou {
+  background: var(--accent-color);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.18em 0.7em;
+  font-weight: 700;
+  font-size: 1em;
+  box-shadow: 0 2px 8px 0 rgba(255,120,120,.12);
+  letter-spacing: .01em;
+  display: inline-block;
+  margin-left: 0.5em;
+  vertical-align: middle;
+  border: none;
+}
+
+.produse-noi-list .produs-nou-card {
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.produse-noi-list .produs-nou-card:hover {
+  background: var(--accent-color) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 32px 0 rgba(255,120,120,0.18);
+}
+.produse-noi-list .produs-nou-card:hover .card-title,
+.produse-noi-list .produs-nou-card:hover .card-text,
+.produse-noi-list .produs-nou-card:hover .badge-nou {
+  color: #fff !important;
+}

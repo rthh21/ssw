@@ -109,8 +109,14 @@
         <!-- ########## CONTAINER PRODUSE ########## -->
         <div id="produse-container">
             <% 
+            const MS_PER_DAY = 24*60*60*1000;
+            const azi = new Date();
+            const T = typeof intervalNouZile !== 'undefined' ? intervalNouZile : 60; // zile
             const optiuniData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            adidasi.forEach(function(adidas, index) { %>
+            adidasi.forEach(function(adidas, index) { 
+                const dataIntrodusa = new Date(adidas.data_introdusa);
+                const esteNou = (azi - dataIntrodusa) <= T*MS_PER_DAY;
+            %>
                 <article id="artc-<%= adidas.id %>" class="produs <%= adidas.categorie_mare %>"
                     data-produs-id="<%= adidas.id %>"
                     data-nume="<%= adidas.nume.toLowerCase() %>"
@@ -125,6 +131,10 @@
                     data-materiale="<%= adidas.materiale %>"
                     data-initial-order="<%= index %>">
                     
+                    <% if (esteNou) { %>
+                        <span class="badge-nou" style="position:absolute;top:10px;left:10px;z-index:2;">NOU</span>
+                    <% } %>
+
                     <div class="butoane-actiuni">
                         <button class="buton-actiune" data-action="pastrat" data-produs-id="<%= adidas.id %>">
                             <i class="bi bi-pin-angle"></i>
@@ -172,11 +182,18 @@
             <div class="modal-content">
                 <button class="modal-close" aria-label="Închide">&times;</button>
                 <div class="modal-body">
-                    <!-- Content will be dynamically updated by JS -->
                     <% if (adidasi && adidasi.length) { const adidas = adidasi[0]; %>
                     <div style="display:flex;flex-direction:column;align-items:center;gap:1.2em;">
                         <% if (adidas.imagine) { %>
                             <img src="/<%= adidas.imagine %>" alt="<%= adidas.nume %>" style="max-width:220px;max-height:220px;border-radius:1em;box-shadow:0 2px 16px 0 rgba(0,0,0,.18);">
+                        <% } %>
+                        <% if (adidas.data_introdusa) { %>
+                            <% const dataIntrodusa = new Date(adidas.data_introdusa); %>
+                            <% const T = typeof intervalNouZile !== 'undefined' ? intervalNouZile : 60; %>
+                            <% const esteNou = (new Date() - dataIntrodusa) <= T*24*60*60*1000; %>
+                            <% if (esteNou) { %>
+                                <span class="badge-nou" style="position:absolute;top:10px;left:10px;z-index:2;">NOU</span>
+                            <% } %>
                         <% } %>
                         <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2em;color:var(--text-color,#292929);margin-bottom:0.2em;"><%= adidas.nume %></h2>
                         <p style="font-size:1.1em;color:var(--accent-color,#ff6060);font-weight:bold;margin-bottom:0.5em;"><%= adidas.categorie_mare %> &ndash; <%= adidas.subcategorie %></p>
@@ -201,5 +218,8 @@
 
     <!-- ########## SCRIPTURI JAVASCRIPT ########## -->
     <script src="../assets/js/adidasi.js"></script>
+    <script>
+      window.intervalNouZile = Number("<%= typeof intervalNouZile !== 'undefined' ? intervalNouZile : 60 %>");
+    </script>
 </body>
 </html>

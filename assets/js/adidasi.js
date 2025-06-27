@@ -5,7 +5,11 @@
 // 7.
 // 6.
 // 5. 
-// 11. 
+// 11.
+
+// 15.
+// 18.
+// 13.
 
 // ETAPE:
 // 0: 0.3
@@ -644,12 +648,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
     function showModalProdus(article) {
         const data = getProdusData(article);
+        // Calculate if product is new (last 60 days)
+        let esteNou = false;
+        if (data.data_introdusa) {
+            const dataIntrodusa = new Date(data.data_introdusa);
+            const intervalNouZile = window.intervalNouZile || 60;
+            esteNou = (new Date() - dataIntrodusa) <= intervalNouZile*24*60*60*1000;
+        }
         const modal = document.getElementById('modal-produs');
         const body = modal.querySelector('.modal-body');
         body.innerHTML = `
             <div class="modal-card">
                 ${data.imagine ? `<img src="${data.imagine}" alt="${data.nume}">` : ''}
-                <h2>${data.nume}</h2>
+                <h2>${data.nume} ${esteNou ? '<span class="badge-nou" style="margin-left:0.5em;">NOU</span>' : ''}</h2>
                 <p class="modal-subcat"><span>${data.categorie}</span> &ndash; <span>${data.subcategorie}</span></p>
                 <p class="modal-pret">Preț: <strong>${data.pret} RON</strong></p>
                 <p class="modal-descriere">${data.descriere}</p>
@@ -690,4 +701,63 @@ window.addEventListener('DOMContentLoaded', function() {
             showModalProdus(produs);
         });
     });
+
+    // === BONUS 11: Modal Box for homepage new products ===
+    if (window.location.pathname === '/' || window.location.pathname === '/index' || window.location.pathname === '/home') {
+        document.querySelectorAll('.produs-nou-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                const produsId = card.getAttribute('data-produs-id');
+                // Find product data from DOM (if available) or from card
+                const nume = card.querySelector('.card-title span')?.textContent || '';
+                const descriere = card.querySelector('.card-text')?.textContent || '';
+                const pret = card.querySelector('strong')?.textContent?.replace('RON','').trim() || '';
+                const imagine = card.querySelector('img')?.src || '';
+                const isNew = card.getAttribute('data-new') === 'true';
+                // Build modal HTML
+                let modal = document.getElementById('modal-produs-home');
+                if (!modal) {
+                    modal = document.createElement('div');
+                    modal.id = 'modal-produs-home';
+                    modal.innerHTML = `
+                        <div class="modal-overlay"></div>
+                        <div class="modal-content">
+                            <button class="modal-close" aria-label="Închide">&times;</button>
+                            <div class="modal-body"></div>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+                }
+                const body = modal.querySelector('.modal-body');
+                body.innerHTML = `
+                    <div class="modal-card" style="text-align:center;">
+                        ${imagine ? `<img src="${imagine}" alt="${nume}" style="max-width:220px;max-height:220px;border-radius:1em;box-shadow:0 2px 16px 0 rgba(0,0,0,.18);">` : ''}
+                        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2em;color:var(--text-color,#292929);margin-bottom:0.2em;">${nume}
+                            ${isNew ? '<span class="badge-nou" style="margin-left:0.5em;">NOU</span>' : ''}
+                        </h2>
+                        <p style="font-size:1.2em;font-weight:700;color:var(--secondary-color,#ff7878);margin-bottom:0.5em;">Preț: ${pret} RON</p>
+                        <p style="margin-bottom:0.7em;">${descriere}</p>
+                    </div>
+                `;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                // Close modal logic
+                modal.querySelector('.modal-close').onclick = () => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                };
+                modal.querySelector('.modal-overlay').onclick = () => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                };
+                document.addEventListener('keydown', function escListener(e) {
+                    if (modal.classList.contains('active') && (e.key === 'Escape' || e.key === 'Esc')) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = '';
+                        document.removeEventListener('keydown', escListener);
+                    }
+                });
+            });
+        });
+    }
 }); 

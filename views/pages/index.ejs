@@ -105,7 +105,45 @@
         </video>      
     </div>
     
-    <h2>Galerie</h2>
+    <!-- BONUS 18: Cele mai noi produse -->
+    <% if (produseNoi && produseNoi.length) { %>
+    <section class="produse-noi-section">
+      <h2 class="text-center mb-4">Cele mai noi produse: <span class="badge-nou">NOU</span></h2>
+      <div class="produse-noi-list d-flex flex-wrap justify-content-center gap-4">
+        <% 
+        const MS_PER_DAY = 24*60*60*1000;
+        const azi = new Date();
+        const T = typeof intervalNouZile !== 'undefined' ? intervalNouZile : 60; // zile
+        // Filter and sort products: only 'nou', reverse chronological
+        const nouProduse = produseNoi.filter(function(prod) {
+          const dataIntrodusa = new Date(prod.data_introdusa);
+          return (azi - dataIntrodusa) <= T*MS_PER_DAY;
+        }).sort(function(a, b) {
+          return new Date(b.data_introdusa) - new Date(a.data_introdusa);
+        });
+        nouProduse.forEach(function(prod) {
+        %>
+          <div class="card produs-nou-card" style="width: 16rem; position: relative;">
+            <a href="/adidasi#artc-<%= prod.id %>" style="text-decoration: none; color: inherit;">
+              <% if (prod.imagine) { %>
+                <img src="/<%= prod.imagine %>" class="card-img-top" alt="<%= prod.nume %>">
+              <% } %>
+              <div class="card-body">
+                <h5 class="card-title d-flex align-items-center justify-content-between">
+                  <span><%= prod.nume %></span>
+                  <span class="badge-nou">NOU</span>
+                </h5>
+                <p class="card-text"><%= prod.descriere ? prod.descriere.substring(0, 60) + '...' : '-' %></p>
+                <p class="card-text"><strong><%= prod.pret %> RON</strong></p>
+              </div>
+            </a>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+    
+    <h2 style="margin-top:3em;">Galerie</h2>
     <%- include("../fragments/galerie.ejs", {galerie: galerie}) %>
     
     <div class="theme-noapte p-4">
