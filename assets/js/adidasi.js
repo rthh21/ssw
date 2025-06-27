@@ -760,4 +760,17 @@ window.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // === Open modal if hash matches a product on load or hashchange ===
+    function openModalFromHash() {
+        if (window.location.hash.startsWith('#artc-')) {
+            const id = window.location.hash.replace('#artc-', '');
+            const article = document.querySelector(`article[data-produs-id="${id}"]`);
+            if (article) {
+                showModalProdus(article);
+            }
+        }
+    }
+    window.addEventListener('hashchange', openModalFromHash);
+    openModalFromHash();
 }); 

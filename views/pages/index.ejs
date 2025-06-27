@@ -59,10 +59,10 @@
             <div class="zona3">
                 <div class="duotone"></div>
             </div>
-            <div class="zona4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quidem non molestias similique, suscipit eum nostrum ducimus cum recusandae tempore placeat reprehenderit ratione cumque, quisquam aliquid expedita deleniti voluptatem vel.</div>
-            <div class="zona5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quidem non molestias similique, suscipit eum nostrum ducimus cum recusandae tempore placeat reprehenderit ratione cumque, quisquam aliquid expedita deleniti voluptatem vel.</div>
-            <div class="zona6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quidem non molestias similique, suscipit eum nostrum ducimus cum recusandae tempore placeat reprehenderit ratione cumque, quisquam aliquid expedita deleniti voluptatem vel.</div>
-            <div class="zona7">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quidem non molestias similique, suscipit eum nostrum ducimus cum recusandae tempore placeat reprehenderit ratione cumque, quisquam aliquid expedita deleniti voluptatem vel.</div>
+            <div class="zona4">La magazinul nostru găsești cele mai noi și populare modele de adidași, selectate cu grijă pentru pasionații de sneakers și sport!</div>
+            <div class="zona5">Profită de promoțiile noastre exclusive: la fiecare a treia pereche cumpărată, primești un discount special! Verifică secțiunea de oferte pentru detalii.</div>
+            <div class="zona6">Știai că o curățare regulată prelungește viața adidașilor tăi preferați? Descoperă pe blogul nostru sfaturi utile pentru întreținerea încălțămintei sport.</div>
+            <div class="zona7">Urmărește-ne pe Instagram și Facebook pentru cele mai noi lansări, concursuri și inspirație din lumea sneakers! Abonează-te la newsletter pentru a nu rata noutățile.</div>
             <div class="zona8">
                 <p>Hottest pair</p>
                 <img src="../assets/Jordan/karsten-winegeart--GRPBoVcY4w-unsplash.png">
@@ -124,7 +124,7 @@
         nouProduse.forEach(function(prod) {
         %>
           <div class="card produs-nou-card" style="width: 16rem; position: relative;">
-            <a href="/adidasi#artc-<%= prod.id %>" style="text-decoration: none; color: inherit;">
+            <a href="/adidasi#artc-<%= prod.id %>" data-produs-id="<%= prod.id %>" style="text-decoration: none; color: inherit;">
               <% if (prod.imagine) { %>
                 <img src="/<%= prod.imagine %>" class="card-img-top" alt="<%= prod.nume %>">
               <% } %>

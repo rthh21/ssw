@@ -410,3 +410,55 @@ html[data-theme="dark"] .theme-noapte .btn-primary {
 .produse-noi-list .produs-nou-card:hover .badge-nou {
   color: #fff !important;
 }
+
+// --- FLASHY ZONE STYLES ---
+.custom-container .zona4, .custom-container .zona5, .custom-container .zona6, .custom-container .zona7 {
+  border-radius: 18px;
+  margin: 0.5rem 0;
+  padding: 1.2rem 1.5rem;
+  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, #ff7878 0%, #ffb347 100%);
+  box-shadow: 0 4px 24px 0 rgba(255,120,120,0.18), 0 1.5px 8px 0 rgba(0,0,0,0.12);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.custom-container .zona4::before {
+  content: '\1F3C6'; /* trophy emoji */
+  font-size: 2rem;
+  margin-right: 0.7em;
+  animation: pop-in 0.7s cubic-bezier(.4,2,.6,1);
+}
+.custom-container .zona5::before {
+  content: '\1F381'; /* gift emoji */
+  font-size: 2rem;
+  margin-right: 0.7em;
+  animation: pop-in 0.7s 0.1s cubic-bezier(.4,2,.6,1);
+}
+.custom-container .zona6::before {
+  content: '\1F9F9'; /* cleaning emoji */
+  font-size: 2rem;
+  margin-right: 0.7em;
+  animation: pop-in 0.7s 0.2s cubic-bezier(.4,2,.6,1);
+}
+.custom-container .zona7::before {
+  content: '\1F4F1'; /* mobile/hashtag emoji */
+  font-size: 2rem;
+  margin-right: 0.7em;
+  animation: pop-in 0.7s 0.3s cubic-bezier(.4,2,.6,1);
+}
+// Dark mode adjustments
+html[data-theme="dark"] .custom-container .zona4, 
+html[data-theme="dark"] .custom-container .zona5, 
+html[data-theme="dark"] .custom-container .zona6, 
+html[data-theme="dark"] .custom-container .zona7 {
+  color: #232946;
+  background: linear-gradient(90deg, #eebbc3 0%, #ffb347 100%);
+  box-shadow: 0 4px 24px 0 rgba(238,187,195,0.18), 0 1.5px 8px 0 rgba(0,0,0,0.12);
+}
