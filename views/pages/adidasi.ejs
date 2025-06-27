@@ -170,6 +170,9 @@
                             <li><strong>Ediție limitată:</strong> <%= adidas.editie_limitata ? 'Da' : 'Nu' %></li>
                         </ul>
                     </div>
+                    <div class="compara-btn-container">
+                        <button class="btn btn-compara-custom btn-compara" data-produs-id="<%= adidas.id %>">Compară</button>
+                    </div>
                 </article>
             <% }); %>
         </div>
@@ -206,6 +209,9 @@
                             <li><strong style="background:var(--accent-color,#ff6060);color:#fff;border-radius:8px;padding:0.18em 0.7em;margin-right:0.7em;">Ediție limitată</strong> <%= adidas.editie_limitata ? 'Da' : 'Nu' %></li>
                             <li><strong style="background:var(--accent-color,#ff6060);color:#fff;border-radius:8px;padding:0.18em 0.7em;margin-right:0.7em;">Culoare</strong> <%= adidas.culoare %></li>
                         </ul>
+                    </div>
+                    <div class="compara-btn-container-modal-static">
+                        <button class="btn btn-compara-custom btn-compara" data-produs-id="<%= adidas.id %>">Compară</button>
                     </div>
                     <% } %>
                 </div>

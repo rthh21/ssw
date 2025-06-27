@@ -7,9 +7,10 @@
 // 5. 
 // 11.
 
+// 13.
 // 15.
 // 18.
-// 13.
+// 20 -> primele 5 si penultima 
 
 // ETAPE:
 // 0: 0.3
@@ -673,8 +674,25 @@ window.addEventListener('DOMContentLoaded', function() {
                 </ul>
             </div>
         `;
+        // Remove any previous compare button
+        const modalContent = modal.querySelector('.modal-content');
+        let oldBtn = modalContent.querySelector('.compara-btn-container-modal-static');
+        if (oldBtn) oldBtn.remove();
+        // Add the compare button at the bottom of modal-content
+        const btnContainer = document.createElement('div');
+        btnContainer.className = 'compara-btn-container-modal-static';
+        btnContainer.style.width = '100%';
+        btnContainer.innerHTML = `<button class="btn btn-compara-custom btn-compara" data-produs-id="${article.dataset.produsId}">Compară</button>`;
+        modalContent.appendChild(btnContainer);
+        addComparaBtnAnimations();
+        // Attach compare click handler to the modal's compare button
+        const btnCompara = btnContainer.querySelector('.btn-compara');
+        if (btnCompara) {
+            btnCompara.addEventListener('click', handleComparaClick);
+        }
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        addComparaTooltip();
     }
 
     // Hide modal
@@ -696,8 +714,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     produse.forEach(produs => {
         produs.addEventListener('click', function(e) {
-            // Prevent if click is on a button inside the product
-            if (e.target.closest('.buton-actiune')) return;
+            // Prevent if click is on a button inside the product or on the 'Compară' button
+            if (e.target.closest('.buton-actiune') || e.target.classList.contains('btn-compara')) return;
             showModalProdus(produs);
         });
     });
@@ -773,4 +791,277 @@ window.addEventListener('DOMContentLoaded', function() {
     }
     window.addEventListener('hashchange', openModalFromHash);
     openModalFromHash();
+
+    // Add hover and click animation to all .btn-compara
+    function addComparaBtnAnimations() {
+        document.querySelectorAll('.btn-compara').forEach(btn => {
+            btn.onmouseenter = function() {
+                btn.style.transform = 'scale(1.08)';
+                btn.style.transition = 'transform 0.15s';
+            };
+            btn.onmouseleave = function() {
+                btn.style.transform = '';
+            };
+            btn.onmousedown = function() {
+                btn.style.transform = 'scale(0.95)';
+            };
+            btn.onmouseup = function() {
+                btn.style.transform = 'scale(1.08)';
+            };
+        });
+    }
+    addComparaBtnAnimations();
+
+    function addComparaListeners() {
+        document.querySelectorAll('.btn-compara').forEach(btn => {
+            btn.removeEventListener('click', handleComparaClick);
+            btn.addEventListener('click', handleComparaClick);
+        });
+    }
+
+    // === COMPARARE ===
+    function showContainerComparare() {
+        let container = document.getElementById('container-comparare');
+        const produseComparate = JSON.parse(localStorage.getItem('produseComparate') || '[]');
+        if (!produseComparate.length) {
+            if (container) container.remove();
+            return;
+        }
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'container-comparare';
+            container.style.position = 'fixed';
+            container.style.bottom = '2em';
+            container.style.right = '2em';
+            container.style.zIndex = '99999';
+            container.style.background = 'var(--secondary-color, #ff7878)';
+            container.style.color = 'var(--background-color, #ffd1bc)';
+            container.style.padding = '1.2em 2em';
+            container.style.borderRadius = '1.5em';
+            container.style.boxShadow = '0 4px 24px 0 rgba(0,0,0,0.18)';
+            container.style.fontWeight = 'bold';
+            container.style.fontSize = '1.1em';
+            container.style.display = 'flex';
+            container.style.alignItems = 'center';
+            container.style.gap = '1em';
+            document.body.appendChild(container);
+        }
+        let html = '<span>Compari:</span>' + produseComparate.map((prod, idx) =>
+            `<span class="produs-comparat" style="margin-right:0.5em;display:inline-flex;align-items:center;gap:0.2em;">
+                <span>${prod.nume}</span>
+                <button class="sterge-produs-comparat" data-idx="${idx}" style="background:transparent;border:none;color:inherit;font-size:1.2em;cursor:pointer;line-height:1;">&times;</button>
+            </span>`
+        ).join('');
+        if (produseComparate.length === 2) {
+            html += '<button id="btn-afiseaza-comparare" class="btn btn-compara-custom btn-compara" style="margin-left:1em;">afișează</button>';
+        }
+        html += '<button id="inchide-comparare" style="margin-left:1em;background:transparent;border:none;color:inherit;font-size:1.2em;cursor:pointer;">&times;</button>';
+        container.innerHTML = html;
+        // Stergere individuala
+        container.querySelectorAll('.sterge-produs-comparat').forEach(btn => {
+            btn.onclick = function() {
+                const idx = parseInt(this.getAttribute('data-idx'));
+                let produse = JSON.parse(localStorage.getItem('produseComparate') || '[]');
+                produse.splice(idx, 1);
+                localStorage.setItem('produseComparate', JSON.stringify(produse));
+                localStorage.setItem('produsComparatLastClick', Date.now().toString());
+                showContainerComparare();
+                enableComparaButtons();
+            };
+        });
+        // Inchide tot containerul
+        container.querySelector('#inchide-comparare').onclick = function() {
+            localStorage.removeItem('produseComparate');
+            localStorage.removeItem('produsComparatLastClick');
+            container.remove();
+            enableComparaButtons();
+        };
+        // Buton afiseaza
+        setTimeout(function() {
+            const btnAfiseaza = container.querySelector('#btn-afiseaza-comparare');
+            if (btnAfiseaza) {
+                btnAfiseaza.onclick = function(e) {
+                    e.stopPropagation();
+                    afiseazaModalComparare();
+                };
+            }
+        }, 0);
+        container.style.display = 'flex';
+    }
+
+    function handleComparaClick(e) {
+        e.stopPropagation();
+        const btn = e.currentTarget;
+        const produsId = btn.getAttribute('data-produs-id');
+        let produs = document.querySelector(`article[data-produs-id="${produsId}"]`);
+        let numeProdus = '';
+        if (produs) {
+            numeProdus = produs.dataset.nume;
+        } else {
+            const modal = document.getElementById('modal-produs');
+            const h2 = modal?.querySelector('.modal-body h2');
+            if (h2) numeProdus = h2.textContent.trim();
+        }
+        let produseComparate = JSON.parse(localStorage.getItem('produseComparate') || '[]');
+        // Nu adauga daca deja exista sau sunt 2
+        if (produseComparate.find(p => p.id === produsId) || produseComparate.length >= 2) return;
+        produseComparate.push({ id: produsId, nume: numeProdus });
+        localStorage.setItem('produseComparate', JSON.stringify(produseComparate));
+        localStorage.setItem('produsComparatLastClick', Date.now().toString());
+        showContainerComparare();
+        enableComparaButtons();
+    }
+
+    function enableComparaButtons() {
+        let produseComparate = JSON.parse(localStorage.getItem('produseComparate') || '[]');
+        document.querySelectorAll('.btn-compara').forEach(btn => {
+            const produsId = btn.getAttribute('data-produs-id');
+            if (
+                produseComparate.length >= 2 &&
+                !produseComparate.find(p => p.id === produsId)
+            ) {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('disabled');
+            }
+        });
+    }
+
+    // Show container if already selected (on load)
+    function tryShowComparareOnLoad() {
+        const produseComparate = JSON.parse(localStorage.getItem('produseComparate') || '[]');
+        const lastClick = parseInt(localStorage.getItem('produsComparatLastClick'), 10);
+        const now = Date.now();
+        const oneDay = 24 * 60 * 60 * 1000;
+        if (produseComparate.length && lastClick && (now - lastClick < oneDay)) {
+            showContainerComparare();
+            enableComparaButtons();
+        } else {
+            // If expired, clear
+            localStorage.removeItem('produseComparate');
+            localStorage.removeItem('produsComparatLastClick');
+            const container = document.getElementById('container-comparare');
+            if (container) container.remove();
+            enableComparaButtons();
+        }
+    }
+
+    // Auto-hide comparare container after 24h of inactivity
+    function setupComparareAutoHide() {
+        setInterval(() => {
+            const lastClick = parseInt(localStorage.getItem('produsComparatLastClick'), 10);
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            if (lastClick && (now - lastClick >= oneDay)) {
+                localStorage.removeItem('produseComparate');
+                localStorage.removeItem('produsComparatLastClick');
+                const container = document.getElementById('container-comparare');
+                if (container) container.remove();
+                enableComparaButtons();
+            }
+        }, 60 * 1000); // check every minute
+    }
+
+    function isProductPage() {
+        return document.getElementById('produse-container') || document.getElementById('modal-produs');
+    }
+
+    if (isProductPage()) {
+        tryShowComparareOnLoad();
+        addComparaListeners();
+        enableComparaButtons();
+        setupComparareAutoHide();
+    }
+
+
+    // Modal de comparare
+    function afiseazaModalComparare() {
+        let modal = document.getElementById('modal-comparare');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'modal-comparare';
+            modal.innerHTML = `
+                <div class="modal-overlay"></div>
+                <div class="modal-content" style="max-width:800px;background:#fff;color:#222;padding:2em 2em 1em 2em;border-radius:1.5em;box-shadow:0 4px 32px 0 rgba(0,0,0,0.18);position:relative;">
+                    <button class="modal-close" aria-label="Închide" style="position:absolute;top:1em;right:1em;font-size:2em;background:transparent;border:none;cursor:pointer;">&times;</button>
+                    <div class="modal-body"></div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        const produseComparate = JSON.parse(localStorage.getItem('produseComparate') || '[]');
+        if (produseComparate.length !== 2) return;
+        // Găsește datele produselor din DOM
+        const prod1 = document.querySelector(`article[data-produs-id="${produseComparate[0].id}"]`);
+        const prod2 = document.querySelector(`article[data-produs-id="${produseComparate[1].id}"]`);
+        if (!prod1 || !prod2) return;
+        const data1 = getProdusData(prod1);
+        const data2 = getProdusData(prod2);
+        // Construiește tabelul de comparație
+        const caracteristici = [
+            { label: 'Nume', key: 'nume' },
+            { label: 'Preț', key: 'pret' },
+            { label: 'Categorie', key: 'categorie' },
+            { label: 'Subcategorie', key: 'subcategorie' },
+            { label: 'Mărime', key: 'marime' },
+            { label: 'Materiale', key: 'materiale' },
+            { label: 'Culoare', key: 'culoare' },
+            { label: 'Ediție limitată', key: 'editie_limitata' },
+            { label: 'Adăugat', key: 'data_introdusa' },
+            { label: 'Descriere', key: 'descriere' }
+        ];
+        let table = `<table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead><tr><th style="border-bottom:2px solid #ff7878;"></th><th style="border-bottom:2px solid #ff7878;">${data1.nume}</th><th style="border-bottom:2px solid #ff7878;">${data2.nume}</th></tr></thead><tbody>`;
+        caracteristici.forEach(carac => {
+            table += `<tr><td style="font-weight:bold;padding:0.4em 0.5em;">${carac.label}</td><td style="padding:0.4em 0.5em;">${data1[carac.key] || ''}</td><td style="padding:0.4em 0.5em;">${data2[carac.key] || ''}</td></tr>`;
+        });
+        table += '</tbody></table>';
+        modal.querySelector('.modal-body').innerHTML = table;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Închidere modal
+        modal.querySelector('.modal-close').onclick = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+        modal.querySelector('.modal-overlay').onclick = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+        document.addEventListener('keydown', function escListener(e) {
+            if (modal.classList.contains('active') && (e.key === 'Escape' || e.key === 'Esc')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                document.removeEventListener('keydown', escListener);
+            }
+        });
+    }
+
+    // Asigură-te că tooltipul este activ după fiecare update
+    addComparaTooltip();
+    const oldAplicaFiltrare2 = window.aplicaFiltrare;
+    window.aplicaFiltrare = function() {
+        if (oldAplicaFiltrare2) oldAplicaFiltrare2();
+        addComparaListeners();
+        enableComparaButtons();
+        addComparaBtnAnimations();
+        addComparaTooltip();
+    };
+    const oldSorteazaProduse2 = window.sorteazaProduse;
+    window.sorteazaProduse = function(dir) {
+        if (oldSorteazaProduse2) oldSorteazaProduse2(dir);
+        addComparaListeners();
+        enableComparaButtons();
+        addComparaBtnAnimations();
+        addComparaTooltip();
+    };
+    if (isProductPage()) {
+        tryShowComparareOnLoad();
+        addComparaListeners();
+        enableComparaButtons();
+        setupComparareAutoHide();
+        addComparaTooltip();
+    }
 }); 

@@ -114,7 +114,6 @@
         const MS_PER_DAY = 24*60*60*1000;
         const azi = new Date();
         const T = typeof intervalNouZile !== 'undefined' ? intervalNouZile : 60; // zile
-        // Filter and sort products: only 'nou', reverse chronological
         const nouProduse = produseNoi.filter(function(prod) {
           const dataIntrodusa = new Date(prod.data_introdusa);
           return (azi - dataIntrodusa) <= T*MS_PER_DAY;
